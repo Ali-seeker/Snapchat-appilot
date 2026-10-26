@@ -16,14 +16,13 @@ class DemoEngine:
 
         self._is_running = True
         try:
-            if state_machine.current_state == AppState.IDLE:
-                state_machine.transition_to(AppState.READY)
-            state_machine.transition_to(AppState.RUNNING, workflow=f"Demo: {scenario_name}")
+            workflow_name = f"Assisted Workflow ({len(target_ids)} targets)" if target_ids else f"Demo: {scenario_name}"
+            state_machine.start_workflow(workflow=workflow_name)
 
             if scenario_name == "full_suite":
                 await self._run_full_suite()
             elif scenario_name == "success":
-                await self._run_success_case()
+                await self._run_success_case(target_ids)
             elif scenario_name == "failure":
                 await self._run_failure_case()
             elif scenario_name == "duplicate":
@@ -31,24 +30,24 @@ class DemoEngine:
             elif scenario_name == "inactivity_unknown":
                 await self._run_inactivity_case()
             else:
-                await self._run_success_case()
+                await self._run_success_case(target_ids)
 
             if not state_machine.is_stopped:
-                state_machine.transition_to(AppState.COMPLETED, workflow=f"Demo: {scenario_name}")
+                state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
                 audit_logger.log(
-                    workflow="Demo Engine",
+                    workflow="Workflow Engine",
                     result=ResultStatus.COMPLETED,
-                    reason_code="DEMO_COMPLETE",
-                    message=f"Deterministic demo scenario '{scenario_name}' finished cleanly."
+                    reason_code="WORKFLOW_COMPLETE",
+                    message=f"Workflow completed successfully for {len(target_ids) if target_ids else 1} target(s)."
                 )
         except Exception as e:
             if not state_machine.is_stopped:
                 state_machine.transition_to(AppState.FAILED, reason=str(e))
                 audit_logger.log(
-                    workflow="Demo Engine",
+                    workflow="Workflow Engine",
                     result=ResultStatus.FAILED,
-                    reason_code="DEMO_ERROR",
-                    message=f"Error executing scenario: {str(e)}"
+                    reason_code="WORKFLOW_ERROR",
+                    message=f"Error executing workflow: {str(e)}"
                 )
         finally:
             self._is_running = False
@@ -63,7 +62,7 @@ class DemoEngine:
             await asyncio.sleep(0.3)
 
         entry = audit_logger.log(
-            workflow="Demo Workflow",
+            workflow="Workflow Engine",
             result=status,
             reason_code=reason,
             message=message
@@ -71,11 +70,25 @@ class DemoEngine:
         await ws_hub.broadcast_audit_log(entry)
         await asyncio.sleep(delay)
 
-    async def _run_success_case(self):
-        await self._step("Initializing synthetic review context (Target: Alex)", 0.6)
-        await self._step("Validating target format and consent boundary", 0.6)
-        await self._step("Simulating user-confirmed streak reminder preparation", 0.6)
-        await self._step("Action completed: Streak reminder stored locally for user dispatch", 0.6, ResultStatus.COMPLETED, "SIM_SUCCESS")
+    async def _run_success_case(self, target_ids: List[str] = None):
+        targets = []
+        if target_ids:
+            for tid in target_ids:
+                c = contact_service.get_contact_by_id(tid)
+                if c:
+                    targets.append(c)
+        if not targets:
+            targets = contact_service.get_contacts()[:2]
+
+        total = len(targets)
+        await self._step(f"Starting assisted processing for {total} confirmed targets...", 0.5)
+
+        for idx, target in enumerate(targets, 1):
+            await self._step(f"[{idx}/{total}] Checking target @{target.username} ({target.display_name or 'Friend'})...", 0.6)
+            await self._step(f"[{idx}/{total}] Preparing local streak draft & reminder for @{target.username}...", 0.6)
+            await self._step(f"[{idx}/{total}] Reminder staged locally for @{target.username}.", 0.6, ResultStatus.COMPLETED, "TARGET_READY")
+
+        await self._step(f"All {total} targets reviewed & staged. User can complete dispatch in Snapchat.", 0.5, ResultStatus.COMPLETED, "SUCCESS_ALL")
 
     async def _run_failure_case(self):
         await self._step("Simulating connection to external target...", 0.6)

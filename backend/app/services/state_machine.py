@@ -87,6 +87,14 @@ class WorkflowStateMachine:
         self._notify()
         return True
 
+    def start_workflow(self, workflow: str = "Active Workflow"):
+        self._stop_requested = False
+        self._pause_requested = False
+        self._current_workflow = workflow
+        self._current_state = AppState.RUNNING
+        self._notify()
+        return True
+
     def request_stop(self, reason: str = "User pressed Emergency STOP") -> bool:
         self._stop_requested = True
         self.transition_to(AppState.STOPPED, reason=reason)
