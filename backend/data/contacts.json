@@ -98,5 +98,15 @@
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
     "created_at": "2026-10-26T11:25:48.180189+00:00"
+  },
+  {
+    "id": "ecde79f0",
+    "username": "bot_e04adc",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T12:06:53.232580+00:00"
   }
 ]

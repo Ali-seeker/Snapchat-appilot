@@ -170,9 +170,9 @@ export default function App() {
   };
 
   const handleClearLogs = async () => {
+    setLogs([]);
     try {
       await fetch(`${API_BASE}/logs`, { method: 'DELETE' });
-      setLogs([]);
     } catch (e) {
       console.error(e);
     }

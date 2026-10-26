@@ -149,6 +149,7 @@ async def get_audit_logs(limit: int = Query(50, le=200)):
 @app.delete("/api/logs")
 async def clear_audit_logs():
     audit_logger.clear()
+    await ws_hub.broadcast_to_clients({"type": "LOGS_CLEARED"})
     return {"status": "ok"}
 
 # ----------------- WebSocket Endpoints ----------------- #

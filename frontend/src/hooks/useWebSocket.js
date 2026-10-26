@@ -50,6 +50,8 @@ export function useWebSocket(url = 'ws://localhost:8000/ws/client') {
             else if (data.payload.state === 'RUNNING') setIsStopped(false);
           } else if (data.type === 'AUDIT_LOG') {
             setLogs((prev) => [data.payload, ...prev.slice(0, 199)]);
+          } else if (data.type === 'LOGS_CLEARED') {
+            setLogs([]);
           } else if (data.type === 'DEVICE_CONNECTED') {
             setDevices((prev) => {
               const filtered = prev.filter((d) => d.device_id !== data.payload.device_id);

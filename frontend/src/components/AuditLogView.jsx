@@ -25,19 +25,32 @@ export default function AuditLogView({ logs, onClearLogs }) {
             {logs.length} entries recorded
           </span>
           <button
+            type="button"
             className="btn btn-secondary"
-            onClick={onClearLogs}
-            style={{ padding: '4px 8px', fontSize: '0.75rem' }}
-            title="Clear logs"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onClearLogs();
+            }}
+            style={{
+              padding: '5px 10px',
+              fontSize: '0.75rem',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              cursor: 'pointer'
+            }}
+            title="Clear all audit logs"
           >
             <Trash2 size={13} />
+            <span>Clear</span>
           </button>
         </div>
       </div>
 
       <div className="panel-body" style={{ flex: 1, padding: '14px', display: 'flex', flexDirection: 'column' }}>
         <div className="log-stream" style={{ flex: 1 }}>
-          {logs.length === 0 ? (
+          {!logs || logs.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#64748b', padding: '30px 0' }}>
               No audit events logged yet. Execute an action or demo above.
             </div>
