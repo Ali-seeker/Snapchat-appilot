@@ -48,13 +48,19 @@ app.add_middleware(
 
 @app.get("/api/status")
 async def get_system_status():
+    adb_devs = adb_service.list_devices()
+    ws_devs = ws_hub.get_all_devices()
+    all_devs = {d.device_id: d for d in ws_devs}
+    for d in adb_devs:
+        if d.device_id not in all_devs:
+            all_devs[d.device_id] = d
     return {
         "state": state_machine.current_state.value,
         "workflow": state_machine.current_workflow,
         "is_paused": state_machine.is_paused,
         "is_stopped": state_machine.is_stopped,
         "adb_available": adb_service.is_adb_available(),
-        "devices": ws_hub.get_all_devices()
+        "devices": list(all_devs.values())
     }
 
 @app.get("/api/devices")
