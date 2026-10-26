@@ -3,7 +3,6 @@ package com.appilot.companion;
 import android.accessibilityservice.AccessibilityService;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 
 public class SnapchatAccessibilityService extends AccessibilityService {
     private static final String TAG = "AppilotService";
