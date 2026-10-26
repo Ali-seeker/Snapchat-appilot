@@ -204,11 +204,28 @@ async def device_websocket_endpoint(websocket: WebSocket, device_id: str = "andr
                     )
                     await ws_hub.broadcast_audit_log(entry)
                 elif msg_type == "ACTION_RESULT":
+                    status_str = msg.get("status", "UNKNOWN")
+                    reason_code = msg.get("reason_code", "DEVICE_EVENT")
+                    message = msg.get("message", "Device executed action")
+
+                    # If mobile device triggered Emergency STOP, halt state machine immediately
+                    if reason_code == "USER_EMERGENCY_STOP" or status_str == "CANCELLED":
+                        state_machine.request_stop(reason=f"Mobile Device: {message}")
+
                     entry = audit_logger.log(
                         workflow="Device Action",
-                        result=ResultStatus(msg.get("status", "UNKNOWN")),
-                        reason_code=msg.get("reason_code", "DEVICE_EVENT"),
-                        message=msg.get("message", "Device executed action")
+                        result=ResultStatus(status_str),
+                        reason_code=reason_code,
+                        message=message
+                    )
+                    await ws_hub.broadcast_audit_log(entry)
+                elif msg_type == "EMERGENCY_STOP":
+                    state_machine.request_stop(reason="Mobile Device pressed Emergency STOP")
+                    entry = audit_logger.log(
+                        workflow="Device Action",
+                        result=ResultStatus.CANCELLED,
+                        reason_code="USER_EMERGENCY_STOP",
+                        message="Mobile Device pressed Emergency STOP button"
                     )
                     await ws_hub.broadcast_audit_log(entry)
             except Exception:
