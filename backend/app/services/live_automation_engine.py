@@ -73,19 +73,19 @@ class LiveAutomationEngine:
                 reason="INIT_LIVE_WORKFLOW"
             )
 
-            # 2. Check Device Availability
+            # 2. Check Device Availability & Ensure Reverse Port Tunnel
             devices = adb_service.list_devices()
             device_found = any(d.device_id == device_id for d in devices) or len(devices) > 0
             if not device_found:
                 raise Exception(f"Device '{device_id}' is not connected via ADB.")
 
+            adb_service.reverse_port(device_id)
+
             # 3. Launch Snapchat on Device
             await self._step(f"Launching Snapchat application (com.snapchat.android)...", delay=1.0)
             launched = adb_service.launch_snapchat(device_id)
             if not launched:
-                # Fallback to direct am start
-                adb_service.input_key(device_id, 3) # Home
-                await asyncio.sleep(0.5)
+                await asyncio.sleep(1.0)
                 launched = adb_service.launch_snapchat(device_id)
 
             await self._step("Snapchat process active. Waiting for landing camera UI to settle...", delay=2.5)

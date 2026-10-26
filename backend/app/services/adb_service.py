@@ -49,6 +49,8 @@ class ADBService:
                         model=model,
                         is_connected=True
                     ))
+                    # Ensure reverse port tunnel is continually kept alive for mobile companion
+                    self.reverse_port(device_id)
         except Exception:
             pass
 
@@ -78,11 +80,13 @@ class ADBService:
         return None
 
     def launch_snapchat(self, device_id: str) -> bool:
-        """Launches Snapchat main activity"""
+        """Launches Snapchat main activity deterministically using Android Activity Manager without injecting random touches"""
         try:
             cmd = [
                 self.adb_path, "-s", device_id, "shell",
-                "monkey", "-p", "com.snapchat.android", "-c", "android.intent.category.LAUNCHER", "1"
+                "am", "start", "-a", "android.intent.action.MAIN",
+                "-c", "android.intent.category.LAUNCHER",
+                "-p", "com.snapchat.android"
             ]
             res = self._run_cmd(cmd, timeout=8)
             return res.returncode == 0
