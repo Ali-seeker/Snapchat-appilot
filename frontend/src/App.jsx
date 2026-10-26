@@ -8,6 +8,7 @@ import DemoRunner from './components/DemoRunner';
 import AuditLogView from './components/AuditLogView';
 import SnapscoreGate from './components/SnapscoreGate';
 import LiveExecutionModal from './components/LiveExecutionModal';
+import ReminderDraftView from './components/ReminderDraftView';
 
 const API_BASE = 'http://localhost:8000/api';
 
@@ -235,6 +236,11 @@ export default function App() {
         />
 
         <AuditLogView logs={logs} onClearLogs={handleClearLogs} />
+      </div>
+
+      {/* FR-07 & FR-08: Streak Reminders & Snap Drafts */}
+      <div style={{ marginTop: '24px' }}>
+        <ReminderDraftView contacts={contacts} />
       </div>
 
       {/* FR-12: Deterministic Demo Mode Runner */}

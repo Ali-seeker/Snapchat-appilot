@@ -96,3 +96,33 @@ def test_live_api_endpoint():
     data = res.json()
     assert data["status"] == "started"
     assert "device_id" in data
+
+def test_reminder_and_draft_checklist_crud():
+    """Verify FR-07 & FR-08: Streak Reminder & Snap Draft CRUD endpoints"""
+    # Create reminder
+    payload = {
+        "contact_id": "c1",
+        "recipient_label": "@test_streak_user",
+        "reminder_time": "19:00",
+        "draft_text": "Evening snap checklist"
+    }
+    create_res = client.post("/api/reminders", json=payload)
+    assert create_res.status_code == 200
+    item = create_res.json()
+    assert item["recipient_label"] == "@test_streak_user"
+    assert item["is_completed"] is False
+    rem_id = item["id"]
+
+    # Toggle completion
+    toggle_res = client.post(f"/api/reminders/{rem_id}/toggle")
+    assert toggle_res.status_code == 200
+    assert toggle_res.json()["is_completed"] is True
+
+    # Get all
+    get_res = client.get("/api/reminders")
+    assert get_res.status_code == 200
+    assert any(r["id"] == rem_id for r in get_res.json())
+
+    # Delete
+    del_res = client.delete(f"/api/reminders/{rem_id}")
+    assert del_res.status_code == 200

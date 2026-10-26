@@ -17,6 +17,7 @@ from .services.adb_service import adb_service
 from .services.websocket_hub import ws_hub
 from .services.demo_engine import demo_engine
 from .services.live_automation_engine import live_engine
+from .services.reminder_service import reminder_service, ReminderItem, ReminderCreate
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -109,6 +110,37 @@ async def delete_contact(contact_id: str):
         reason_code="CONTACT_REMOVED",
         message=f"Removed contact ID {contact_id}"
     )
+    return {"status": "ok"}
+
+# ----------------- FR-07 & FR-08: Reminders & Drafts ----------------- #
+
+@app.get("/api/reminders", response_model=List[ReminderItem])
+async def get_reminders():
+    return reminder_service.get_all()
+
+@app.post("/api/reminders", response_model=ReminderItem)
+async def create_reminder(item_in: ReminderCreate):
+    created = reminder_service.create(item_in)
+    audit_logger.log(
+        workflow="Streak Reminder",
+        result=ResultStatus.COMPLETED,
+        reason_code="REMINDER_CREATED",
+        message=f"Created streak reminder for {item_in.recipient_label} at {item_in.reminder_time}"
+    )
+    return created
+
+@app.post("/api/reminders/{reminder_id}/toggle")
+async def toggle_reminder(reminder_id: str):
+    updated = reminder_service.toggle(reminder_id)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Reminder not found")
+    return updated
+
+@app.delete("/api/reminders/{reminder_id}")
+async def delete_reminder(reminder_id: str):
+    success = reminder_service.delete(reminder_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Reminder not found")
     return {"status": "ok"}
 
 @app.post("/api/control/transition")
