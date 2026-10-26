@@ -104,7 +104,13 @@ public class SnapchatAccessibilityService extends AccessibilityService {
         }
 
         // Try finding search input or search icon
-        AccessibilityNodeInfo searchNode = findNodeFuzzy(root, "Search");
+        AccessibilityNodeInfo searchNode = findNodeByViewIdSubstring(root, "search-textfield");
+        if (searchNode == null) {
+            searchNode = findNodeByViewIdSubstring(root, "hova_header_search_icon");
+        }
+        if (searchNode == null) {
+            searchNode = findNodeFuzzy(root, "Search");
+        }
         if (searchNode == null) {
             searchNode = findNodeByViewIdSubstring(root, "search");
         }
@@ -133,15 +139,34 @@ public class SnapchatAccessibilityService extends AccessibilityService {
         AccessibilityNodeInfo root = getRootInActiveWindow();
         if (root == null) return false;
 
-        AccessibilityNodeInfo addNode = findNodeFuzzy(root, "Add");
+        // Priority 1: Match by Snapchat exact resource-id
+        AccessibilityNodeInfo addNode = findNodeByViewIdSubstring(root, "add-friend-button");
+        if (addNode == null) {
+            addNode = findNodeByViewIdSubstring(root, "subscribe-button");
+        }
+        // Priority 2: Fuzzy search text and content-desc
+        if (addNode == null) {
+            addNode = findNodeFuzzy(root, "Add");
+        }
         if (addNode == null) {
             addNode = findNodeFuzzy(root, "Subscribe");
         }
 
-        if (addNode != null && (addNode.isClickable() || addNode.getParent() != null)) {
-            boolean clicked = addNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            if (!clicked && addNode.getParent() != null) {
+        if (addNode != null) {
+            boolean clicked = false;
+            if (addNode.isClickable()) {
+                clicked = addNode.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            }
+            if (!clicked && addNode.getParent() != null && addNode.getParent().isClickable()) {
                 clicked = addNode.getParent().performAction(AccessibilityNodeInfo.ACTION_CLICK);
+            }
+            if (!clicked) {
+                // If not clickable via action, dispatch gesture tap on node bounds
+                Rect rect = new Rect();
+                addNode.getBoundsInScreen(rect);
+                if (rect.width() > 0 && rect.height() > 0) {
+                    clicked = tapCoordinates(rect.centerX(), rect.centerY());
+                }
             }
 
             WebSocketClientManager.getInstance().sendActionResult(
