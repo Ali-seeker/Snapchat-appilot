@@ -1,7 +1,7 @@
 import json
 import asyncio
 from contextlib import asynccontextmanager
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -16,6 +16,7 @@ from .services.contact_service import contact_service
 from .services.adb_service import adb_service
 from .services.websocket_hub import ws_hub
 from .services.demo_engine import demo_engine
+from .services.live_automation_engine import live_engine
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -141,6 +142,21 @@ class DemoRunRequest(BaseModel):
 async def run_demo(req: DemoRunRequest):
     asyncio.create_task(demo_engine.run_scenario(req.scenario, req.target_ids))
     return {"status": "started", "scenario": req.scenario}
+
+class LiveRunRequest(BaseModel):
+    device_id: Optional[str] = None
+    target_ids: List[str] = []
+    action: str = "add"
+
+@app.post("/api/live/run")
+async def run_live_automation(req: LiveRunRequest):
+    dev_id = req.device_id
+    if not dev_id:
+        devices = adb_service.list_devices()
+        dev_id = devices[0].device_id if devices else "08265372BO000706"
+
+    asyncio.create_task(live_engine.run_live_add_workflow(dev_id, req.target_ids))
+    return {"status": "started", "device_id": dev_id, "targets_count": len(req.target_ids)}
 
 @app.get("/api/logs", response_model=List[AuditLogEntry])
 async def get_audit_logs(limit: int = Query(50, le=200)):

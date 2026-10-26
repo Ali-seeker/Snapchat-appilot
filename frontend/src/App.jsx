@@ -97,17 +97,28 @@ export default function App() {
   };
 
   // Workflow Controls
-  const handleStartWorkflow = async () => {
+  const handleStartWorkflow = async (mode = 'live') => {
     try {
       setActiveScenario('workflow');
       setExecutionStartTime(Date.now());
-      setExecutionTitle(`Assisted Workflow (${selectedIds.length} Targets)`);
-      setExecutionModalOpen(true);
-      await fetch(`${API_BASE}/demo/run`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scenario: 'success', target_ids: selectedIds })
-      });
+
+      if (mode === 'live') {
+        setExecutionTitle(`Live Snapchat Automation (${selectedIds.length} Targets)`);
+        setExecutionModalOpen(true);
+        await fetch(`${API_BASE}/live/run`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ target_ids: selectedIds, action: 'add' })
+        });
+      } else {
+        setExecutionTitle(`Assisted Workflow (${selectedIds.length} Targets)`);
+        setExecutionModalOpen(true);
+        await fetch(`${API_BASE}/demo/run`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ scenario: 'success', target_ids: selectedIds })
+        });
+      }
     } catch (e) {
       console.error(e);
     }
@@ -209,6 +220,7 @@ export default function App() {
         onEmergencyStop={handleEmergencyStop}
         disclosureAcknowledged={disclosureAcknowledged}
         logs={logs}
+        devices={devices}
       />
 
       {/* Two-Column Grid: Contacts (FR-04) & Audit Logs (FR-09, FR-10) */}

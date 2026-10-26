@@ -1,1 +1,191 @@
-[]
+[
+  {
+    "id": "338a4b19",
+    "timestamp": "2026-10-26T12:48:50.368301+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "787584db",
+    "timestamp": "2026-10-26T12:48:50.054423+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "e94f7668",
+    "timestamp": "2026-10-26T12:48:49.493232+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "99525bd4",
+    "timestamp": "2026-10-26T12:48:49.324749+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "1a2c4573",
+    "timestamp": "2026-10-26T12:48:49.321230+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "4b20a4a5",
+    "timestamp": "2026-10-26T12:48:49.319273+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "135046e2",
+    "timestamp": "2026-10-26T12:48:49.305633+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "225c3da8",
+    "timestamp": "2026-10-26T12:48:49.304006+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Human pacing guard: Waiting 2.52s jitter before next action...",
+    "details": {}
+  },
+  {
+    "id": "2be64f52",
+    "timestamp": "2026-10-26T12:48:49.302417+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @live_test_user!",
+    "details": {}
+  },
+  {
+    "id": "01f396bf",
+    "timestamp": "2026-10-26T12:48:49.300855+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] 'Add' button matched at (200, 100). Executing safe tap...",
+    "details": {}
+  },
+  {
+    "id": "7efc1043",
+    "timestamp": "2026-10-26T12:48:49.299250+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting search query results from Snapchat servers...",
+    "details": {}
+  },
+  {
+    "id": "f38d0e1d",
+    "timestamp": "2026-10-26T12:48:49.297731+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Injected username 'live_test_user' into Snapchat search.",
+    "details": {}
+  },
+  {
+    "id": "e1f7370d",
+    "timestamp": "2026-10-26T12:48:49.296149+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Located Search Bar at screen coordinates (200, 100). Tapping...",
+    "details": {}
+  },
+  {
+    "id": "88ddb398",
+    "timestamp": "2026-10-26T12:48:49.294400+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @live_test_user (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "04d0b348",
+    "timestamp": "2026-10-26T12:48:49.291225+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat process active. Waiting for landing camera UI to settle...",
+    "details": {}
+  },
+  {
+    "id": "8e40fba6",
+    "timestamp": "2026-10-26T12:48:49.290030+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat application (com.snapchat.android)...",
+    "details": {}
+  },
+  {
+    "id": "3888bcfe",
+    "timestamp": "2026-10-26T12:48:49.288756+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "f8ab4b76",
+    "timestamp": "2026-10-26T12:48:49.257776+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "46274a0e",
+    "timestamp": "2026-10-26T12:48:49.251306+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_019cab",
+    "details": {}
+  },
+  {
+    "id": "cabde574",
+    "timestamp": "2026-10-26T12:48:49.142424+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "ee0e1977",
+    "timestamp": "2026-10-26T12:48:34.509261+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  }
+]

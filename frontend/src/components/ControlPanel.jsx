@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
-  Play, Pause, AlertOctagon, CheckSquare, Eye, X, Terminal
+  Play, Pause, AlertOctagon, CheckSquare, Eye, X, Terminal, Smartphone, Sparkles
 } from 'lucide-react';
 
 export default function ControlPanel({
@@ -13,9 +13,11 @@ export default function ControlPanel({
   onResumeWorkflow,
   onEmergencyStop,
   disclosureAcknowledged,
-  onViewLiveProgress
+  onViewLiveProgress,
+  devices = []
 }) {
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [executionMode, setExecutionMode] = useState('live'); // 'live' or 'demo'
 
   const handleStartClick = () => {
     if (!disclosureAcknowledged) {
@@ -31,11 +33,12 @@ export default function ControlPanel({
 
   const handleConfirmAction = () => {
     setShowReviewModal(false);
-    onStartWorkflow();
+    onStartWorkflow(executionMode);
   };
 
   const isRunning = appState === 'RUNNING';
   const isStopped = appState === 'STOPPED';
+  const connectedDevice = devices.find((d) => d.is_connected) || devices[0];
 
   return (
     <div className="glass-panel" style={{ marginBottom: '24px' }}>
@@ -44,13 +47,69 @@ export default function ControlPanel({
           <Play size={18} color="#10b981" />
           <span>FR-03 &amp; FR-05: Execution Controls &amp; Safety Review</span>
         </div>
-        <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-          Selected: <strong style={{ color: '#38bdf8' }}>{selectedTargets.length}</strong> targets
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          {connectedDevice && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '3px 8px', borderRadius: '4px' }}>
+              <Smartphone size={13} />
+              <span>Connected: {connectedDevice.model || connectedDevice.device_id}</span>
+            </div>
+          )}
+          <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+            Selected: <strong style={{ color: '#38bdf8' }}>{selectedTargets.length}</strong> targets
+          </span>
+        </div>
       </div>
 
       <div className="panel-body">
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+          {/* Mode Switcher Pill */}
+          {!isRunning && !isPaused && (
+            <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.8)', padding: '3px', borderRadius: '8px', border: '1px solid var(--border-subtle)' }}>
+              <button
+                type="button"
+                onClick={() => setExecutionMode('live')}
+                style={{
+                  padding: '6px 14px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: executionMode === 'live' ? '#38bdf8' : 'transparent',
+                  color: executionMode === 'live' ? '#0a0e17' : '#94a3b8',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Smartphone size={14} />
+                <span>Live Device Mode</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setExecutionMode('demo')}
+                style={{
+                  padding: '6px 14px',
+                  fontSize: '0.82rem',
+                  fontWeight: 600,
+                  borderRadius: '6px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: executionMode === 'demo' ? '#a855f7' : 'transparent',
+                  color: executionMode === 'demo' ? '#0a0e17' : '#94a3b8',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <Sparkles size={14} />
+                <span>Simulation Mode</span>
+              </button>
+            </div>
+          )}
+
           {/* Start / Review Button */}
           {!isRunning && !isPaused && (
             <button
@@ -115,6 +174,16 @@ export default function ControlPanel({
               </button>
             </div>
 
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
+              <span style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Target Device:</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#38bdf8', background: 'rgba(56, 189, 248, 0.1)', padding: '2px 8px', borderRadius: '4px' }}>
+                {connectedDevice ? (connectedDevice.model || connectedDevice.device_id) : '08265372BO000706'}
+              </span>
+              <span style={{ fontSize: '0.78rem', color: executionMode === 'live' ? '#10b981' : '#a855f7', fontWeight: 600, marginLeft: 'auto' }}>
+                {executionMode === 'live' ? 'LIVE SNAPCHAT AUTOMATION' : 'SIMULATION BENCH'}
+              </span>
+            </div>
+
             <p style={{ fontSize: '0.86rem', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
               In accordance with <strong>FR-05 (Review before consequential action)</strong>, you must explicitly confirm targets before initiating assistance.
             </p>
@@ -132,8 +201,10 @@ export default function ControlPanel({
               </ul>
             </div>
 
-            <div style={{ background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', padding: '10px 12px', borderRadius: '8px', fontSize: '0.8rem', color: '#fca5a5', marginBottom: '20px' }}>
-              Note: In baseline mode, actual Snapchat friend changes are not autonomous. Assisted reminders/drafts will be staged safely.
+            <div style={{ background: executionMode === 'live' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(239, 68, 68, 0.1)', border: `1px solid ${executionMode === 'live' ? 'rgba(16, 185, 129, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`, padding: '10px 12px', borderRadius: '8px', fontSize: '0.8rem', color: executionMode === 'live' ? '#6ee7b7' : '#fca5a5', marginBottom: '20px' }}>
+              {executionMode === 'live'
+                ? "Live Mode: Will launch Snapchat on your device, search each confirmed username, tap Add, and enforce anti-ban human pacing between requests."
+                : "Simulation Mode: Staged in local database and verified against synthetic telemetry without modifying your Snapchat account."}
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '12px' }}>

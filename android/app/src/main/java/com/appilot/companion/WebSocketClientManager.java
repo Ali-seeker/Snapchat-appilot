@@ -64,6 +64,17 @@ public class WebSocketClientManager {
                                 statusListener.onCommandReceived(cmd);
                             }
                         }
+                        // Handle Automation Action commands from backend
+                        if ("EXECUTE_ACTION".equals(json.optString("type")) || json.has("action")) {
+                            String action = json.optString("action");
+                            JSONObject params = json.optJSONObject("params");
+                            if (params == null) params = new JSONObject();
+                            if (SnapchatAccessibilityService.getInstance() != null) {
+                                SnapchatAccessibilityService.getInstance().handleCommand(action, params);
+                            } else {
+                                Log.w(TAG, "SnapchatAccessibilityService is not running; cannot execute action " + action);
+                            }
+                        }
                     } catch (Exception e) {
                         Log.e(TAG, "JSON parse error", e);
                     }
