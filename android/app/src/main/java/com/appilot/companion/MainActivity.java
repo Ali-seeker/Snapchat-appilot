@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
     protected void onResume() {
         super.onResume();
         updateServiceStatus();
+        if (!WebSocketClientManager.getInstance().isConnected()) {
+            connectToBackend();
+        }
     }
 
     private void updateServiceStatus() {
@@ -65,11 +68,25 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
     }
 
     private void connectToBackend() {
-        String deviceId = "device_" + Build.SERIAL != null ? Build.SERIAL : "android_test_device";
-        // Connect via localhost (standard when adb reverse tcp:8000 tcp:8000 is run) or emulator 10.0.2.2
-        String wsUrl = "ws://10.0.2.2:8000/ws/device";
+        String modelName = Build.MODEL != null ? Build.MODEL.replaceAll("[^a-zA-Z0-9_]", "_") : "device";
+        String deviceId = "android_" + modelName;
         boolean accessibilityActive = isAccessibilityServiceEnabled(this, SnapchatAccessibilityService.class);
+
+        // When 'adb reverse tcp:8000 tcp:8000' is run, 127.0.0.1 routes phone traffic to PC.
+        // On emulator, 10.0.2.2 routes directly to host PC.
+        String wsUrl = isEmulator() ? "ws://10.0.2.2:8000/ws/device" : "ws://127.0.0.1:8000/ws/device";
         WebSocketClientManager.getInstance().connect(wsUrl, deviceId, accessibilityActive);
+    }
+
+    private boolean isEmulator() {
+        return Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || "google_sdk".equals(Build.PRODUCT);
     }
 
     private void triggerEmergencyStop() {
