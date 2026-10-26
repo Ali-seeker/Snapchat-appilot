@@ -180,6 +180,7 @@ export default function App() {
       {/* FR-03 & FR-05: Controls and Confirmation Review */}
       <ControlPanel
         appState={appState}
+        activeWorkflow={activeWorkflow}
         isPaused={isPaused}
         selectedTargets={selectedTargets}
         onStartWorkflow={handleStartWorkflow}
@@ -187,6 +188,7 @@ export default function App() {
         onResumeWorkflow={handleResumeWorkflow}
         onEmergencyStop={handleEmergencyStop}
         disclosureAcknowledged={disclosureAcknowledged}
+        logs={logs}
       />
 
       {/* Two-Column Grid: Contacts (FR-04) & Audit Logs (FR-09, FR-10) */}

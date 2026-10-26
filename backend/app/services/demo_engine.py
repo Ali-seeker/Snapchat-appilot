@@ -81,14 +81,15 @@ class DemoEngine:
             targets = contact_service.get_contacts()[:2]
 
         total = len(targets)
-        await self._step(f"Starting assisted processing for {total} confirmed targets...", 0.5)
+        await self._step(f"Starting assisted processing for {total} confirmed targets...", 0.8)
 
         for idx, target in enumerate(targets, 1):
-            await self._step(f"[{idx}/{total}] Checking target @{target.username} ({target.display_name or 'Friend'})...", 0.6)
-            await self._step(f"[{idx}/{total}] Preparing local streak draft & reminder for @{target.username}...", 0.6)
-            await self._step(f"[{idx}/{total}] Reminder staged locally for @{target.username}.", 0.6, ResultStatus.COMPLETED, "TARGET_READY")
+            await self._step(f"[{idx}/{total}] Checking target @{target.username} ({target.display_name or 'Friend'})...", 1.2)
+            await self._step(f"[{idx}/{total}] Validating recipient state & consent boundaries for @{target.username}...", 1.2)
+            await self._step(f"[{idx}/{total}] Preparing local streak draft & reminder for @{target.username}...", 1.2)
+            await self._step(f"[{idx}/{total}] Staged successfully: Streak reminder created for @{target.username}.", 1.0, ResultStatus.COMPLETED, "TARGET_READY")
 
-        await self._step(f"All {total} targets reviewed & staged. User can complete dispatch in Snapchat.", 0.5, ResultStatus.COMPLETED, "SUCCESS_ALL")
+        await self._step(f"All {total} targets reviewed & staged. User can complete dispatch in Snapchat.", 0.8, ResultStatus.COMPLETED, "SUCCESS_ALL")
 
     async def _run_failure_case(self):
         await self._step("Simulating connection to external target...", 0.6)

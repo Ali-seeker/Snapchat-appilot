@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { Info, AlertCircle, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function SetupDisclosure({ acknowledged, onToggleAcknowledge }) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(!acknowledged);
+
+  const handleAcknowledge = (val) => {
+    onToggleAcknowledge(val);
+    if (val) {
+      setExpanded(false); // Auto-collapse to reveal live logs and table
+    }
+  };
 
   return (
     <div className="glass-panel" style={{ marginBottom: '24px' }}>
@@ -12,7 +19,7 @@ export default function SetupDisclosure({ acknowledged, onToggleAcknowledge }) {
           <span>FR-01: Setup &amp; Transparency Disclosure</span>
           {acknowledged && (
             <span style={{ fontSize: '0.78rem', color: '#10b981', display: 'flex', alignItems: 'center', gap: '4px', marginLeft: '8px' }}>
-              <CheckCircle2 size={14} /> Acknowledged
+              <CheckCircle2 size={14} /> Acknowledged (Click to expand)
             </span>
           )}
         </div>
@@ -57,7 +64,7 @@ export default function SetupDisclosure({ acknowledged, onToggleAcknowledge }) {
               <input
                 type="checkbox"
                 checked={acknowledged}
-                onChange={(e) => onToggleAcknowledge(e.target.checked)}
+                onChange={(e) => handleAcknowledge(e.target.checked)}
                 style={{ width: '18px', height: '18px', accentColor: '#38bdf8' }}
               />
               <span>I acknowledge the assisted nature and policy boundaries of this prototype</span>
