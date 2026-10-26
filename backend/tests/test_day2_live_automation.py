@@ -1,5 +1,6 @@
 import pytest
 import asyncio
+import uuid
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from backend.app.main import app
@@ -43,42 +44,50 @@ def test_find_bounds_xml_parsing():
         missing = adb_service.find_bounds("dummy_device", "nonexistent_element")
         assert missing is None
 
-@pytest.mark.asyncio
-async def test_live_automation_flow_execution():
+def test_live_automation_flow_execution():
     """Verify LiveAutomationEngine executes live flow with ADB primitives and state machine updates"""
-    target, _ = contact_service.add_contact(ContactCreate(username="live_test_user", display_name="Live Tester"))
+    async def _test():
+        unique_name = f"user_{uuid.uuid4().hex[:8]}"
+        target, _ = contact_service.add_contact(ContactCreate(username=unique_name, display_name="Live Tester"))
+        assert target is not None
 
-    with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
-         patch.object(adb_service, "launch_snapchat", return_value=True), \
-         patch.object(adb_service, "find_bounds", return_value=(200, 100)), \
-         patch.object(adb_service, "input_tap", return_value=True), \
-         patch.object(adb_service, "input_text", return_value=True), \
-         patch.object(adb_service, "input_key", return_value=True):
+        with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
+             patch.object(adb_service, "launch_snapchat", return_value=True), \
+             patch.object(adb_service, "find_bounds", return_value=(200, 100)), \
+             patch.object(adb_service, "input_tap", return_value=True), \
+             patch.object(adb_service, "input_text", return_value=True), \
+             patch.object(adb_service, "input_key", return_value=True):
 
-        # Run with short delay for test
-        with patch("asyncio.sleep", return_value=None):
-            await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
+            # Run with short delay for test
+            with patch("asyncio.sleep", return_value=None):
+                await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
 
-        assert state_machine.current_state in [AppState.COMPLETED, AppState.READY, AppState.IDLE]
-        assert not live_engine.is_running
+            assert state_machine.current_state in [AppState.COMPLETED, AppState.READY, AppState.IDLE]
+            assert not live_engine.is_running
 
-@pytest.mark.asyncio
-async def test_live_automation_emergency_stop():
+    asyncio.run(_test())
+
+def test_live_automation_emergency_stop():
     """Verify LiveAutomationEngine halts immediately when Emergency STOP is triggered"""
-    target, _ = contact_service.add_contact(ContactCreate(username="stop_tester", display_name="Stop Tester"))
+    async def _test():
+        unique_name = f"stop_{uuid.uuid4().hex[:8]}"
+        target, _ = contact_service.add_contact(ContactCreate(username=unique_name, display_name="Stop Tester"))
+        assert target is not None
 
-    with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
-         patch.object(adb_service, "launch_snapchat", return_value=True):
+        with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
+             patch.object(adb_service, "launch_snapchat", return_value=True):
 
-        # Trigger emergency stop before second step
-        def mock_step_effect(*args, **kwargs):
-            state_machine.request_stop("Emergency Stop in test")
+            # Trigger emergency stop before second step
+            def mock_step_effect(*args, **kwargs):
+                state_machine.request_stop("Emergency Stop in test")
 
-        with patch.object(live_engine, "_step", side_effect=mock_step_effect):
-            await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
+            with patch.object(live_engine, "_step", side_effect=mock_step_effect):
+                await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
 
-        assert state_machine.is_stopped is True
-        assert state_machine.current_state == AppState.STOPPED
+            assert state_machine.is_stopped is True
+            assert state_machine.current_state == AppState.STOPPED
+
+    asyncio.run(_test())
 
 def test_live_api_endpoint():
     """Verify POST /api/live/run accepts request and launches live automation task"""
