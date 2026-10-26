@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Play, Pause, Square, AlertOctagon, CheckSquare, Eye } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Play, Pause, Square, AlertOctagon, CheckSquare, Eye, X } from 'lucide-react';
 
 export default function ControlPanel({
   appState,
@@ -87,13 +88,22 @@ export default function ControlPanel({
         </div>
       </div>
 
-      {/* FR-05: Review Before Consequential Action Modal */}
-      {showReviewModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc', marginBottom: '8px' }}>
-              Confirm Consequential Action
-            </h3>
+      {/* FR-05: Review Before Consequential Action Modal (Portaled to document.body) */}
+      {showReviewModal && typeof document !== 'undefined' && createPortal(
+        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#f8fafc' }}>
+                Confirm Consequential Action
+              </h3>
+              <button
+                onClick={() => setShowReviewModal(false)}
+                style={{ background: 'transparent', border: 'none', color: '#94a3b8', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center' }}
+                title="Close"
+              >
+                <X size={20} />
+              </button>
+            </div>
             <p style={{ fontSize: '0.86rem', color: '#94a3b8', marginBottom: '16px', lineHeight: '1.4' }}>
               In accordance with <strong>FR-05 (Review before consequential action)</strong>, you must explicitly confirm targets before initiating assistance.
             </p>
@@ -125,7 +135,8 @@ export default function ControlPanel({
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
