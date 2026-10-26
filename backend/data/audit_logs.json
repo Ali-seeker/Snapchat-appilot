@@ -1,0 +1,173 @@
+[
+  {
+    "id": "fac5222b",
+    "timestamp": "2026-10-26T10:25:49.067229+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "b4a7846e",
+    "timestamp": "2026-10-26T10:25:49.064113+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "65e5aa46",
+    "timestamp": "2026-10-26T10:25:48.019913+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "0b0871fd",
+    "timestamp": "2026-10-26T10:25:47.678531+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "8ae01088",
+    "timestamp": "2026-10-26T10:20:07.509381+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "0735a4fa",
+    "timestamp": "2026-10-26T10:05:10.198742+00:00",
+    "workflow": "Demo: success",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "11557d57",
+    "timestamp": "2026-10-26T10:05:09.941606+00:00",
+    "workflow": "Demo Workflow",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Initializing synthetic review context (Target: Alex)",
+    "details": {}
+  },
+  {
+    "id": "a3e2903d",
+    "timestamp": "2026-10-26T10:05:09.745394+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "d6ab14ac",
+    "timestamp": "2026-10-26T10:05:09.737862+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_8f56ac",
+    "details": {}
+  },
+  {
+    "id": "63292c80",
+    "timestamp": "2026-10-26T10:05:09.625247+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "fe525e10",
+    "timestamp": "2026-10-26T10:04:46.771939+00:00",
+    "workflow": "Demo Engine",
+    "result": "FAILED",
+    "reason_code": "DEMO_ERROR",
+    "message": "Error executing scenario: Invalid state transition from AppState.IDLE to AppState.RUNNING",
+    "details": {}
+  },
+  {
+    "id": "a08bff58",
+    "timestamp": "2026-10-26T10:04:46.650748+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "571e6f89",
+    "timestamp": "2026-10-26T10:04:46.646191+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_03103e",
+    "details": {}
+  },
+  {
+    "id": "7e12574f",
+    "timestamp": "2026-10-26T10:04:46.543286+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "16e351a1",
+    "timestamp": "2026-10-26T10:03:09.368352+00:00",
+    "workflow": "Demo Engine",
+    "result": "FAILED",
+    "reason_code": "DEMO_ERROR",
+    "message": "Error executing scenario: Invalid state transition from AppState.IDLE to AppState.RUNNING",
+    "details": {}
+  },
+  {
+    "id": "446efb30",
+    "timestamp": "2026-10-26T10:03:08.679197+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "9bcc9c8d",
+    "timestamp": "2026-10-26T09:44:27.274885+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "185aae9f",
+    "timestamp": "2026-10-26T09:44:27.267129+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @new_tester_bot",
+    "details": {}
+  },
+  {
+    "id": "e9f95d77",
+    "timestamp": "2026-10-26T09:44:27.118351+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  }
+]

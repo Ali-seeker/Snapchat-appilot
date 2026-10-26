@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Appilot Companion</string>
+    <string name="accessibility_service_description">Appilot assisted companion for user-directed review and safe social workflow assistance. Does not execute unauthorized bot actions.</string>
+    <string name="title_setup_disclosure">Setup &amp; Transparency Disclosure</string>
+    <string name="disclosure_text">This companion operates strictly under user control. It does NOT automatically add friends, spam messages, or inflate Snapscore. Live actions require individual review and confirmation.</string>
+    <string name="btn_enable_accessibility">Grant Accessibility Permission</string>
+    <string name="status_accessibility_off">Accessibility Service: INACTIVE</string>
+    <string name="status_accessibility_on">Accessibility Service: ACTIVE</string>
+    <string name="status_ws_connected">Backend Link: CONNECTED</string>
+    <string name="status_ws_disconnected">Backend Link: DISCONNECTED</string>
+    <string name="btn_emergency_stop">EMERGENCY STOP</string>
+</resources>

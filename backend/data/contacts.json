@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ffc19275",
+    "username": "alex.dev",
+    "display_name": "Alex (Lead Engineer)",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "Testing active streaks",
+    "created_at": "2026-10-26T09:44:27.010952+00:00"
+  },
+  {
+    "id": "4986cd12",
+    "username": "sam_snap99",
+    "display_name": "Samir Khan",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "Daily streak candidate",
+    "created_at": "2026-10-26T09:44:27.022416+00:00"
+  },
+  {
+    "id": "54f0e5cd",
+    "username": "taylor_creative",
+    "display_name": "Taylor Swift-like",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "Demo inactive candidate",
+    "created_at": "2026-10-26T09:44:27.023181+00:00"
+  },
+  {
+    "id": "ef6d5404",
+    "username": "jordan_b",
+    "display_name": "Jordan B",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "Synthetic test user",
+    "created_at": "2026-10-26T09:44:27.024205+00:00"
+  },
+  {
+    "id": "6101c894",
+    "username": "new_tester_bot",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T09:44:27.265844+00:00"
+  },
+  {
+    "id": "a88f1f23",
+    "username": "bot_03103e",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T10:04:46.645301+00:00"
+  },
+  {
+    "id": "118cb98b",
+    "username": "bot_8f56ac",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T10:05:09.736225+00:00"
+  }
+]
