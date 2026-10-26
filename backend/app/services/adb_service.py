@@ -202,6 +202,7 @@ class ADBService:
                     for node in root.iter("node"):
                         txt = (node.attrib.get("text") or "").lower()
                         desc = (node.attrib.get("content-desc") or "").lower()
+                        res_id = (node.attrib.get("resource-id") or "").lower()
                         if t_clean in txt or t_clean in desc:
                             c = get_valid_center(node.attrib.get("bounds", ""))
                             if c:
@@ -214,7 +215,14 @@ class ADBService:
                     txt = (node.attrib.get("text") or "").lower()
                     desc = (node.attrib.get("content-desc") or "").lower()
 
-                    if "add-friend-button" in res_id or "subscribe-button" in res_id or ("add" in (txt + desc) and "invite" not in res_id):
+                    is_valid_btn = (
+                        "add-friend-button" in res_id
+                        or "add_friend_button" in res_id
+                        or "subscribe-button" in res_id
+                        or (txt in ["add", "+ add", "add friend"] and "story" not in res_id and "invite" not in res_id)
+                    )
+
+                    if is_valid_btn:
                         c = get_valid_center(node.attrib.get("bounds", ""))
                         if c:
                             add_candidates.append(c)
@@ -223,15 +231,18 @@ class ADBService:
                     if target_y is not None:
                         add_candidates.sort(key=lambda pt: abs(pt[1] - target_y))
                     return add_candidates[0]
+                return None  # Do NOT fall through to arbitrary string search for add button
 
             # 3. Specialized query: "clear"
             if q_lower in ["clear", "clear-button"]:
                 for node in root.iter("node"):
                     res_id = (node.attrib.get("resource-id") or "").lower()
-                    if "clear-button" in res_id:
+                    if "clear-button" in res_id or "clear_button" in res_id:
                         c = get_valid_center(node.attrib.get("bounds", ""))
                         if c:
                             return c
+                # Fallback to known clear button bounds for search bar
+                return (516, 132)
 
             # 4. General fallback search across text, content-desc, and resource-id
             for node in root.iter("node"):

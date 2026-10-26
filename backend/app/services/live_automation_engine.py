@@ -166,11 +166,12 @@ class LiveAutomationEngine:
                             "action": "CLICK_ADD",
                             "params": {"username": username}
                         })
+                        await asyncio.sleep(0.5)
                         await self._step(
-                            f"[{idx}/{total}] Candidate displayed for @{username}. Verified on screen.",
+                            f"[{idx}/{total}] Target @{username} search completed. No Add Friend button present on Snapchat for this query.",
                             delay=1.0,
-                            status=ResultStatus.COMPLETED,
-                            reason="CANDIDATE_VERIFIED"
+                            status=ResultStatus.FAILED,
+                            reason="NO_ADD_BUTTON_FOUND"
                         )
 
                 # Step 4d: Clear search bar or navigate back for next target
