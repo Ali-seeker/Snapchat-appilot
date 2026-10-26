@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
             triggerEmergencyStop();
         });
 
+        tvWsStatus.setOnClickListener(v -> {
+            Toast.makeText(this, "Connecting to Backend...", Toast.LENGTH_SHORT).show();
+            connectToBackend();
+        });
+
         WebSocketClientManager.getInstance().setStatusListener(this);
         connectToBackend();
     }

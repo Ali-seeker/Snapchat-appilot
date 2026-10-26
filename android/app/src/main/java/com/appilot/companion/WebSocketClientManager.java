@@ -16,6 +16,11 @@ public class WebSocketClientManager {
     private WebSocketClient webSocketClient;
     private boolean isConnected = false;
     private StatusListener statusListener;
+    private final android.os.Handler reconnectHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+    private boolean isReconnecting = false;
+    private String lastServerUrl;
+    private String lastDeviceId;
+    private boolean lastAccessibility;
 
     public interface StatusListener {
         void onConnectionChanged(boolean connected);
@@ -36,16 +41,25 @@ public class WebSocketClientManager {
     }
 
     public void connect(String serverUrl, String deviceId, boolean accessibilityEnabled) {
-        if (webSocketClient != null && isConnected) {
+        this.lastServerUrl = serverUrl;
+        this.lastDeviceId = deviceId;
+        this.lastAccessibility = accessibilityEnabled;
+
+        if (webSocketClient != null && isConnected && webSocketClient.isOpen()) {
             return;
         }
 
         try {
+            if (webSocketClient != null) {
+                try { webSocketClient.close(); } catch (Exception ignored) {}
+            }
+
             URI uri = new URI(serverUrl + "?device_id=" + deviceId);
             webSocketClient = new WebSocketClient(uri) {
                 @Override
                 public void onOpen(ServerHandshake handshakedata) {
                     isConnected = true;
+                    isReconnecting = false;
                     Log.i(TAG, "Connected to backend WebSocket: " + uri);
                     sendHello(deviceId, accessibilityEnabled);
                     if (statusListener != null) {
@@ -87,21 +101,36 @@ public class WebSocketClientManager {
                     if (statusListener != null) {
                         statusListener.onConnectionChanged(false);
                     }
+                    scheduleReconnect();
                 }
 
                 @Override
                 public void onError(Exception ex) {
                     isConnected = false;
-                    Log.e(TAG, "WebSocket error: " + ex.getMessage());
+                    Log.e(TAG, "WebSocket error: " + (ex != null ? ex.getMessage() : "unknown"));
                     if (statusListener != null) {
                         statusListener.onConnectionChanged(false);
                     }
+                    scheduleReconnect();
                 }
             };
             webSocketClient.connect();
         } catch (Exception e) {
             Log.e(TAG, "Failed to initialize WebSocket client", e);
+            scheduleReconnect();
         }
+    }
+
+    private void scheduleReconnect() {
+        if (isReconnecting) return;
+        isReconnecting = true;
+        reconnectHandler.postDelayed(() -> {
+            isReconnecting = false;
+            if (!isConnected && lastServerUrl != null) {
+                Log.i(TAG, "Auto-reconnecting to backend WebSocket...");
+                connect(lastServerUrl, lastDeviceId, lastAccessibility);
+            }
+        }, 3000);
     }
 
     public void sendHello(String deviceId, boolean accessibilityEnabled) {
@@ -136,16 +165,22 @@ public class WebSocketClientManager {
     }
 
     public void sendMessage(String message) {
-        if (webSocketClient != null && isConnected) {
-            webSocketClient.send(message);
+        if (webSocketClient != null && isConnected && webSocketClient.isOpen()) {
+            try {
+                webSocketClient.send(message);
+            } catch (Exception e) {
+                Log.e(TAG, "Error sending message", e);
+            }
         }
     }
 
     public void disconnect() {
         if (webSocketClient != null) {
-            webSocketClient.close();
+            try { webSocketClient.close(); } catch (Exception ignored) {}
         }
         isConnected = false;
+        isReconnecting = false;
+        reconnectHandler.removeCallbacksAndMessages(null);
     }
 
     public boolean isConnected() {
