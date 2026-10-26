@@ -30,16 +30,6 @@
     "created_at": "2026-10-26T09:44:27.023181+00:00"
   },
   {
-    "id": "ef6d5404",
-    "username": "jordan_b",
-    "display_name": "Jordan B",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "Synthetic test user",
-    "created_at": "2026-10-26T09:44:27.024205+00:00"
-  },
-  {
     "id": "6101c894",
     "username": "new_tester_bot",
     "display_name": "New Tester",
@@ -68,5 +58,45 @@
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
     "created_at": "2026-10-26T10:05:09.736225+00:00"
+  },
+  {
+    "id": "7db1caaf",
+    "username": "mynewfriend_99",
+    "display_name": "Test Friend",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T10:40:57.389521+00:00"
+  },
+  {
+    "id": "f6effe37",
+    "username": "bot_aaa88a",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T10:51:16.347143+00:00"
+  },
+  {
+    "id": "31f4b5f5",
+    "username": "bot_470bba",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T10:52:05.726621+00:00"
+  },
+  {
+    "id": "b505d9c5",
+    "username": "bot_49e814",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-26T11:25:48.180189+00:00"
   }
 ]

@@ -1,7 +1,25 @@
 [
   {
-    "id": "fac5222b",
-    "timestamp": "2026-10-26T10:25:49.067229+00:00",
+    "id": "c9546699",
+    "timestamp": "2026-10-26T11:25:48.582106+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "fdecde42",
+    "timestamp": "2026-10-26T11:25:48.326481+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "f756907f",
+    "timestamp": "2026-10-26T11:25:48.197429+00:00",
     "workflow": "System",
     "result": "CANCELLED",
     "reason_code": "USER_EMERGENCY_STOP",
@@ -9,35 +27,287 @@
     "details": {}
   },
   {
-    "id": "b4a7846e",
-    "timestamp": "2026-10-26T10:25:49.064113+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "id": "50892d94",
+    "timestamp": "2026-10-26T11:25:48.181514+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_49e814",
     "details": {}
   },
   {
-    "id": "65e5aa46",
-    "timestamp": "2026-10-26T10:25:48.019913+00:00",
+    "id": "819e9c6b",
+    "timestamp": "2026-10-26T11:25:48.076330+00:00",
     "workflow": "System",
     "result": "CANCELLED",
     "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
     "details": {}
   },
   {
-    "id": "0b0871fd",
-    "timestamp": "2026-10-26T10:25:47.678531+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "id": "e8565db3",
+    "timestamp": "2026-10-26T11:23:15.579775+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Scenario 'Test: Error Handling & Rollback Recovery' finished cleanly.",
     "details": {}
   },
   {
-    "id": "8ae01088",
-    "timestamp": "2026-10-26T10:20:07.509381+00:00",
+    "id": "20c4a309",
+    "timestamp": "2026-10-26T11:23:14.567312+00:00",
+    "workflow": "Workflow Engine",
+    "result": "NEEDS_USER_ACTION",
+    "reason_code": "SAFE_RECOVERY",
+    "message": "Safe rollback complete: No database corruption. Prompting user attention.",
+    "details": {}
+  },
+  {
+    "id": "ac63970f",
+    "timestamp": "2026-10-26T11:23:13.546974+00:00",
+    "workflow": "Workflow Engine",
+    "result": "NEEDS_USER_ACTION",
+    "reason_code": "CIRCUIT_BREAKER",
+    "message": "Circuit breaker active: Halting dependent workflow steps...",
+    "details": {}
+  },
+  {
+    "id": "c56f0c25",
+    "timestamp": "2026-10-26T11:23:12.340119+00:00",
+    "workflow": "Workflow Engine",
+    "result": "FAILED",
+    "reason_code": "TIMEOUT_ERROR",
+    "message": "Injected failure: External request timed out after 5000ms",
+    "details": {}
+  },
+  {
+    "id": "b904be23",
+    "timestamp": "2026-10-26T11:23:11.321336+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Simulating external connection to Snapchat client...",
+    "details": {}
+  },
+  {
+    "id": "7ae6c6e5",
+    "timestamp": "2026-10-26T11:23:10.505138+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting error recovery scenario (SC-09)...",
+    "details": {}
+  },
+  {
+    "id": "0f2ea73c",
+    "timestamp": "2026-10-26T11:23:08.344230+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Scenario 'Test: Inactivity Policy & Data Provenance' finished cleanly.",
+    "details": {}
+  },
+  {
+    "id": "ffff7bb4",
+    "timestamp": "2026-10-26T11:23:07.525765+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "INACTIVITY_TEST_PASS",
+    "message": "Assertion Passed: Safe handling of missing activity data verified without false removals.",
+    "details": {}
+  },
+  {
+    "id": "b331e4e2",
+    "timestamp": "2026-10-26T11:23:06.316173+00:00",
+    "workflow": "Workflow Engine",
+    "result": "UNKNOWN",
+    "reason_code": "POLICY_HONEST_UNKNOWN",
+    "message": "Policy Rule Enforced: Tagged strictly as 'UNKNOWN' \u2014 Never inferred as 'Inactive'.",
+    "details": {}
+  },
+  {
+    "id": "16d1b645",
+    "timestamp": "2026-10-26T11:23:05.307242+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Target @taylor_creative: Last-active timestamp missing / unverified.",
+    "details": {}
+  },
+  {
+    "id": "3736fb7a",
+    "timestamp": "2026-10-26T11:23:04.286826+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Querying synthetic friend records for last-active timestamps...",
+    "details": {}
+  },
+  {
+    "id": "599089b2",
+    "timestamp": "2026-10-26T11:23:03.474306+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting inactivity policy review scenario (FR-06 & SC-07)...",
+    "details": {}
+  },
+  {
+    "id": "09ee00c4",
+    "timestamp": "2026-10-26T11:22:59.115867+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Scenario 'Test: Success Flow' finished cleanly.",
+    "details": {}
+  },
+  {
+    "id": "a27c2123",
+    "timestamp": "2026-10-26T11:22:58.298433+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "SUCCESS_ALL",
+    "message": "All 2 targets reviewed & staged. User can complete dispatch in Snapchat.",
+    "details": {}
+  },
+  {
+    "id": "40289a5c",
+    "timestamp": "2026-10-26T11:22:57.289076+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[2/2] Staged successfully: Streak reminder created for @sam_snap99.",
+    "details": {}
+  },
+  {
+    "id": "bf2600e8",
+    "timestamp": "2026-10-26T11:22:56.276317+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Preparing local streak draft & reminder for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "890d7354",
+    "timestamp": "2026-10-26T11:22:55.263549+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Validating recipient state & consent boundaries for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "58b2bcaf",
+    "timestamp": "2026-10-26T11:22:54.252035+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Checking target @sam_snap99 (Samir Khan)...",
+    "details": {}
+  },
+  {
+    "id": "e9a2e8aa",
+    "timestamp": "2026-10-26T11:22:53.244398+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[1/2] Staged successfully: Streak reminder created for @alex.dev.",
+    "details": {}
+  },
+  {
+    "id": "1e45a551",
+    "timestamp": "2026-10-26T11:22:52.233510+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Preparing local streak draft & reminder for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "0189cdda",
+    "timestamp": "2026-10-26T11:22:51.223968+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Validating recipient state & consent boundaries for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "9bc30edc",
+    "timestamp": "2026-10-26T11:22:50.216334+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Checking target @alex.dev (Alex (Lead Engineer))...",
+    "details": {}
+  },
+  {
+    "id": "edee2436",
+    "timestamp": "2026-10-26T11:22:49.401525+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "331841f1",
+    "timestamp": "2026-10-26T11:21:42.273986+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Scenario 'Test: Duplicate Target Rejection' finished cleanly.",
+    "details": {}
+  },
+  {
+    "id": "c31e43a0",
+    "timestamp": "2026-10-26T11:21:41.455618+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "DUPLICATE_TEST_PASS",
+    "message": "Assertion Passed: Target list maintains 100% integrity without duplicates.",
+    "details": {}
+  },
+  {
+    "id": "045ad0b8",
+    "timestamp": "2026-10-26T11:21:40.449415+00:00",
+    "workflow": "Workflow Engine",
+    "result": "SKIPPED",
+    "reason_code": "DUPLICATE_PREVENTED",
+    "message": "Safety Gate Active: Duplicate rejected! (Target 'alex.dev' already exists in list (duplicate rejected))",
+    "details": {}
+  },
+  {
+    "id": "6ebb7604",
+    "timestamp": "2026-10-26T11:21:39.440613+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Applying input normalization: lowercase + whitespace stripped -> 'alex.dev'",
+    "details": {}
+  },
+  {
+    "id": "54536e89",
+    "timestamp": "2026-10-26T11:21:38.431378+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Attempting to inject duplicate target with mixed casing: '  Alex.Dev  '",
+    "details": {}
+  },
+  {
+    "id": "e81a1257",
+    "timestamp": "2026-10-26T11:21:37.625560+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting duplicate injection scenario (SC-05)...",
+    "details": {}
+  },
+  {
+    "id": "d488f6ce",
+    "timestamp": "2026-10-26T11:16:36.538237+00:00",
     "workflow": "System",
     "result": "COMPLETED",
     "reason_code": "SERVER_START",
@@ -45,129 +315,390 @@
     "details": {}
   },
   {
-    "id": "0735a4fa",
-    "timestamp": "2026-10-26T10:05:10.198742+00:00",
-    "workflow": "Demo: success",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "id": "921c5b7a",
+    "timestamp": "2026-10-26T11:14:53.825004+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Workflow completed successfully for 1 target(s).",
     "details": {}
   },
   {
-    "id": "11557d57",
-    "timestamp": "2026-10-26T10:05:09.941606+00:00",
-    "workflow": "Demo Workflow",
+    "id": "57ef51c9",
+    "timestamp": "2026-10-26T11:14:53.207018+00:00",
+    "workflow": "Workflow Engine",
+    "result": "NEEDS_USER_ACTION",
+    "reason_code": "SAFE_RECOVERY",
+    "message": "Safe recovery executed: No state corrupted; rollback complete",
+    "details": {}
+  },
+  {
+    "id": "9dfa416e",
+    "timestamp": "2026-10-26T11:14:52.400546+00:00",
+    "workflow": "Workflow Engine",
+    "result": "FAILED",
+    "reason_code": "TIMEOUT_ERROR",
+    "message": "Encountered external timeout / unreachable service",
+    "details": {}
+  },
+  {
+    "id": "dfcc20d4",
+    "timestamp": "2026-10-26T11:14:51.787331+00:00",
+    "workflow": "Workflow Engine",
     "result": "COMPLETED",
     "reason_code": "STEP_OK",
-    "message": "Initializing synthetic review context (Target: Alex)",
+    "message": "Simulating connection to external target...",
     "details": {}
   },
   {
-    "id": "a3e2903d",
-    "timestamp": "2026-10-26T10:05:09.745394+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
-    "details": {}
-  },
-  {
-    "id": "d6ab14ac",
-    "timestamp": "2026-10-26T10:05:09.737862+00:00",
-    "workflow": "Contact Manager",
+    "id": "f799aa36",
+    "timestamp": "2026-10-26T11:14:51.785636+00:00",
+    "workflow": "Workflow Engine",
     "result": "COMPLETED",
-    "reason_code": "CONTACT_ADDED",
-    "message": "Added contact @bot_8f56ac",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Workflow completed successfully for 1 target(s).",
     "details": {}
   },
   {
-    "id": "63292c80",
-    "timestamp": "2026-10-26T10:05:09.625247+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User invoked emergency stop",
+    "id": "4655aae0",
+    "timestamp": "2026-10-26T11:14:51.171624+00:00",
+    "workflow": "Workflow Engine",
+    "result": "UNKNOWN",
+    "reason_code": "POLICY_HONEST_UNKNOWN",
+    "message": "Classification policy applied: Marked strictly as 'Unknown', NEVER as 'Inactive'",
     "details": {}
   },
   {
-    "id": "fe525e10",
-    "timestamp": "2026-10-26T10:04:46.771939+00:00",
-    "workflow": "Demo Engine",
+    "id": "da125f83",
+    "timestamp": "2026-10-26T11:14:50.560881+00:00",
+    "workflow": "Workflow Engine",
+    "result": "UNKNOWN",
+    "reason_code": "PROVENANCE_MISSING",
+    "message": "Data provenance missing or unverified from external platform",
+    "details": {}
+  },
+  {
+    "id": "64981fc7",
+    "timestamp": "2026-10-26T11:14:49.951058+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Evaluating last-active timestamp provenance...",
+    "details": {}
+  },
+  {
+    "id": "7ace4901",
+    "timestamp": "2026-10-26T11:14:49.948804+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Workflow completed successfully for 1 target(s).",
+    "details": {}
+  },
+  {
+    "id": "c40528a4",
+    "timestamp": "2026-10-26T11:14:49.334067+00:00",
+    "workflow": "Workflow Engine",
+    "result": "SKIPPED",
+    "reason_code": "DUPLICATE_PREVENTED",
+    "message": "Duplicate correctly rejected: Target 'alex.dev' already exists in list (duplicate rejected)",
+    "details": {}
+  },
+  {
+    "id": "4210ab13",
+    "timestamp": "2026-10-26T11:14:48.717358+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Testing duplicate injection with case variations ('Alex.Dev' vs 'alex.dev')",
+    "details": {}
+  },
+  {
+    "id": "90f46329",
+    "timestamp": "2026-10-26T11:14:48.715693+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Workflow completed successfully for 1 target(s).",
+    "details": {}
+  },
+  {
+    "id": "57f5621d",
+    "timestamp": "2026-10-26T11:14:47.899250+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "SUCCESS_ALL",
+    "message": "All 2 targets reviewed & staged. User can complete dispatch in Snapchat.",
+    "details": {}
+  },
+  {
+    "id": "d376aec9",
+    "timestamp": "2026-10-26T11:14:46.895128+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[2/2] Staged successfully: Streak reminder created for @sam_snap99.",
+    "details": {}
+  },
+  {
+    "id": "4796060e",
+    "timestamp": "2026-10-26T11:14:45.692411+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Preparing local streak draft & reminder for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "38f9aba8",
+    "timestamp": "2026-10-26T11:14:44.481784+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Validating recipient state & consent boundaries for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "d2149675",
+    "timestamp": "2026-10-26T11:14:43.268657+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Checking target @sam_snap99 (Samir Khan)...",
+    "details": {}
+  },
+  {
+    "id": "f614cdd6",
+    "timestamp": "2026-10-26T11:14:42.249910+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[1/2] Staged successfully: Streak reminder created for @alex.dev.",
+    "details": {}
+  },
+  {
+    "id": "d55d1466",
+    "timestamp": "2026-10-26T11:14:41.032888+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Preparing local streak draft & reminder for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "24a3e979",
+    "timestamp": "2026-10-26T11:14:39.816611+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Validating recipient state & consent boundaries for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "3b0605bd",
+    "timestamp": "2026-10-26T11:14:38.607853+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Checking target @alex.dev (Alex (Lead Engineer))...",
+    "details": {}
+  },
+  {
+    "id": "10b2ca64",
+    "timestamp": "2026-10-26T11:14:37.803267+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "c5479db1",
+    "timestamp": "2026-10-26T11:14:37.801003+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Workflow completed successfully for 1 target(s).",
+    "details": {}
+  },
+  {
+    "id": "08e25544",
+    "timestamp": "2026-10-26T11:14:37.295917+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "=== FULL TEST SUITE FINISHED: ALL SCENARIOS VERIFIED ===",
+    "details": {}
+  },
+  {
+    "id": "04ab55dc",
+    "timestamp": "2026-10-26T11:14:36.684083+00:00",
+    "workflow": "Workflow Engine",
+    "result": "NEEDS_USER_ACTION",
+    "reason_code": "SAFE_RECOVERY",
+    "message": "Safe recovery executed: No state corrupted; rollback complete",
+    "details": {}
+  },
+  {
+    "id": "eed0779e",
+    "timestamp": "2026-10-26T11:14:35.876895+00:00",
+    "workflow": "Workflow Engine",
     "result": "FAILED",
-    "reason_code": "DEMO_ERROR",
-    "message": "Error executing scenario: Invalid state transition from AppState.IDLE to AppState.RUNNING",
+    "reason_code": "TIMEOUT_ERROR",
+    "message": "Encountered external timeout / unreachable service",
     "details": {}
   },
   {
-    "id": "a08bff58",
-    "timestamp": "2026-10-26T10:04:46.650748+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
-    "details": {}
-  },
-  {
-    "id": "571e6f89",
-    "timestamp": "2026-10-26T10:04:46.646191+00:00",
-    "workflow": "Contact Manager",
+    "id": "169420fc",
+    "timestamp": "2026-10-26T11:14:35.262866+00:00",
+    "workflow": "Workflow Engine",
     "result": "COMPLETED",
-    "reason_code": "CONTACT_ADDED",
-    "message": "Added contact @bot_03103e",
+    "reason_code": "STEP_OK",
+    "message": "Simulating connection to external target...",
     "details": {}
   },
   {
-    "id": "7e12574f",
-    "timestamp": "2026-10-26T10:04:46.543286+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User invoked emergency stop",
+    "id": "62f23d92",
+    "timestamp": "2026-10-26T11:14:34.647667+00:00",
+    "workflow": "Workflow Engine",
+    "result": "UNKNOWN",
+    "reason_code": "POLICY_HONEST_UNKNOWN",
+    "message": "Classification policy applied: Marked strictly as 'Unknown', NEVER as 'Inactive'",
     "details": {}
   },
   {
-    "id": "16e351a1",
-    "timestamp": "2026-10-26T10:03:09.368352+00:00",
-    "workflow": "Demo Engine",
-    "result": "FAILED",
-    "reason_code": "DEMO_ERROR",
-    "message": "Error executing scenario: Invalid state transition from AppState.IDLE to AppState.RUNNING",
+    "id": "a16372df",
+    "timestamp": "2026-10-26T11:14:34.031425+00:00",
+    "workflow": "Workflow Engine",
+    "result": "UNKNOWN",
+    "reason_code": "PROVENANCE_MISSING",
+    "message": "Data provenance missing or unverified from external platform",
     "details": {}
   },
   {
-    "id": "446efb30",
-    "timestamp": "2026-10-26T10:03:08.679197+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User invoked emergency stop",
-    "details": {}
-  },
-  {
-    "id": "9bcc9c8d",
-    "timestamp": "2026-10-26T09:44:27.274885+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User pressed Emergency STOP",
-    "details": {}
-  },
-  {
-    "id": "185aae9f",
-    "timestamp": "2026-10-26T09:44:27.267129+00:00",
-    "workflow": "Contact Manager",
+    "id": "15408951",
+    "timestamp": "2026-10-26T11:14:33.419800+00:00",
+    "workflow": "Workflow Engine",
     "result": "COMPLETED",
-    "reason_code": "CONTACT_ADDED",
-    "message": "Added contact @new_tester_bot",
+    "reason_code": "STEP_OK",
+    "message": "Evaluating last-active timestamp provenance...",
     "details": {}
   },
   {
-    "id": "e9f95d77",
-    "timestamp": "2026-10-26T09:44:27.118351+00:00",
-    "workflow": "System",
-    "result": "CANCELLED",
-    "reason_code": "USER_EMERGENCY_STOP",
-    "message": "Emergency stop executed: User invoked emergency stop",
+    "id": "9ef81abb",
+    "timestamp": "2026-10-26T11:14:32.807752+00:00",
+    "workflow": "Workflow Engine",
+    "result": "SKIPPED",
+    "reason_code": "DUPLICATE_PREVENTED",
+    "message": "Duplicate correctly rejected: Target 'alex.dev' already exists in list (duplicate rejected)",
+    "details": {}
+  },
+  {
+    "id": "e89911cc",
+    "timestamp": "2026-10-26T11:14:32.191704+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Testing duplicate injection with case variations ('Alex.Dev' vs 'alex.dev')",
+    "details": {}
+  },
+  {
+    "id": "e194f58b",
+    "timestamp": "2026-10-26T11:14:31.383759+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "SUCCESS_ALL",
+    "message": "All 2 targets reviewed & staged. User can complete dispatch in Snapchat.",
+    "details": {}
+  },
+  {
+    "id": "94d100d2",
+    "timestamp": "2026-10-26T11:14:30.367677+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[2/2] Staged successfully: Streak reminder created for @sam_snap99.",
+    "details": {}
+  },
+  {
+    "id": "d6db7a2a",
+    "timestamp": "2026-10-26T11:14:29.161080+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Preparing local streak draft & reminder for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "3c872e87",
+    "timestamp": "2026-10-26T11:14:27.945210+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Validating recipient state & consent boundaries for @sam_snap99...",
+    "details": {}
+  },
+  {
+    "id": "0d501fd6",
+    "timestamp": "2026-10-26T11:14:26.713207+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[2/2] Checking target @sam_snap99 (Samir Khan)...",
+    "details": {}
+  },
+  {
+    "id": "9a789c1f",
+    "timestamp": "2026-10-26T11:14:25.685938+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "TARGET_READY",
+    "message": "[1/2] Staged successfully: Streak reminder created for @alex.dev.",
+    "details": {}
+  },
+  {
+    "id": "c992c12b",
+    "timestamp": "2026-10-26T11:14:24.466036+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Preparing local streak draft & reminder for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "5d50e2ba",
+    "timestamp": "2026-10-26T11:14:23.257023+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Validating recipient state & consent boundaries for @alex.dev...",
+    "details": {}
+  },
+  {
+    "id": "d238f1c7",
+    "timestamp": "2026-10-26T11:14:22.047665+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[1/2] Checking target @alex.dev (Alex (Lead Engineer))...",
+    "details": {}
+  },
+  {
+    "id": "e503a744",
+    "timestamp": "2026-10-26T11:14:21.243892+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "50487feb",
+    "timestamp": "2026-10-26T11:14:20.737670+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "=== STARTING FULL EDGE-CASE & DEMO TEST SUITE ===",
     "details": {}
   }
 ]

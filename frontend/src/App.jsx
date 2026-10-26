@@ -7,6 +7,7 @@ import TargetList from './components/TargetList';
 import DemoRunner from './components/DemoRunner';
 import AuditLogView from './components/AuditLogView';
 import SnapscoreGate from './components/SnapscoreGate';
+import LiveExecutionModal from './components/LiveExecutionModal';
 
 const API_BASE = 'http://localhost:8000/api';
 
@@ -28,6 +29,10 @@ export default function App() {
 
   const [disclosureAcknowledged, setDisclosureAcknowledged] = useState(false);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [executionModalOpen, setExecutionModalOpen] = useState(false);
+  const [executionTitle, setExecutionTitle] = useState('');
+  const [activeScenario, setActiveScenario] = useState(null);
+  const [executionStartTime, setExecutionStartTime] = useState(null);
 
   // Fetch initial contacts & logs via REST
   useEffect(() => {
@@ -94,6 +99,10 @@ export default function App() {
   // Workflow Controls
   const handleStartWorkflow = async () => {
     try {
+      setActiveScenario('workflow');
+      setExecutionStartTime(Date.now());
+      setExecutionTitle(`Assisted Workflow (${selectedIds.length} Targets)`);
+      setExecutionModalOpen(true);
       await fetch(`${API_BASE}/demo/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -139,6 +148,17 @@ export default function App() {
 
   const handleRunDemo = async (scenario) => {
     try {
+      const scenarioTitles = {
+        full_suite: 'Full Acceptance Test Suite',
+        success: 'Test: Success Flow',
+        duplicate: 'Test: Duplicate Target Rejection',
+        inactivity_unknown: 'Test: Inactivity Policy & Data Provenance',
+        failure: 'Test: Error Handling & Rollback Recovery'
+      };
+      setActiveScenario(scenario);
+      setExecutionStartTime(Date.now());
+      setExecutionTitle(scenarioTitles[scenario] || `Demo: ${scenario}`);
+      setExecutionModalOpen(true);
       await fetch(`${API_BASE}/demo/run`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -210,11 +230,29 @@ export default function App() {
         <DemoRunner
           onRunDemo={handleRunDemo}
           isRunning={appState === 'RUNNING'}
+          activeScenario={activeScenario}
         />
       </div>
 
       {/* FR-13: Snapscore Feature Gate */}
       <SnapscoreGate />
+
+      {/* FR-05 & FR-09: Live Execution Modal for Workflows & Demos */}
+      <LiveExecutionModal
+        isOpen={executionModalOpen}
+        onClose={() => {
+          setExecutionModalOpen(false);
+          setActiveScenario(null);
+        }}
+        title={executionTitle}
+        appState={appState}
+        isPaused={isPaused}
+        onPause={handlePauseWorkflow}
+        onResume={handleResumeWorkflow}
+        onEmergencyStop={handleEmergencyStop}
+        logs={logs}
+        startTime={executionStartTime}
+      />
     </div>
   );
 }

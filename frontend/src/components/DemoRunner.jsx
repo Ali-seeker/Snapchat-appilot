@@ -1,7 +1,7 @@
 import React from 'react';
-import { FlaskConical, CheckCircle2, AlertTriangle, CopyCheck, HelpCircle, RefreshCw } from 'lucide-react';
+import { FlaskConical, CheckCircle2, AlertTriangle, CopyCheck, HelpCircle, Loader2 } from 'lucide-react';
 
-export default function DemoRunner({ onRunDemo, isRunning }) {
+export default function DemoRunner({ onRunDemo, isRunning, activeScenario }) {
   const scenarios = [
     {
       id: 'full_suite',
@@ -54,31 +54,43 @@ export default function DemoRunner({ onRunDemo, isRunning }) {
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
-          {scenarios.map((sc) => (
-            <button
-              key={sc.id}
-              className={`btn ${sc.primary ? 'btn-primary' : 'btn-secondary'}`}
-              disabled={isRunning}
-              onClick={() => onRunDemo(sc.id)}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                textAlign: 'left',
-                padding: '12px',
-                height: 'auto',
-                gap: '6px'
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, fontSize: '0.88rem' }}>
-                {sc.icon}
-                <span>{sc.name}</span>
-              </div>
-              <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)', lineHeight: '1.3' }}>
-                {sc.desc}
-              </span>
-            </button>
-          ))}
+          {scenarios.map((sc) => {
+            const isThisRunning = isRunning && activeScenario === sc.id;
+            return (
+              <button
+                key={sc.id}
+                className={`btn ${sc.primary ? 'btn-primary' : 'btn-secondary'} ${isThisRunning ? 'demo-btn-active' : ''}`}
+                disabled={isRunning}
+                onClick={() => onRunDemo(sc.id)}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  textAlign: 'left',
+                  padding: '12px',
+                  height: 'auto',
+                  gap: '6px',
+                  cursor: isRunning ? 'not-allowed' : 'pointer',
+                  position: 'relative'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 600, fontSize: '0.88rem' }}>
+                    {isThisRunning ? <Loader2 size={16} className="spin" color="#38bdf8" /> : sc.icon}
+                    <span>{sc.name}</span>
+                  </div>
+                  {isThisRunning && (
+                    <span style={{ fontSize: '0.68rem', background: '#38bdf8', color: '#0a0e17', fontWeight: 700, padding: '2px 6px', borderRadius: '4px' }}>
+                      RUNNING
+                    </span>
+                  )}
+                </div>
+                <span style={{ fontSize: '0.76rem', color: 'var(--text-muted)', lineHeight: '1.3' }}>
+                  {sc.desc}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </div>
