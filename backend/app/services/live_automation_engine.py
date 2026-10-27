@@ -134,43 +134,45 @@ class LiveAutomationEngine:
                 )
                 search_coords = search_elem["center"] if search_elem else adb_service.find_bounds(device_id, "search")
                 if search_coords:
-                    await asyncio.sleep(random.uniform(0.3, 0.6)) # Human hesitation before reaching for search
+                    await asyncio.sleep(random.uniform(0.3, 0.5))
                     bounds = search_elem["bounds"] if search_elem else None
                     adb_service.input_tap_human(device_id, search_coords[0], search_coords[1], bounds=bounds)
-                else:
-                    await self._step(f"[{idx}/{total}] Search icon not found. Re-aligning camera view...", delay=0.5)
-                    adb_service.ensure_landing_or_search(device_id)
 
-                await asyncio.sleep(random.uniform(0.7, 1.1)) # Human visual perception time as search screen opens
+                await asyncio.sleep(1.0) # Visual transition time for search screen
 
-                # Step 4c: Verify Search Screen & Check for Unwanted Popups
+                # Step 4c: Verify We Are Genuinely on SEARCH_PAGE
                 current_state = adb_service.detect_screen_state(device_id)
-                if current_state == "POPUP":
-                    await self._step(f"[{idx}/{total}] Intercepted modal/dialog overlay. Dismissing popup...", delay=0.6)
-                    adb_service.dismiss_popups(device_id)
-                    await asyncio.sleep(0.8)
-                elif current_state == "PROFILE_PAGE":
-                    adb_service.input_key(device_id, 4)
-                    await asyncio.sleep(0.8)
-                    retry_elem = adb_service.find_element(device_id, resource_id="hova_header_search_icon") or adb_service.find_element(device_id, content_desc="Search")
-                    if retry_elem:
-                        adb_service.input_tap_human(device_id, retry_elem["center"][0], retry_elem["center"][1], bounds=retry_elem["bounds"])
+                if current_state != "SEARCH_PAGE":
+                    if current_state == "POPUP":
+                        adb_service.dismiss_popups(device_id)
                         await asyncio.sleep(0.8)
+                    elif current_state == "PROFILE_PAGE":
+                        adb_service.input_key(device_id, 4)
+                        await asyncio.sleep(0.8)
+
+                    # Retry tapping search icon if not yet on SEARCH_PAGE
+                    retry_elem = (
+                        adb_service.find_element(device_id, resource_id="hova_header_search_icon")
+                        or adb_service.find_element(device_id, content_desc="Search")
+                    )
+                    if retry_elem:
+                        adb_service.input_tap_human(device_id, retry_elem["center"][0], retry_elem["center"][1], bounds=retry_elem.get("bounds"))
+                        await asyncio.sleep(1.0)
 
                 # Step 4d: Check if Search Field has Existing Text & Focus Input
                 existing_text = adb_service.get_search_field_text(device_id)
                 if existing_text:
-                    # ONLY clear if there is actually text inside the search field
                     clear_elem = adb_service.find_element(device_id, resource_id="clear-button")
                     if clear_elem:
                         await asyncio.sleep(random.uniform(0.2, 0.4))
                         adb_service.input_tap_human(device_id, clear_elem["center"][0], clear_elem["center"][1], bounds=clear_elem["bounds"])
                         await asyncio.sleep(0.3)
 
-                # Tap inside the search input box to ensure it is focused
+                # Tap inside the search input box to ensure IME keyboard focus
                 input_field = adb_service.find_element(device_id, resource_id="search-textfield")
                 if input_field:
                     adb_service.input_tap_human(device_id, input_field["center"][0], input_field["center"][1], bounds=input_field["bounds"])
+                    await asyncio.sleep(0.4)
 
                 # Step 4e: Human Keystroke Typing with Natural Pacing
                 await asyncio.sleep(random.uniform(0.4, 0.7)) # Human eye focuses on keyboard

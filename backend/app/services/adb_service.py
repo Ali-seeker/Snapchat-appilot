@@ -459,24 +459,22 @@ class ADBService:
             joined_descs = " ".join(all_descs)
             joined_ids = " ".join(all_ids)
 
-            # 1. Popups & Confirmation Dialogs Check (Must take priority over underlying screens!)
-            popup_triggers = [
+            # 1. Popups & Confirmation Dialogs Check (Explicit modal overlays)
+            # Exclude section titles like 'Find Friends' on standard search screen!
+            dialog_markers = [
                 "clear recent searches", "clear search history",
-                "find friends", "sync contacts", "find your friends",
-                "turn on notifications", "allow access", "what's new",
-                "snapchat is better with friends", "contacts access",
-                "connect with friends", "save your login info",
-                "location permission", "permission to access"
+                "sync contacts", "sync your contacts",
+                "turn on notifications", "snapchat is better with friends",
+                "permission to access", "allow access to",
+                "save your login info", "location permission"
             ]
-            for trigger in popup_triggers:
-                if trigger in joined_texts or trigger in joined_descs:
-                    return "POPUP"
+            has_dialog_text = any(dm in joined_texts or dm in joined_descs for dm in dialog_markers)
+            has_native_dialog = any(k in joined_ids for k in ["parentpanel", "alerttitle"])
 
-            # Check for native dialog elements
-            if "parentpanel" in joined_ids or "alerttitle" in joined_ids or "dialog" in joined_ids:
+            if has_dialog_text or has_native_dialog:
                 return "POPUP"
 
-            # 2. Search Screen Check
+            # 2. Search Screen Check (If search-textfield or search-box is visible, we are on search page)
             if "search-textfield" in joined_ids or "search-box" in joined_ids:
                 return "SEARCH_PAGE"
 
@@ -586,7 +584,7 @@ class ADBService:
         Deeply inspects the search results screen for a given target username:
         - Identifies target row matching username or display name
         - Checks whether Add Friend button exists
-        - Checks whether user is already added (e.g., 'Added', 'Pending', 'Friends')
+        - Checks whether user is already added (e.g., 'Added', 'Pending')
         - Checks whether Subscribe button exists (for Snap Stars)
         - Returns a structured dictionary with actionability status:
           'CAN_ADD', 'ALREADY_FRIEND', 'CAN_SUBSCRIBE', or 'NOT_FOUND'
@@ -629,6 +627,13 @@ class ADBService:
                         if b and target_y is None:
                             target_y = (b[1] + b[3]) // 2
 
+            # If target row was NOT found in the search results, it cannot be added or already added!
+            if target_y is None:
+                return {
+                    "status": "NOT_FOUND",
+                    "details": f"Target @{target_name} not found in search results."
+                }
+
             buttons = []
             status_labels = []
 
@@ -643,19 +648,19 @@ class ADBService:
                 node_y = (b[1] + b[3]) // 2
                 node_x = (b[0] + b[2]) // 2
 
-                if target_y is not None and abs(node_y - target_y) > 65:
+                # Must be vertically aligned with the target's row (within 65px)
+                if abs(node_y - target_y) > 65:
                     continue
 
                 if "add-friend-button" in res_id or "add_friend_button" in res_id or (txt in ["add", "+ add"] and "story" not in res_id):
                     buttons.append({"type": "ADD", "center": (node_x, node_y), "bounds": b})
                 elif "subscribe-button" in res_id or txt == "subscribe":
                     buttons.append({"type": "SUBSCRIBE", "center": (node_x, node_y), "bounds": b})
-                elif txt in ["added", "pending", "friends"] or desc in ["added", "pending", "friends"]:
+                elif txt in ["added", "pending"] or desc in ["added", "pending"]:
                     status_labels.append({"status": txt or desc, "center": (node_x, node_y), "bounds": b})
 
             if buttons:
-                if target_y is not None:
-                    buttons.sort(key=lambda item: abs(item["center"][1] - target_y))
+                buttons.sort(key=lambda item: abs(item["center"][1] - target_y))
                 btn = buttons[0]
                 if btn["type"] == "ADD":
                     return {
