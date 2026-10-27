@@ -112,14 +112,31 @@ export default function ControlPanel({
 
           {/* Start / Review Button */}
           {!isRunning && !isPaused && (
-            <button
-              className="btn btn-primary"
-              onClick={handleStartClick}
-              disabled={selectedTargets.length === 0}
-            >
-              <Eye size={17} />
-              <span>Review &amp; Start ({selectedTargets.length})</span>
-            </button>
+            <>
+              <button
+                className="btn btn-primary"
+                onClick={handleStartClick}
+                disabled={selectedTargets.length === 0}
+                style={{
+                  background: executionMode === 'live'
+                    ? 'linear-gradient(135deg, #0284c7, #0ea5e9)'
+                    : 'linear-gradient(135deg, #7e22ce, #a855f7)',
+                  borderColor: executionMode === 'live' ? '#38bdf8' : '#c084fc',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.25s ease'
+                }}
+              >
+                <Eye size={17} />
+                <span>
+                  Review &amp; Start ({selectedTargets.length}) • {executionMode === 'live' ? 'Live Phone' : 'Simulation'}
+                </span>
+              </button>
+              <span style={{ fontSize: '0.78rem', color: executionMode === 'live' ? '#38bdf8' : '#c084fc', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                Mode: <strong>{executionMode === 'live' ? '⚡ Real Android Device' : '🧪 In-Browser Simulation'}</strong>
+              </span>
+            </>
           )}
 
           {/* Pause / Resume Controls */}
