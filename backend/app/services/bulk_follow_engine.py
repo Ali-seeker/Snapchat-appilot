@@ -148,6 +148,7 @@ class BulkFollowEngine:
 
         # Return safely to camera landing
         adb_service.input_key(device_id, 4) # Back to camera
+        adb_service.ensure_landing_or_search(device_id)
         await self._step(f"Quick Add finished: Total {total_added} friend(s) added.", delay=0.6)
 
     async def _execute_accept_incoming(self, device_id: str, max_count: int):
@@ -175,6 +176,7 @@ class BulkFollowEngine:
 
         # Return safely to camera landing
         adb_service.input_key(device_id, 4)
+        adb_service.ensure_landing_or_search(device_id)
 
     async def _execute_search_add(self, device_id: str, target_ids: List[str]):
         # Resolve targets from contact service

@@ -155,8 +155,8 @@ class BulkUnfollowEngine:
                     await asyncio.sleep(random.uniform(1.0, 1.5))
 
             # Return safely to camera landing
-            adb_service.input_key(device_id, 4) # Back to camera
-            await asyncio.sleep(0.8)
+            adb_service.ensure_landing_or_search(device_id)
+            await asyncio.sleep(0.5)
 
             if not state_machine.is_stopped:
                 state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)

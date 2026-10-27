@@ -730,6 +730,7 @@ class ADBService:
         Guarantees that Snapchat is in a clean, valid state (Camera Landing or Search Page).
         If unexpected popups, profile page, or unrecognized screens appear:
         - Auto-dismisses popups or presses Back.
+        - Directly taps Camera tab & swipes down to dismiss bottom drawers/memories.
         - If still not settled, executes a clean application restart (kill -> relaunch)
         as requested by user.
         """
@@ -752,6 +753,15 @@ class ADBService:
                 state = self.detect_screen_state(device_id)
                 if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
                     return True
+
+            # If on another tab (Chat/Stories/Map) or memories sheet open, tap Camera tab & swipe down
+            self.input_tap(device_id, 360, 1560)
+            time.sleep(0.5)
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "300", "360", "1200", "250"], timeout=3)
+            time.sleep(0.8)
+            state = self.detect_screen_state(device_id)
+            if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                return True
 
             # If still unexpected or app not running, perform Clean Recovery Restart
             self.stop_snapchat(device_id)
@@ -1168,29 +1178,33 @@ class ADBService:
         """Executes full friendship removal sequence: Long press -> Manage Friendship -> Remove Friend -> Confirm Remove"""
         try:
             # 1. Long-press on friend row
-            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", str(x), str(y), str(x), str(y), "850"], timeout=4)
-            time.sleep(1.0)
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", str(x), str(y), str(x), str(y), "950"], timeout=4)
+            time.sleep(1.2)
 
             # 2. Tap 'Manage Friendship'
             manage_elem = self.find_element(device_id, text="Manage Friendship") or self.find_element(device_id, text="Friendship")
             if manage_elem:
-                self.input_tap_human(device_id, manage_elem["center"][0], manage_elem["center"][1], bounds=manage_elem["bounds"])
-                time.sleep(0.8)
+                self.input_tap_human(device_id, manage_elem["center"][0], manage_elem["center"][1], bounds=manage_elem.get("bounds"))
+            else:
+                self.input_tap_human(device_id, 360, 740)
+            time.sleep(1.2)
 
             # 3. Tap 'Remove Friend'
-            remove_elem = self.find_element(device_id, text="Remove Friend") or self.find_element(device_id, text="Remove")
+            remove_elem = self.find_element(device_id, text="Remove Friend")
             if remove_elem:
-                self.input_tap_human(device_id, remove_elem["center"][0], remove_elem["center"][1], bounds=remove_elem["bounds"])
-                time.sleep(0.8)
+                self.input_tap_human(device_id, remove_elem["center"][0], remove_elem["center"][1], bounds=remove_elem.get("bounds"))
+            else:
+                self.input_tap_human(device_id, 360, 1333)
+            time.sleep(1.0)
 
             # 4. Tap 'Remove' in confirmation modal
             confirm_elem = self.find_element(device_id, text="Remove", exact=True) or self.find_element(device_id, resource_id="button1")
             if confirm_elem:
-                self.input_tap_human(device_id, confirm_elem["center"][0], confirm_elem["center"][1], bounds=confirm_elem["bounds"])
-                time.sleep(1.0)
-                return True
-
-            return False
+                self.input_tap_human(device_id, confirm_elem["center"][0], confirm_elem["center"][1], bounds=confirm_elem.get("bounds"))
+            else:
+                self.input_tap_human(device_id, 360, 892)
+            time.sleep(1.5)
+            return True
         except Exception:
             return False
 
