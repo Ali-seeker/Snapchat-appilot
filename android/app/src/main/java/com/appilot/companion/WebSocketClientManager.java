@@ -46,6 +46,9 @@ public class WebSocketClientManager {
         this.lastAccessibility = accessibilityEnabled;
 
         if (webSocketClient != null && isConnected && webSocketClient.isOpen()) {
+            if (statusListener != null) {
+                statusListener.onConnectionChanged(true);
+            }
             return;
         }
 

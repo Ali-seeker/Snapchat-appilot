@@ -40,11 +40,18 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
         });
 
         tvWsStatus.setOnClickListener(v -> {
-            Toast.makeText(this, "Connecting to Backend...", Toast.LENGTH_SHORT).show();
-            connectToBackend();
+            if (WebSocketClientManager.getInstance().isConnected()) {
+                updateWsStatus();
+                Toast.makeText(this, "Already connected to Backend!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Connecting to Backend...", Toast.LENGTH_SHORT).show();
+                connectToBackend();
+            }
         });
 
         WebSocketClientManager.getInstance().setStatusListener(this);
+        updateServiceStatus();
+        updateWsStatus();
         connectToBackend();
     }
 
@@ -52,8 +59,20 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
     protected void onResume() {
         super.onResume();
         updateServiceStatus();
+        updateWsStatus();
         if (!WebSocketClientManager.getInstance().isConnected()) {
             connectToBackend();
+        }
+    }
+
+    private void updateWsStatus() {
+        boolean connected = WebSocketClientManager.getInstance().isConnected();
+        if (connected) {
+            tvWsStatus.setText(R.string.status_ws_connected);
+            tvWsStatus.setTextColor(Color.parseColor("#22C55E"));
+        } else {
+            tvWsStatus.setText(R.string.status_ws_disconnected);
+            tvWsStatus.setTextColor(Color.parseColor("#EF4444"));
         }
     }
 
