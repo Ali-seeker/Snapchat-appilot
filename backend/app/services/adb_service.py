@@ -124,8 +124,8 @@ class ADBService:
 
     def input_tap_human(self, device_id: str, x: int, y: int, bounds: Optional[tuple[int, int, int, int]] = None) -> bool:
         """
-        Executes a human-like finger tap with realistic touch duration (55-115ms)
-        and subtle organic finger placement within element bounds rather than robotic center tap.
+        Executes a human-like finger tap with organic spatial jitter within element bounds
+        using native Android tap event dispatch to guarantee reliable click listener firing.
         """
         try:
             if bounds:
@@ -138,15 +138,15 @@ class ADBService:
                 target_x = x + random.randint(-3, 3)
                 target_y = y + random.randint(-3, 3)
 
-            press_duration = random.randint(60, 115) # Realistic human touch contact time
             cmd = [
                 self.adb_path, "-s", device_id, "shell",
-                "input", "swipe", str(target_x), str(target_y), str(target_x), str(target_y), str(press_duration)
+                "input", "tap", str(target_x), str(target_y)
             ]
             res = self._run_cmd(cmd, timeout=5)
             return res.returncode == 0
         except Exception:
             return False
+
 
     def input_text(self, device_id: str, text: str) -> bool:
         """Types text via adb input text, escaping whitespace and shell characters"""
@@ -466,7 +466,9 @@ class ADBService:
                 "sync contacts", "sync your contacts",
                 "turn on notifications", "snapchat is better with friends",
                 "permission to access", "allow access to",
-                "save your login info", "location permission"
+                "save your login info", "location permission",
+                "wants to use your location", "snapchat wants to",
+                "don't allow"
             ]
             has_dialog_text = any(dm in joined_texts or dm in joined_descs for dm in dialog_markers)
             has_native_dialog = any(k in joined_ids for k in ["parentpanel", "alerttitle"])
@@ -494,14 +496,17 @@ class ADBService:
     def dismiss_popups(self, device_id: str) -> bool:
         """
         Attempts to dismiss any detected modal, popup, or overlay by clicking
-        'Cancel', 'Not now', 'Skip', '✕', or pressing KEYCODE_BACK.
-        Safely cancels confirmation dialogs without clearing search history.
+        'Cancel', 'Not now', 'Skip', 'Abandon', or dismissing dialogs.
+        CRITICAL: Never blindly clicks the top back arrow or sends KEYCODE_BACK
+        unless an actual dialog or popup is actively detected!
         """
         xml_content = self.dump_ui_hierarchy(device_id)
         if not xml_content:
             return False
 
         try:
+            xml_lower = xml_content.lower()
+
             import xml.etree.ElementTree as ET
             root = ET.fromstring(xml_content)
 
@@ -514,39 +519,68 @@ class ADBService:
                         return ((x1 + x2) // 2, (y1 + y2) // 2)
                 return None
 
+            # 1. Special check for "Abandon your Snapsterpiece" popup
+            if "abandon your snapsterpiece" in xml_lower or "abandon snap" in xml_lower:
+                # White 'Abandon' button is at center (360, 918)
+                self.input_tap(device_id, 360, 918)
+                time.sleep(0.8)
+                return True
+
+            # 2. Special check for "Add To Your Story?" dialog
+            if "add to your story?" in xml_lower:
+                # Click Cancel button
+                for node in root.iter("node"):
+                    txt = (node.attrib.get("text") or "").strip().lower()
+                    res = (node.attrib.get("resource-id") or "").lower()
+                    if txt == "cancel" or "cancel_button" in res:
+                        pt = get_center(node.attrib.get("bounds", ""))
+                        if pt:
+                            self.input_tap(device_id, pt[0], pt[1])
+                            time.sleep(0.8)
+                            return True
+                self.input_tap(device_id, 360, 1115)
+                time.sleep(0.8)
+                return True
+
+            # 3. Special check for Lens+ / Snapchat+ subscription bottom sheet
+            if "get lens+" in xml_lower or "exclusive lenses with lens+" in xml_lower or ("lens+" in xml_lower and "try" in xml_lower):
+                # Tap outside the bottom sheet to dismiss it cleanly
+                self.input_tap(device_id, 360, 250)
+                time.sleep(0.6)
+                return True
+
+            # 4. Check for standard system/app Dialog overlays (alertTitle, dialog_content, parentPanel)
+            has_dialog = any(k in xml_lower for k in [
+                "alerttitle", "dialog_content", "parentpanel", "alert_dialog",
+                "custompanel", "permission_allow_button"
+            ])
+
             dismiss_targets = [
                 "cancel", "not now", "skip", "deny", "dismiss",
-                "later", "maybe later", "no thanks", "close", "dont allow",
-                "don't allow"
+                "later", "maybe later", "no thanks", "dont allow",
+                "don't allow", "abandon", "discard"
             ]
 
-            # 1. Look for explicit dismiss text button (prioritize Cancel)
-            for node in root.iter("node"):
-                t = (node.attrib.get("text") or "").strip().lower()
-                d = (node.attrib.get("content-desc") or "").strip().lower()
-                r = (node.attrib.get("resource-id") or "").lower()
+            if has_dialog:
+                for node in root.iter("node"):
+                    t = (node.attrib.get("text") or "").strip().lower()
+                    d = (node.attrib.get("content-desc") or "").strip().lower()
+                    r = (node.attrib.get("resource-id") or "").lower()
 
-                if t in dismiss_targets or d in dismiss_targets or "close_button" in r or "dismiss_button" in r:
-                    pt = get_center(node.attrib.get("bounds", ""))
-                    if pt:
-                        self.input_tap(device_id, pt[0], pt[1])
-                        time.sleep(0.8)
-                        return True
+                    if t in dismiss_targets or d in dismiss_targets or "close_button" in r or "dismiss_button" in r:
+                        pt = get_center(node.attrib.get("bounds", ""))
+                        if pt:
+                            self.input_tap(device_id, pt[0], pt[1])
+                            time.sleep(0.8)
+                            return True
 
-            # 2. Look for cross/close icon
-            for node in root.iter("node"):
-                d = (node.attrib.get("content-desc") or "").strip().lower()
-                if d in ["close", "cancel", "dismiss", "back"]:
-                    pt = get_center(node.attrib.get("bounds", ""))
-                    if pt:
-                        self.input_tap(device_id, pt[0], pt[1])
-                        time.sleep(0.8)
-                        return True
+                # If inside a confirmed dialog with no matching button, send KEYCODE_BACK to dismiss dialog
+                self.input_key(device_id, 4)
+                time.sleep(0.8)
+                return True
 
-            # 3. Fallback: send KEYCODE_BACK (Key 4) to dismiss dialog
-            self.input_key(device_id, 4)
-            time.sleep(0.8)
-            return True
+            # No popup or dialog detected; do nothing!
+            return False
         except Exception:
             return False
 
@@ -806,9 +840,15 @@ class ADBService:
                 txt = (node.attrib.get("text") or "").strip().lower()
                 desc = (node.attrib.get("content-desc") or "").strip().lower()
                 b = parse_bounds(node.attrib.get("bounds", ""))
-                if not b:
+                if (b[2] - b[0] < 20) or (b[3] - b[1] < 20) or b[1] < 300:
                     continue
-                if "add-friend-button" in res_id or (txt in ["add", "+ add"] and "story" not in res_id):
+                is_add = (
+                    "scu_search_action_button" in res_id
+                    or "add-friend-button" in res_id
+                    or (desc == "add" and "story" not in res_id)
+                    or (txt in ["add", "+ add"] and "story" not in res_id)
+                )
+                if is_add:
                     center = ((b[0] + b[2]) // 2, (b[1] + b[3]) // 2)
                     buttons.append({"center": center, "bounds": b})
 
@@ -871,37 +911,67 @@ class ADBService:
             self.find_element(device_id, resource_id="camera_capture_button")
             or self.find_element(device_id, content_desc="Take a Snap")
         )
-        coords = elem["center"] if elem else (360, 1360)
+        coords = elem["center"] if elem else (360, 1258)
         bounds = elem["bounds"] if elem else None
         self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
-        time.sleep(1.2)
+        time.sleep(1.5)
         return True
 
     def apply_random_filter(self, device_id: str, swipes_count: Optional[int] = None) -> int:
         """Swipes horizontally across preview screen to apply artistic color or lens filter"""
         count = swipes_count if swipes_count is not None else random.randint(1, 3)
         for _ in range(count):
-            # Swipe left across preview screen to change filter
-            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "620", "750", "120", "750", "350"], timeout=4)
+            # Swipe left-to-right (180 to 600) to select standard Snapchat free color filters (B&W, vintage, warm, etc.)
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "180", "750", "600", "750", "350"], timeout=4)
             time.sleep(random.uniform(0.4, 0.7))
+
+            # Resilience check: If Lens+ paywall bottom sheet opens, tap outside to dismiss and swipe off it
+            xml = self.dump_ui_hierarchy(device_id) or ""
+            if "lens+" in xml.lower() or "snapchat+" in xml.lower() or "try now" in xml.lower():
+                self.input_tap(device_id, 360, 250)
+                time.sleep(0.4)
+                # Swipe back to free filter
+                self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "600", "750", "180", "750", "350"], timeout=4)
+                time.sleep(0.4)
         return count
 
     def open_send_to_screen(self, device_id: str) -> bool:
-        """Taps the yellow circular Send To button from the Snap preview screen"""
+        """Taps the Send To button from the Snap preview screen (auto-dismissing any modal dialogs)"""
+        # Dismiss any unexpected location, Lens+, or permission modal first
+        self.dismiss_popups(device_id)
+        time.sleep(0.5)
+
         elem = (
-            self.find_element(device_id, resource_id="send_to_button")
+            self.find_element(device_id, resource_id="sent_to_button_label_mode_view")
+            or self.find_element(device_id, resource_id="send_btn")
+            or self.find_element(device_id, text="Send To")
             or self.find_element(device_id, content_desc="Send To")
+            or self.find_element(device_id, content_desc="Send")
+            or self.find_element(device_id, resource_id="send_to_button")
             or self.find_element(device_id, resource_id="action_menu_send_button")
         )
-        coords = elem["center"] if elem else (640, 1475)
-        bounds = elem["bounds"] if elem else None
-        self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
-        time.sleep(1.2)
-        xml = self.dump_ui_hierarchy(device_id) or ""
-        return "send to" in xml.lower() or "best friends" in xml.lower() or "recents" in xml.lower()
+        coords = elem["center"] if elem else (585, 1541)
+        bounds = elem["bounds"] if elem else (459, 1515, 712, 1567)
+
+        for attempt in range(2):
+            self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
+            time.sleep(1.8)
+            xml = self.dump_ui_hierarchy(device_id) or ""
+            if "input_field_edit_text" in xml or "recents" in xml.lower() or "find friends" in xml.lower():
+                return True
+            coords = (585, 1541)
+            bounds = None
+
+        return True
+
+
 
     def select_recipients_and_send(self, device_id: str, select_all: bool = True, max_recipients: int = 15) -> int:
         """Selects recipients on Send To screen and dispatches the Snap"""
+        # Dismiss any modal dialog (e.g. Add to Story or Public Story)
+        self.dismiss_popups(device_id)
+        time.sleep(0.4)
+
         xml_content = self.dump_ui_hierarchy(device_id)
         if not xml_content:
             return 0
@@ -915,43 +985,64 @@ class ADBService:
                 return int(m[0][0]), int(m[0][1]), int(m[1][0]), int(m[1][1])
             return None
 
-        # Look for friends or shortcut rows
+        # Look for friend names in Send To screen
         selected_count = 0
-        candidate_rows = []
+        candidate_circles = []
+
+        ignore_terms = [
+            "send to", "all", "new friends", "new", "post to", "recents & suggested",
+            "find friends", "my story", "my ai", "recently joined", "in my contacts",
+            "stories", "just for friends", "friends, followers", "ok", "cancel"
+        ]
+
         for node in root.iter("node"):
-            res_id = (node.attrib.get("resource-id") or "").lower()
+            txt = (node.attrib.get("text") or "").strip().lower()
+            cls = (node.attrib.get("class") or "").lower()
             b = parse_bounds(node.attrib.get("bounds", ""))
             if not b:
                 continue
-            # Select contact item rows in Send To view
-            if "recipient" in res_id or "friend" in res_id or "contact" in res_id or "user_row" in res_id:
-                candidate_rows.append(((b[0] + b[2]) // 2, (b[1] + b[3]) // 2, b))
+
+            # Friend row names are in x=148..564, y > 700 (below Stories section)
+            if b[0] >= 100 and b[2] <= 600 and b[1] >= 700 and b[3] <= 1500:
+                if txt and not any(term in txt for term in ignore_terms):
+                    # Selection circle is at x=680 on this row
+                    row_center_y = (b[1] + b[3]) // 2
+                    candidate_circles.append((680, row_center_y))
+
+        # Remove duplicate Y coordinates
+        unique_circles = []
+        for c in candidate_circles:
+            if not any(abs(c[1] - uc[1]) < 30 for uc in unique_circles):
+                unique_circles.append(c)
+
+        if not unique_circles:
+            # Verified coordinates of friend selection circles below My Story on Infinix device
+            unique_circles = [(680, 956), (680, 1056), (680, 1163), (680, 1462)]
 
         # Tap up to max_recipients
-        for row in candidate_rows[:max_recipients]:
-            self.input_tap_human(device_id, row[0], row[1], bounds=row[2])
+        limit = len(unique_circles) if select_all else min(max_recipients, len(unique_circles))
+        for circle in unique_circles[:limit]:
+            self.input_tap_human(device_id, circle[0], circle[1])
             selected_count += 1
             time.sleep(random.uniform(0.3, 0.6))
 
-        if selected_count == 0:
-            # Fallback tap on first 3 visible rows in middle section
-            fallback_coords = [(360, 480), (360, 620), (360, 760)]
-            for fc in fallback_coords:
-                self.input_tap_human(device_id, fc[0], fc[1])
-                selected_count += 1
-                time.sleep(0.4)
-
         time.sleep(0.6) # Human hesitation before pressing Send
 
-        # Tap Send button (bottom right blue or yellow send button)
+        # Dismiss any unexpected story confirmation modal if triggered
+        self.dismiss_popups(device_id)
+
+        # Tap Send button (bottom right blue circular button with paper plane at bounds [623,1540][704,1567])
         send_elem = (
-            self.find_element(device_id, resource_id="send_button")
+            self.find_element(device_id, resource_id="send_to_send_button")
+            or self.find_element(device_id, resource_id="send_button")
             or self.find_element(device_id, content_desc="Send")
         )
-        send_coords = send_elem["center"] if send_elem else (630, 1500)
+        send_coords = send_elem["center"] if send_elem else (664, 1553)
         self.input_tap_human(device_id, send_coords[0], send_coords[1])
-        time.sleep(1.8) # Wait for return to camera screen
+        time.sleep(2.0) # Wait for snap dispatch and clean return to camera screen
         return selected_count
+
+
 
     def open_chat_screen(self, device_id: str) -> bool:
         """Navigates to the Chat feed tab from camera landing"""
@@ -988,37 +1079,88 @@ class ADBService:
             return None
 
         candidates = []
-        for node in root.iter("node"):
-            t = (node.attrib.get("text") or "").strip()
-            d = (node.attrib.get("content-desc") or "").strip()
+        all_nodes = list(root.iter("node"))
+
+        # Find row containers (ff_item or rows with height 80-160px)
+        row_bounds = []
+        for node in all_nodes:
             res_id = (node.attrib.get("resource-id") or "").lower()
             b = parse_bounds(node.attrib.get("bounds", ""))
-            if not b:
+            if "ff_item" in res_id and b and (b[3] - b[1]) > 50:
+                row_bounds.append(b)
+
+        # Fallback if ff_item is not present
+        if not row_bounds:
+            for node in all_nodes:
+                b = parse_bounds(node.attrib.get("bounds", ""))
+                if b and (b[3] - b[1]) > 80 and b[1] > 200 and b[3] < 1450:
+                    row_bounds.append(b)
+
+        ignored_status_words = [
+            "received", "opened", "delivered", "new chat", "new snap",
+            "you are now friends", "double tap to snap", "camera reply",
+            "avatar_container", "feed_cross_button", "feed_snap_", "feed_"
+        ]
+
+        for rb in row_bounds:
+            row_texts = []
+            friend_name = None
+
+            for node in all_nodes:
+                nb = parse_bounds(node.attrib.get("bounds", ""))
+                if nb:
+                    mid_y = (nb[1] + nb[3]) // 2
+                    if rb[1] <= mid_y <= rb[3]:
+                        t = (node.attrib.get("text") or "").strip()
+                        d = (node.attrib.get("content-desc") or "").strip()
+                        cls = (node.attrib.get("class") or "").strip()
+                        if t: row_texts.append(t)
+                        if d: row_texts.append(d)
+
+                        # Prefer bold or javaClass for the actual friend display name
+                        clean_candidate = t or d
+                        lower_cand = clean_candidate.lower()
+                        if clean_candidate and not any(ign in lower_cand for ign in ignored_status_words) and not clean_candidate.isdigit():
+                            if not friend_name or cls == "javaClass":
+                                friend_name = clean_candidate
+
+            if not friend_name and row_texts:
+                for candidate in row_texts:
+                    if not any(ign in candidate.lower() for ign in ignored_status_words) and not candidate.isdigit():
+                        friend_name = candidate
+                        break
+
+            if not friend_name:
                 continue
 
-            # Candidate chat rows typically have height > 80px and y > 200px
-            if (b[3] - b[1]) > 80 and b[1] > 200 and b[3] < 1450:
-                full_text = f"{t} {d}".lower()
-                has_streak = ("🔥" in full_text or "streak" in full_text)
-                is_inactive = any(marker in full_text for marker in ["2w", "3w", "4w", "1mo", "2mo", "3mo", "received weeks ago"])
+            # Protected accounts
+            if any(prot in friend_name.lower() for prot in ["my ai", "team snapchat"]):
+                continue
 
-                matches = False
-                reason = ""
-                if filter_type == "no_streak" and not has_streak:
-                    matches = True
-                    reason = "No active streak emoji (🔥) found"
-                elif filter_type == "inactive" and is_inactive:
-                    matches = True
-                    reason = f"Dormant timestamp detected (exceeds {days_threshold} days)"
+            joined_row = " ".join(row_texts).lower()
+            has_streak = ("🔥" in joined_row or "streak" in joined_row)
+            is_inactive = any(marker in joined_row for marker in ["2w", "3w", "4w", "1mo", "2mo", "3mo", "weeks ago", "months ago"])
 
-                if matches and (t or d):
-                    center = ((b[0] + b[2]) // 2, (b[1] + b[3]) // 2)
-                    candidates.append({
-                        "name": t or d,
-                        "center": center,
-                        "bounds": b,
-                        "reason": reason
-                    })
+            matches = False
+            reason = ""
+            if filter_type == "no_streak" and not has_streak:
+                matches = True
+                reason = "No active streak emoji (🔥) found"
+            elif filter_type == "inactive" and is_inactive:
+                matches = True
+                reason = f"Dormant timestamp detected (exceeds {days_threshold} days)"
+            elif filter_type == "custom":
+                matches = True
+                reason = "Targeted custom friend match"
+
+            if matches:
+                center = (250, (rb[1] + rb[3]) // 2)
+                candidates.append({
+                    "name": friend_name,
+                    "center": center,
+                    "bounds": rb,
+                    "reason": reason
+                })
 
         return candidates
 

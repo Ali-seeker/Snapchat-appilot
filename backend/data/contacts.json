@@ -108,5 +108,95 @@
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
     "created_at": "2026-10-27T08:39:54.598446+00:00"
+  },
+  {
+    "id": "36e1cb4e",
+    "username": "bot_9fe13f",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T10:20:32.220053+00:00"
+  },
+  {
+    "id": "d4d4c02d",
+    "username": "user_63d3109d",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T10:20:32.259339+00:00"
+  },
+  {
+    "id": "cd94a43f",
+    "username": "stop_e11ca5e5",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T10:20:32.494022+00:00"
+  },
+  {
+    "id": "95ba2899",
+    "username": "bot_ae8c63",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T14:26:02.837060+00:00"
+  },
+  {
+    "id": "3c78af15",
+    "username": "user_b4955f5f",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T14:26:02.917359+00:00"
+  },
+  {
+    "id": "669ceeee",
+    "username": "stop_cce6554f",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T14:26:03.489137+00:00"
+  },
+  {
+    "id": "992bd7b6",
+    "username": "bot_979951",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T21:27:05.397101+00:00"
+  },
+  {
+    "id": "e7d30a82",
+    "username": "user_7a092885",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T21:27:05.465145+00:00"
+  },
+  {
+    "id": "5a53cae1",
+    "username": "stop_1772a2bf",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T21:27:05.752259+00:00"
   }
 ]
