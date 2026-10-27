@@ -81,14 +81,21 @@ class LiveAutomationEngine:
 
             adb_service.reverse_port(device_id)
 
-            # 3. Launch Snapchat on Device
-            await self._step(f"Launching Snapchat application (com.snapchat.android)...", delay=1.0)
-            launched = adb_service.launch_snapchat(device_id)
-            if not launched:
+            # 3. Launch Snapchat and Ensure Clean Landing Screen (auto-dismiss popups / restart if unexpected)
+            await self._step("Launching Snapchat and verifying clean landing screen...", delay=1.0)
+            ensured = adb_service.ensure_landing_or_search(device_id)
+            if not ensured:
+                await self._step("Initial screen unexpected; attempting deep recovery restart...", delay=1.5)
+                adb_service.stop_snapchat(device_id)
                 await asyncio.sleep(1.0)
-                launched = adb_service.launch_snapchat(device_id)
+                adb_service.launch_snapchat(device_id)
+                await asyncio.sleep(2.5)
+                adb_service.dismiss_popups(device_id)
 
-            await self._step("Snapchat process active. Waiting for landing camera UI to settle...", delay=2.5)
+            await self._step("Snapchat camera landing screen confirmed. Ready for target dispatch.", delay=1.0)
+
+            successful_targets = []
+            failed_targets = []
 
             # 4. Process Each Target
             for idx, target in enumerate(targets, 1):
@@ -101,19 +108,35 @@ class LiveAutomationEngine:
                     delay=0.8
                 )
 
-                # Step 4a: Open Search / Focus Search Bar
-                search_coords = adb_service.find_bounds(device_id, "search")
-                if search_coords:
-                    await self._step(f"[{idx}/{total}] Located Search Bar at ({search_coords[0]}, {search_coords[1]}). Tapping...", delay=0.6)
-                    adb_service.input_tap(device_id, search_coords[0], search_coords[1])
-                else:
-                    # Fallback to Snapchat header search coordinates
-                    await self._step(f"[{idx}/{total}] Activating Snapchat search icon...", delay=0.6)
-                    adb_service.input_tap(device_id, 156, 124)
-                    await asyncio.sleep(0.8)
-                    adb_service.input_tap(device_id, 295, 133)
+                # Step 4a: Verify Screen State & Dismiss any runtime popups
+                screen_state = adb_service.detect_screen_state(device_id)
+                if screen_state in ["POPUP", "PROFILE_PAGE", "UNEXPECTED_SCREEN"]:
+                    await self._step(f"[{idx}/{total}] Unexpected screen/popup detected ('{screen_state}'). Recovering clean state...", delay=0.8)
+                    adb_service.ensure_landing_or_search(device_id)
+                    screen_state = adb_service.detect_screen_state(device_id)
 
-                await asyncio.sleep(0.6)
+                # Step 4b: Open / Focus Search Bar
+                if screen_state != "SEARCH_PAGE":
+                    search_coords = adb_service.find_bounds(device_id, "search")
+                    if search_coords:
+                        await self._step(f"[{idx}/{total}] Located Search Bar at ({search_coords[0]}, {search_coords[1]}). Tapping...", delay=0.6)
+                        adb_service.input_tap(device_id, search_coords[0], search_coords[1])
+                    else:
+                        await self._step(f"[{idx}/{total}] Activating Snapchat search icon...", delay=0.6)
+                        adb_service.input_tap(device_id, 156, 124)
+
+                    await asyncio.sleep(1.0)
+
+                    # Post-tap verification: if a popup intercepted the tap or profile opened
+                    post_open_state = adb_service.detect_screen_state(device_id)
+                    if post_open_state == "POPUP":
+                        adb_service.dismiss_popups(device_id)
+                        await asyncio.sleep(0.8)
+                    elif post_open_state == "PROFILE_PAGE":
+                        adb_service.input_key(device_id, 4) # Exit profile back to camera
+                        await asyncio.sleep(0.8)
+                        adb_service.input_tap(device_id, 156, 124)
+                        await asyncio.sleep(0.8)
 
                 # Clear previous search if clear button exists
                 clear_coords = adb_service.find_bounds(device_id, "clear")
@@ -121,7 +144,7 @@ class LiveAutomationEngine:
                     adb_service.input_tap(device_id, clear_coords[0], clear_coords[1])
                     await asyncio.sleep(0.4)
 
-                # Step 4b: Inject Target Username
+                # Step 4c: Inject Target Username
                 adb_service.input_text(device_id, username)
                 await self._step(f"[{idx}/{total}] Injected target '@{username}' into Snapchat search.", delay=0.8)
                 adb_service.input_key(device_id, 66) # Enter / Submit search query
@@ -134,13 +157,14 @@ class LiveAutomationEngine:
                 })
 
                 # Await search query results from Snapchat servers
-                await self._step(f"[{idx}/{total}] Awaiting search query results from Snapchat servers...", delay=2.2)
+                await self._step(f"[{idx}/{total}] Awaiting search query results from Snapchat servers...", delay=2.4)
 
-                # Step 4c: Locate and Tap 'Add' or 'Subscribe' button
+                # Step 4d: Locate and Tap 'Add' or 'Subscribe' button
                 add_coords = adb_service.find_bounds(device_id, "add", target_name=username)
                 if add_coords:
                     await self._step(f"[{idx}/{total}] Matched Add button at ({add_coords[0]}, {add_coords[1]}). Tapping...", delay=0.8)
                     adb_service.input_tap(device_id, add_coords[0], add_coords[1])
+                    successful_targets.append(username)
                     await self._step(
                         f"[{idx}/{total}] Successfully sent friend request to @{username}!",
                         delay=1.0,
@@ -153,6 +177,7 @@ class LiveAutomationEngine:
                     if sub_coords:
                         await self._step(f"[{idx}/{total}] Matched Subscribe button at ({sub_coords[0]}, {sub_coords[1]}). Tapping...", delay=0.8)
                         adb_service.input_tap(device_id, sub_coords[0], sub_coords[1])
+                        successful_targets.append(username)
                         await self._step(
                             f"[{idx}/{total}] Subscribed to Snap Star / Creator @{username}!",
                             delay=1.0,
@@ -167,6 +192,7 @@ class LiveAutomationEngine:
                             "params": {"username": username}
                         })
                         await asyncio.sleep(0.5)
+                        failed_targets.append(username)
                         await self._step(
                             f"[{idx}/{total}] Target @{username} search completed. No Add Friend button present on Snapchat for this query.",
                             delay=1.0,
@@ -174,7 +200,7 @@ class LiveAutomationEngine:
                             reason="NO_ADD_BUTTON_FOUND"
                         )
 
-                # Step 4d: Clear search bar or navigate back for next target
+                # Step 4e: Clear search bar or navigate back for next target
                 clear_coords = adb_service.find_bounds(device_id, "clear")
                 if clear_coords:
                     adb_service.input_tap(device_id, clear_coords[0], clear_coords[1])
@@ -182,19 +208,37 @@ class LiveAutomationEngine:
                     adb_service.input_key(device_id, 4) # Back
                 await asyncio.sleep(0.5)
 
-                # Step 4e: Human Pacing Delay (Random jitter between 1.8s and 3.2s to prevent account flags)
-                jitter = round(random.uniform(1.8, 3.2), 2)
-                await self._step(f"Human pacing guard: Waiting {jitter}s jitter before next action...", delay=jitter)
+                # Step 4f: Human Pacing Delay (Random jitter between 1.8s and 3.2s to prevent account flags)
+                if idx < total:
+                    jitter = round(random.uniform(1.8, 3.2), 2)
+                    await self._step(f"Human pacing guard: Waiting {jitter}s jitter before next action...", delay=jitter)
 
-            # 5. Workflow Complete
+            # 5. Workflow Outcome Evaluation
             if not state_machine.is_stopped:
-                state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
-                await self._step(
-                    f"Live automation completed successfully for all {total} targets.",
-                    delay=0.5,
-                    status=ResultStatus.COMPLETED,
-                    reason="WORKFLOW_COMPLETE"
-                )
+                if len(successful_targets) == 0:
+                    state_machine.transition_to(
+                        AppState.FAILED,
+                        reason=f"No friend requests could be sent (all {len(failed_targets)} targets failed or had no Add button)."
+                    )
+                    await self._step(
+                        f"Live automation halted: 0/{total} targets succeeded. Check search queries or screen popups.",
+                        delay=0.5,
+                        status=ResultStatus.FAILED,
+                        reason="ALL_TARGETS_FAILED"
+                    )
+                else:
+                    state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
+                    outcome_msg = (
+                        f"Live automation completed: {len(successful_targets)}/{total} friend requests sent successfully."
+                        if len(failed_targets) > 0
+                        else f"Live automation completed successfully for all {total} targets."
+                    )
+                    await self._step(
+                        outcome_msg,
+                        delay=0.5,
+                        status=ResultStatus.COMPLETED,
+                        reason="WORKFLOW_COMPLETE"
+                    )
 
         except Exception as e:
             if not state_machine.is_stopped:

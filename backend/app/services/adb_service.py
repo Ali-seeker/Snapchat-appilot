@@ -1,6 +1,7 @@
 import subprocess
 import shutil
 import re
+import time
 from typing import List, Dict, Optional
 from ..models.schemas import DeviceInfo
 
@@ -261,6 +262,179 @@ class ADBService:
         except Exception:
             pass
         return None
+
+    def detect_screen_state(self, device_id: str) -> str:
+        """
+        Classifies current screen state on device:
+        - 'CAMERA_LANDING': Primary camera viewfinder screen with search & capture button
+        - 'SEARCH_PAGE': Search textfield active / search screen
+        - 'POPUP': Dialog, system permission, or in-app promo/find-friends overlay
+        - 'PROFILE_PAGE': User's own Bitmoji / account profile screen
+        - 'UNEXPECTED_SCREEN': Any other unrecognized screen
+        - 'APP_NOT_RUNNING': Snapchat is not active in foreground
+        """
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return "UNKNOWN"
+
+        try:
+            import xml.etree.ElementTree as ET
+            root = ET.fromstring(xml_content)
+
+            packages = {node.attrib.get("package", "") for node in root.iter("node")}
+            if "com.snapchat.android" not in packages:
+                return "APP_NOT_RUNNING"
+
+            all_texts = []
+            all_descs = []
+            all_ids = []
+            for node in root.iter("node"):
+                t = (node.attrib.get("text") or "").lower()
+                d = (node.attrib.get("content-desc") or "").lower()
+                r = (node.attrib.get("resource-id") or "").lower()
+                if t: all_texts.append(t)
+                if d: all_descs.append(d)
+                if r: all_ids.append(r)
+
+            joined_texts = " ".join(all_texts)
+            joined_descs = " ".join(all_descs)
+            joined_ids = " ".join(all_ids)
+
+            # 1. Search Screen Check
+            if "search-textfield" in joined_ids or "search-box" in joined_ids or "clear-button" in joined_ids:
+                return "SEARCH_PAGE"
+
+            # 2. Popups & Dialogs Check
+            popup_triggers = [
+                "find friends", "sync contacts", "find your friends",
+                "turn on notifications", "allow access", "what's new",
+                "snapchat is better with friends", "contacts access",
+                "connect with friends", "save your login info",
+                "location permission", "permission"
+            ]
+            for trigger in popup_triggers:
+                if trigger in joined_texts or trigger in joined_descs:
+                    return "POPUP"
+
+            dismiss_keywords = ["not now", "skip", "deny", "maybe later", "no thanks", "cancel"]
+            for kw in dismiss_keywords:
+                if kw in joined_texts or kw in joined_descs:
+                    return "POPUP"
+
+            # 3. Profile Screen Check
+            if "my profile" in joined_texts or "bitmoji" in joined_ids or "settings_button" in joined_ids or "profile_avatar" in joined_ids:
+                if "camera_capture_button" not in joined_ids:
+                    return "PROFILE_PAGE"
+
+            # 4. Camera Landing Screen Check
+            if ("hova_header_search_icon" in joined_ids or "camera_capture_button" in joined_ids or "ngs_memories_icon" in joined_ids):
+                return "CAMERA_LANDING"
+
+            return "UNEXPECTED_SCREEN"
+        except Exception:
+            return "UNKNOWN"
+
+    def dismiss_popups(self, device_id: str) -> bool:
+        """
+        Attempts to dismiss any detected modal, popup, or overlay by clicking
+        'Not now', 'Skip', 'Cancel', '✕', or pressing KEYCODE_BACK.
+        """
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return False
+
+        try:
+            import xml.etree.ElementTree as ET
+            root = ET.fromstring(xml_content)
+
+            def get_center(bounds_str: str) -> Optional[tuple[int, int]]:
+                m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+                if len(m) == 2:
+                    x1, y1 = int(m[0][0]), int(m[0][1])
+                    x2, y2 = int(m[1][0]), int(m[1][1])
+                    if (x2 - x1) > 10 and (y2 - y1) > 10:
+                        return ((x1 + x2) // 2, (y1 + y2) // 2)
+                return None
+
+            dismiss_targets = [
+                "not now", "skip", "cancel", "deny", "dismiss",
+                "later", "maybe later", "no thanks", "close", "dont allow",
+                "don't allow"
+            ]
+
+            # 1. Look for explicit dismiss text button
+            for node in root.iter("node"):
+                t = (node.attrib.get("text") or "").strip().lower()
+                d = (node.attrib.get("content-desc") or "").strip().lower()
+                r = (node.attrib.get("resource-id") or "").lower()
+
+                if t in dismiss_targets or d in dismiss_targets or "close_button" in r or "dismiss_button" in r:
+                    pt = get_center(node.attrib.get("bounds", ""))
+                    if pt:
+                        self.input_tap(device_id, pt[0], pt[1])
+                        time.sleep(0.8)
+                        return True
+
+            # 2. Look for cross/close icon
+            for node in root.iter("node"):
+                d = (node.attrib.get("content-desc") or "").strip().lower()
+                if d in ["close", "cancel", "dismiss", "back"]:
+                    pt = get_center(node.attrib.get("bounds", ""))
+                    if pt:
+                        self.input_tap(device_id, pt[0], pt[1])
+                        time.sleep(0.8)
+                        return True
+
+            # 3. Fallback: send KEYCODE_BACK (Key 4) to dismiss dialog
+            self.input_key(device_id, 4)
+            time.sleep(0.8)
+            return True
+        except Exception:
+            return False
+
+    def ensure_landing_or_search(self, device_id: str, max_retries: int = 3) -> bool:
+        """
+        Guarantees that Snapchat is in a clean, valid state (Camera Landing or Search Page).
+        If unexpected popups, profile page, or unrecognized screens appear:
+        - Auto-dismisses popups or presses Back.
+        - If still not settled, executes a clean application restart (kill -> relaunch)
+        as requested by user.
+        """
+        for _ in range(max_retries):
+            state = self.detect_screen_state(device_id)
+
+            if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                return True
+
+            if state == "POPUP":
+                self.dismiss_popups(device_id)
+                time.sleep(1.0)
+                state = self.detect_screen_state(device_id)
+                if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                    return True
+
+            if state == "PROFILE_PAGE":
+                # Exit profile by sending Back key
+                self.input_key(device_id, 4)
+                time.sleep(1.0)
+                state = self.detect_screen_state(device_id)
+                if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                    return True
+
+            # If still unexpected or app not running, perform Clean Recovery Restart
+            self.stop_snapchat(device_id)
+            time.sleep(1.0)
+            self.launch_snapchat(device_id)
+            time.sleep(2.5)
+
+            # Check and dismiss any initial popup that appears after fresh launch
+            post_state = self.detect_screen_state(device_id)
+            if post_state == "POPUP":
+                self.dismiss_popups(device_id)
+                time.sleep(1.0)
+
+        final_state = self.detect_screen_state(device_id)
+        return final_state in ["CAMERA_LANDING", "SEARCH_PAGE"]
 
     def take_screenshot(self, device_id: str, local_path: str) -> bool:
         """Captures device screenshot and saves locally"""

@@ -25,13 +25,13 @@ export default function LiveExecutionModal({
 
   // Filter logs specifically for this execution session
   const executionLogs = logs.filter((l) => {
-    const isEngine = l.workflow === 'Workflow Engine' || l.workflow.includes('Workflow') || l.workflow === 'Demo Engine';
+    const isEngine = l.workflow.includes('Live Snapchat') || l.workflow.includes('Workflow') || l.workflow === 'Demo Engine' || l.workflow === 'Device Action';
     if (!isEngine) return false;
     if (startTime && l.timestamp) {
       return new Date(l.timestamp).getTime() >= (startTime - 2000);
     }
     return true;
-  }).slice(0, 25);
+  }).slice(0, 35);
 
   return createPortal(
     <div className="modal-overlay" onClick={() => (isRunning ? null : onClose())}>
@@ -43,7 +43,7 @@ export default function LiveExecutionModal({
               {title || 'Live Workflow Execution'}
             </h3>
             <span
-              className={`status-pill ${isRunning ? 'running' : isCompleted ? 'completed' : isPaused ? 'paused' : 'stopped'}`}
+              className={`status-pill ${isRunning ? 'running' : isCompleted ? 'completed' : isFailed ? 'failed' : isPaused ? 'paused' : 'stopped'}`}
               style={{ fontSize: '0.75rem', padding: '3px 10px' }}
             >
               {appState}
@@ -62,9 +62,9 @@ export default function LiveExecutionModal({
         <div style={{ marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
             <span style={{ fontSize: '0.84rem', color: '#cbd5e1', fontWeight: 500 }}>
-              {isRunning ? 'Executing test steps...' : isCompleted ? 'Scenario Completed Successfully' : isPaused ? 'Execution Paused' : 'Stopped / Halted'}
+              {isRunning ? 'Executing live automation steps...' : isCompleted ? 'Workflow Completed Successfully' : isFailed ? 'Workflow Halted / Targets Failed' : isPaused ? 'Execution Paused' : 'Stopped / Halted'}
             </span>
-            <span style={{ fontSize: '0.78rem', color: '#38bdf8' }}>
+            <span style={{ fontSize: '0.78rem', color: isFailed ? '#ef4444' : '#38bdf8' }}>
               {executionLogs.length} step(s) logged
             </span>
           </div>
@@ -72,8 +72,8 @@ export default function LiveExecutionModal({
             <div
               style={{
                 height: '100%',
-                width: isCompleted ? '100%' : isRunning ? '75%' : isPaused ? '50%' : '30%',
-                background: isCompleted ? '#10b981' : isStopped ? '#ef4444' : isPaused ? '#f59e0b' : '#38bdf8',
+                width: isCompleted ? '100%' : isRunning ? '75%' : isPaused ? '50%' : '100%',
+                background: isCompleted ? '#10b981' : isFailed ? '#ef4444' : isStopped ? '#ef4444' : isPaused ? '#f59e0b' : '#38bdf8',
                 transition: 'width 0.4s ease, background 0.3s ease'
               }}
             />
