@@ -52,14 +52,23 @@ def test_live_automation_flow_execution():
         assert target is not None
 
         with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
+             patch.object(adb_service, "reverse_port", return_value=True), \
+             patch.object(adb_service, "ensure_landing_or_search", return_value=True), \
+             patch.object(adb_service, "detect_screen_state", return_value="CAMERA_LANDING"), \
+             patch.object(adb_service, "find_element", return_value={"center": (200, 100), "bounds": (100, 50, 300, 150)}), \
+             patch.object(adb_service, "get_search_field_text", return_value=""), \
+             patch.object(adb_service, "inspect_search_result", return_value={"status": "CAN_ADD", "center": (500, 400), "bounds": None, "details": "Found"}), \
+             patch.object(adb_service, "close_search_to_camera", return_value=True), \
              patch.object(adb_service, "launch_snapchat", return_value=True), \
              patch.object(adb_service, "find_bounds", return_value=(200, 100)), \
              patch.object(adb_service, "input_tap", return_value=True), \
+             patch.object(adb_service, "input_tap_human", return_value=True), \
              patch.object(adb_service, "input_text", return_value=True), \
+             patch.object(adb_service, "input_text_human", return_value=True), \
              patch.object(adb_service, "input_key", return_value=True):
 
             # Run with short delay for test
-            with patch("asyncio.sleep", return_value=None):
+            with patch("asyncio.sleep", return_value=None), patch("time.sleep", return_value=None):
                 await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
 
             assert state_machine.current_state in [AppState.COMPLETED, AppState.READY, AppState.IDLE]
@@ -75,13 +84,17 @@ def test_live_automation_emergency_stop():
         assert target is not None
 
         with patch.object(adb_service, "list_devices", return_value=[MagicMock(device_id="test_phone")]), \
+             patch.object(adb_service, "reverse_port", return_value=True), \
+             patch.object(adb_service, "ensure_landing_or_search", return_value=True), \
              patch.object(adb_service, "launch_snapchat", return_value=True):
 
             # Trigger emergency stop before second step
             def mock_step_effect(*args, **kwargs):
                 state_machine.request_stop("Emergency Stop in test")
 
-            with patch.object(live_engine, "_step", side_effect=mock_step_effect):
+            with patch.object(live_engine, "_step", side_effect=mock_step_effect), \
+                 patch("asyncio.sleep", return_value=None), \
+                 patch("time.sleep", return_value=None):
                 await live_engine.run_live_add_workflow("test_phone", target_ids=[target.id])
 
             assert state_machine.is_stopped is True

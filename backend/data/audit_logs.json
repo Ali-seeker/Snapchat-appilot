@@ -1,5 +1,2885 @@
 [
   {
+    "id": "5960f52a",
+    "timestamp": "2026-10-27T08:39:57.486478+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "7dc20334",
+    "timestamp": "2026-10-27T08:39:57.125834+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "330fb8a5",
+    "timestamp": "2026-10-27T08:39:56.799756+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[SIMULATION] Starting routine 'morning'...",
+    "details": {}
+  },
+  {
+    "id": "acbc8daa",
+    "timestamp": "2026-10-27T08:39:56.550570+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[SIMULATION] Initiating Snapscore Booster for 3 cycles...",
+    "details": {}
+  },
+  {
+    "id": "d7d74f37",
+    "timestamp": "2026-10-27T08:39:56.295285+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[SIMULATION] Verified clean camera landing screen.",
+    "details": {}
+  },
+  {
+    "id": "68d1fcb0",
+    "timestamp": "2026-10-27T08:39:56.053011+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[SIMULATION] Transitioning to Chat feed for engagement filtering...",
+    "details": {}
+  },
+  {
+    "id": "a70c7185",
+    "timestamp": "2026-10-27T08:39:55.851224+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "[SIMULATION] Starting Bulk Follow routine in mode 'quick_add'...",
+    "details": {}
+  },
+  {
+    "id": "75fc5f67",
+    "timestamp": "2026-10-27T08:39:55.615185+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "29b48db7",
+    "timestamp": "2026-10-27T08:39:55.592905+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "2ce5e5ea",
+    "timestamp": "2026-10-27T08:39:55.569843+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 5.7s...",
+    "details": {}
+  },
+  {
+    "id": "18d1c6d7",
+    "timestamp": "2026-10-27T08:39:55.550478+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "a1a4f9c6",
+    "timestamp": "2026-10-27T08:39:55.530652+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "f7f77d8a",
+    "timestamp": "2026-10-27T08:39:55.506391+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "85f414c9",
+    "timestamp": "2026-10-27T08:39:55.488068+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "14f2f415",
+    "timestamp": "2026-10-27T08:39:55.473920+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "c6a1afa7",
+    "timestamp": "2026-10-27T08:39:55.457295+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "6eb170ca",
+    "timestamp": "2026-10-27T08:39:55.437219+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "66b448de",
+    "timestamp": "2026-10-27T08:39:55.409196+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "4b548c64",
+    "timestamp": "2026-10-27T08:39:55.366480+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "cf7c16bb",
+    "timestamp": "2026-10-27T08:39:55.334350+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "7b54d830",
+    "timestamp": "2026-10-27T08:39:55.318273+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "6d597bb1",
+    "timestamp": "2026-10-27T08:39:55.298014+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "2d0617fb",
+    "timestamp": "2026-10-27T08:39:55.282163+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "86ec4214",
+    "timestamp": "2026-10-27T08:39:55.262580+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (3 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "ab6b27c0",
+    "timestamp": "2026-10-27T08:39:55.246893+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "0f006305",
+    "timestamp": "2026-10-27T08:39:55.225326+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "6f59d6bb",
+    "timestamp": "2026-10-27T08:39:55.191236+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "58771ef3",
+    "timestamp": "2026-10-27T08:39:55.170926+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 3.4s...",
+    "details": {}
+  },
+  {
+    "id": "b4c43c1c",
+    "timestamp": "2026-10-27T08:39:55.147041+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "5a911974",
+    "timestamp": "2026-10-27T08:39:55.114099+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "f3f4368a",
+    "timestamp": "2026-10-27T08:39:55.097744+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "daef2418",
+    "timestamp": "2026-10-27T08:39:55.067011+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "85f127da",
+    "timestamp": "2026-10-27T08:39:55.033439+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (accept) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "6e3ad851",
+    "timestamp": "2026-10-27T08:39:54.999496+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "REQUESTS_ACCEPTED",
+    "message": "Successfully accepted 2 incoming friend request(s)!",
+    "details": {}
+  },
+  {
+    "id": "cc97e8e6",
+    "timestamp": "2026-10-27T08:39:54.977001+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "0dd26c9b",
+    "timestamp": "2026-10-27T08:39:54.956115+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "debb63b2",
+    "timestamp": "2026-10-27T08:39:54.930186+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (quick_add) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "9476c638",
+    "timestamp": "2026-10-27T08:39:54.904285+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Quick Add finished: Total 3 friend(s) added.",
+    "details": {}
+  },
+  {
+    "id": "9ddbd0f5",
+    "timestamp": "2026-10-27T08:39:54.880313+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "QUICK_ADD_BATCH",
+    "message": "Added 3 suggested friend(s). Total added: 3/3.",
+    "details": {}
+  },
+  {
+    "id": "3e84f6f5",
+    "timestamp": "2026-10-27T08:39:54.839487+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning Quick Add suggestions list (Target: up to 3)...",
+    "details": {}
+  },
+  {
+    "id": "79d27ee6",
+    "timestamp": "2026-10-27T08:39:54.822789+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "8c3d3c08",
+    "timestamp": "2026-10-27T08:39:54.776888+00:00",
+    "workflow": "Streak Reminder",
+    "result": "COMPLETED",
+    "reason_code": "REMINDER_CREATED",
+    "message": "Created streak reminder for @test_streak_user at 19:00",
+    "details": {}
+  },
+  {
+    "id": "c28ead70",
+    "timestamp": "2026-10-27T08:39:54.748735+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "f8cebad7",
+    "timestamp": "2026-10-27T08:39:54.624451+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "c5a08aae",
+    "timestamp": "2026-10-27T08:39:54.612769+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "c6075f3c",
+    "timestamp": "2026-10-27T08:39:54.602704+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "b3cf1556",
+    "timestamp": "2026-10-27T08:39:54.586682+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "f7e4b9c9",
+    "timestamp": "2026-10-27T08:39:54.578064+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Closing search interface and returning to primary camera view...",
+    "details": {}
+  },
+  {
+    "id": "58bd14c1",
+    "timestamp": "2026-10-27T08:39:54.563321+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @user_0714e569!",
+    "details": {}
+  },
+  {
+    "id": "4a8bce0d",
+    "timestamp": "2026-10-27T08:39:54.554479+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Found Add Friend button for @user_0714e569. Performing organic finger tap gesture...",
+    "details": {}
+  },
+  {
+    "id": "7b98a96c",
+    "timestamp": "2026-10-27T08:39:54.539829+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting Snapchat servers and scanning search results (2.36s)...",
+    "details": {}
+  },
+  {
+    "id": "ef5a6e78",
+    "timestamp": "2026-10-27T08:39:54.524862+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Typing target '@user_0714e569' with organic human keystroke intervals...",
+    "details": {}
+  },
+  {
+    "id": "9aebb95a",
+    "timestamp": "2026-10-27T08:39:54.509074+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Confirmed camera landing view. Transitioning to search...",
+    "details": {}
+  },
+  {
+    "id": "113e09ab",
+    "timestamp": "2026-10-27T08:39:54.499718+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_0714e569 (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "cfa98c11",
+    "timestamp": "2026-10-27T08:39:54.485751+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "f78a4d62",
+    "timestamp": "2026-10-27T08:39:54.471864+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "ea9c0236",
+    "timestamp": "2026-10-27T08:39:54.456406+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "26c20824",
+    "timestamp": "2026-10-27T08:39:54.421089+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "e5480a90",
+    "timestamp": "2026-10-27T08:39:54.402495+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_f65749",
+    "details": {}
+  },
+  {
+    "id": "8164c320",
+    "timestamp": "2026-10-27T08:39:54.138091+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "0e9172f9",
+    "timestamp": "2026-10-27T08:39:42.896180+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "dff630b0",
+    "timestamp": "2026-10-27T08:39:12.096531+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "b5e8bd4a",
+    "timestamp": "2026-10-27T08:33:01.918808+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "b1efb2dd",
+    "timestamp": "2026-10-27T08:33:01.543141+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "3e9a0c6f",
+    "timestamp": "2026-10-27T08:33:01.196707+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "efbb6c38",
+    "timestamp": "2026-10-27T08:33:01.044931+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "FAILED",
+    "reason_code": "BOOSTER_FAILED",
+    "message": "Snapscore booster halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "3e4dfe77",
+    "timestamp": "2026-10-27T08:33:00.734353+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "FAILED",
+    "reason_code": "SNAP_WORKFLOW_FAILED",
+    "message": "Auto Snap halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "30d86cde",
+    "timestamp": "2026-10-27T08:33:00.502508+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "FAILED",
+    "reason_code": "UNFOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk unfollow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "4de90253",
+    "timestamp": "2026-10-27T08:33:00.289887+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "59b52311",
+    "timestamp": "2026-10-27T08:33:00.038527+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "729ee297",
+    "timestamp": "2026-10-27T08:33:00.019952+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "222a9703",
+    "timestamp": "2026-10-27T08:33:00.004684+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 5.8s...",
+    "details": {}
+  },
+  {
+    "id": "8d067232",
+    "timestamp": "2026-10-27T08:32:59.997834+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "38d2891c",
+    "timestamp": "2026-10-27T08:32:59.989214+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "b861c67f",
+    "timestamp": "2026-10-27T08:32:59.969084+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "7a1e2bfd",
+    "timestamp": "2026-10-27T08:32:59.953906+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "d66ee1df",
+    "timestamp": "2026-10-27T08:32:59.941596+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "aa7d25df",
+    "timestamp": "2026-10-27T08:32:59.927664+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "e614d89e",
+    "timestamp": "2026-10-27T08:32:59.917795+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "992e13f7",
+    "timestamp": "2026-10-27T08:32:59.903313+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "d1cecae9",
+    "timestamp": "2026-10-27T08:32:59.898031+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "74c63e24",
+    "timestamp": "2026-10-27T08:32:59.875574+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "94cfce18",
+    "timestamp": "2026-10-27T08:32:59.868745+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "9e06b910",
+    "timestamp": "2026-10-27T08:32:59.862967+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "43e80b0b",
+    "timestamp": "2026-10-27T08:32:59.845972+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "17c31fdf",
+    "timestamp": "2026-10-27T08:32:59.820656+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (1 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "2aca09dc",
+    "timestamp": "2026-10-27T08:32:59.798115+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "b2f5f992",
+    "timestamp": "2026-10-27T08:32:59.763163+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "968f16d5",
+    "timestamp": "2026-10-27T08:32:59.716235+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "ad9799cc",
+    "timestamp": "2026-10-27T08:32:59.643944+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 2.5s...",
+    "details": {}
+  },
+  {
+    "id": "06cc6d49",
+    "timestamp": "2026-10-27T08:32:59.585335+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "f6b7c74c",
+    "timestamp": "2026-10-27T08:32:59.571066+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "ca062f97",
+    "timestamp": "2026-10-27T08:32:59.553396+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "d5efbed5",
+    "timestamp": "2026-10-27T08:32:59.534386+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "856fd5af",
+    "timestamp": "2026-10-27T08:32:59.503804+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (accept) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "8292d93d",
+    "timestamp": "2026-10-27T08:32:59.490407+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "REQUESTS_ACCEPTED",
+    "message": "Successfully accepted 2 incoming friend request(s)!",
+    "details": {}
+  },
+  {
+    "id": "adc53c9e",
+    "timestamp": "2026-10-27T08:32:59.468806+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "b6dd9544",
+    "timestamp": "2026-10-27T08:32:59.440278+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "37d836d9",
+    "timestamp": "2026-10-27T08:32:59.409372+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (quick_add) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "57364d6c",
+    "timestamp": "2026-10-27T08:32:59.401539+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Quick Add finished: Total 3 friend(s) added.",
+    "details": {}
+  },
+  {
+    "id": "564f9567",
+    "timestamp": "2026-10-27T08:32:59.396251+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "QUICK_ADD_BATCH",
+    "message": "Added 3 suggested friend(s). Total added: 3/3.",
+    "details": {}
+  },
+  {
+    "id": "15993300",
+    "timestamp": "2026-10-27T08:32:59.388504+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning Quick Add suggestions list (Target: up to 3)...",
+    "details": {}
+  },
+  {
+    "id": "78f06b14",
+    "timestamp": "2026-10-27T08:32:59.381586+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "10f0e605",
+    "timestamp": "2026-10-27T08:32:59.270436+00:00",
+    "workflow": "Streak Reminder",
+    "result": "COMPLETED",
+    "reason_code": "REMINDER_CREATED",
+    "message": "Created streak reminder for @test_streak_user at 19:00",
+    "details": {}
+  },
+  {
+    "id": "605803af",
+    "timestamp": "2026-10-27T08:32:59.247637+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "58dede22",
+    "timestamp": "2026-10-27T08:32:59.064527+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "440ebc61",
+    "timestamp": "2026-10-27T08:32:59.051985+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "cdc4ee02",
+    "timestamp": "2026-10-27T08:32:59.036036+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "4163a570",
+    "timestamp": "2026-10-27T08:32:59.006692+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "355ccd98",
+    "timestamp": "2026-10-27T08:32:58.995210+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Closing search interface and returning to primary camera view...",
+    "details": {}
+  },
+  {
+    "id": "4a843483",
+    "timestamp": "2026-10-27T08:32:58.984963+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @user_a628cf98!",
+    "details": {}
+  },
+  {
+    "id": "cd049989",
+    "timestamp": "2026-10-27T08:32:58.978961+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Found Add Friend button for @user_a628cf98. Performing organic finger tap gesture...",
+    "details": {}
+  },
+  {
+    "id": "94e4567e",
+    "timestamp": "2026-10-27T08:32:58.974135+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting Snapchat servers and scanning search results (2.44s)...",
+    "details": {}
+  },
+  {
+    "id": "cb1b7a13",
+    "timestamp": "2026-10-27T08:32:58.968814+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Typing target '@user_a628cf98' with organic human keystroke intervals...",
+    "details": {}
+  },
+  {
+    "id": "62fd05f3",
+    "timestamp": "2026-10-27T08:32:58.956726+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Confirmed camera landing view. Transitioning to search...",
+    "details": {}
+  },
+  {
+    "id": "fc301ab6",
+    "timestamp": "2026-10-27T08:32:58.949194+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_a628cf98 (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "419c08a1",
+    "timestamp": "2026-10-27T08:32:58.938284+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "126db0b6",
+    "timestamp": "2026-10-27T08:32:58.930312+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "10051e7f",
+    "timestamp": "2026-10-27T08:32:58.918232+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "d6674017",
+    "timestamp": "2026-10-27T08:32:58.884870+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "cac02827",
+    "timestamp": "2026-10-27T08:32:58.869592+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_03a1c3",
+    "details": {}
+  },
+  {
+    "id": "a7d4e114",
+    "timestamp": "2026-10-27T08:32:58.659586+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "6cedd67b",
+    "timestamp": "2026-10-27T08:32:40.166831+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "a3e8917a",
+    "timestamp": "2026-10-27T08:32:40.050197+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "FAILED",
+    "reason_code": "BOOSTER_FAILED",
+    "message": "Snapscore booster halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "9ec567fa",
+    "timestamp": "2026-10-27T08:32:39.737438+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "FAILED",
+    "reason_code": "SNAP_WORKFLOW_FAILED",
+    "message": "Auto Snap halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "a3294edb",
+    "timestamp": "2026-10-27T08:32:39.435878+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "FAILED",
+    "reason_code": "UNFOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk unfollow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "dd0908ef",
+    "timestamp": "2026-10-27T08:32:39.017534+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "3b0f6b21",
+    "timestamp": "2026-10-27T08:32:38.763678+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "29b96882",
+    "timestamp": "2026-10-27T08:32:38.752361+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "afc2fffb",
+    "timestamp": "2026-10-27T08:32:38.745899+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 4.8s...",
+    "details": {}
+  },
+  {
+    "id": "41af595d",
+    "timestamp": "2026-10-27T08:32:38.738589+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "27d135f4",
+    "timestamp": "2026-10-27T08:32:38.733992+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "c9d6da44",
+    "timestamp": "2026-10-27T08:32:38.715184+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "f36fdd20",
+    "timestamp": "2026-10-27T08:32:38.706436+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "64eed0b6",
+    "timestamp": "2026-10-27T08:32:38.696553+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "9a325cff",
+    "timestamp": "2026-10-27T08:32:38.685963+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "3f6526e9",
+    "timestamp": "2026-10-27T08:32:38.675224+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "a793425c",
+    "timestamp": "2026-10-27T08:32:38.664841+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "d9a6c02a",
+    "timestamp": "2026-10-27T08:32:38.652975+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "d824689d",
+    "timestamp": "2026-10-27T08:32:38.634617+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "c8be6859",
+    "timestamp": "2026-10-27T08:32:38.616960+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "4692f13e",
+    "timestamp": "2026-10-27T08:32:38.605715+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "5fe9fbe0",
+    "timestamp": "2026-10-27T08:32:38.595727+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "84d41a57",
+    "timestamp": "2026-10-27T08:32:38.581793+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (1 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "779a3254",
+    "timestamp": "2026-10-27T08:32:38.571214+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "0182fc80",
+    "timestamp": "2026-10-27T08:32:38.565231+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "de48bcdc",
+    "timestamp": "2026-10-27T08:32:38.544739+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "79d332de",
+    "timestamp": "2026-10-27T08:32:38.534405+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 2.4s...",
+    "details": {}
+  },
+  {
+    "id": "0a66ba42",
+    "timestamp": "2026-10-27T08:32:38.523130+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "2191fd37",
+    "timestamp": "2026-10-27T08:32:38.517933+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "aabfaa36",
+    "timestamp": "2026-10-27T08:32:38.505496+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "ac34b07b",
+    "timestamp": "2026-10-27T08:32:38.496078+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "075401e9",
+    "timestamp": "2026-10-27T08:32:38.471568+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (accept) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "ebc6f4b0",
+    "timestamp": "2026-10-27T08:32:38.462342+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "REQUESTS_ACCEPTED",
+    "message": "Successfully accepted 2 incoming friend request(s)!",
+    "details": {}
+  },
+  {
+    "id": "6d968db3",
+    "timestamp": "2026-10-27T08:32:38.447483+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "6423b8fa",
+    "timestamp": "2026-10-27T08:32:38.438546+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "835b9f15",
+    "timestamp": "2026-10-27T08:32:38.420442+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (quick_add) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "5c275528",
+    "timestamp": "2026-10-27T08:32:38.411744+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Quick Add finished: Total 3 friend(s) added.",
+    "details": {}
+  },
+  {
+    "id": "ed6a0b1b",
+    "timestamp": "2026-10-27T08:32:38.395625+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "QUICK_ADD_BATCH",
+    "message": "Added 3 suggested friend(s). Total added: 3/3.",
+    "details": {}
+  },
+  {
+    "id": "9d4fb48e",
+    "timestamp": "2026-10-27T08:32:38.386709+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning Quick Add suggestions list (Target: up to 3)...",
+    "details": {}
+  },
+  {
+    "id": "810788b9",
+    "timestamp": "2026-10-27T08:32:38.374140+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "5240a8e4",
+    "timestamp": "2026-10-27T08:32:29.591447+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "86b4b699",
+    "timestamp": "2026-10-27T08:32:17.345268+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: name 'accepted' is not defined",
+    "details": {}
+  },
+  {
+    "id": "80a54fbd",
+    "timestamp": "2026-10-27T08:32:17.335822+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "0492bf11",
+    "timestamp": "2026-10-27T08:32:17.327179+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "430b8e8a",
+    "timestamp": "2026-10-27T08:32:07.016951+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "5740855b",
+    "timestamp": "2026-10-27T08:31:47.466478+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "afb01030",
+    "timestamp": "2026-10-27T08:31:47.339039+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "FAILED",
+    "reason_code": "BOOSTER_FAILED",
+    "message": "Snapscore booster halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "f0a99002",
+    "timestamp": "2026-10-27T08:31:47.144190+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "FAILED",
+    "reason_code": "SNAP_WORKFLOW_FAILED",
+    "message": "Auto Snap halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "9a40cb8e",
+    "timestamp": "2026-10-27T08:31:46.942236+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "FAILED",
+    "reason_code": "UNFOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk unfollow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "a7a0fe09",
+    "timestamp": "2026-10-27T08:31:46.650178+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "93dba22c",
+    "timestamp": "2026-10-27T08:31:46.370317+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "3ff0135b",
+    "timestamp": "2026-10-27T08:31:46.360436+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "6e452086",
+    "timestamp": "2026-10-27T08:31:46.352231+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 6.9s...",
+    "details": {}
+  },
+  {
+    "id": "e227ff41",
+    "timestamp": "2026-10-27T08:31:46.343863+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "e3a77ad0",
+    "timestamp": "2026-10-27T08:31:46.338351+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "1894383b",
+    "timestamp": "2026-10-27T08:31:46.326475+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "1dae9e39",
+    "timestamp": "2026-10-27T08:31:46.320647+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "0a7a5001",
+    "timestamp": "2026-10-27T08:31:46.312875+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "0f67bcdb",
+    "timestamp": "2026-10-27T08:31:46.307853+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "42cba80e",
+    "timestamp": "2026-10-27T08:31:46.297892+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "1c31a6a3",
+    "timestamp": "2026-10-27T08:31:46.289306+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "d6ff6de2",
+    "timestamp": "2026-10-27T08:31:46.280300+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "8ce57c2a",
+    "timestamp": "2026-10-27T08:31:46.261006+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "751b5c87",
+    "timestamp": "2026-10-27T08:31:46.251042+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "20165371",
+    "timestamp": "2026-10-27T08:31:46.246442+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "d81199d4",
+    "timestamp": "2026-10-27T08:31:46.239772+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "8edc14b2",
+    "timestamp": "2026-10-27T08:31:46.228518+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (2 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "6e57273f",
+    "timestamp": "2026-10-27T08:31:46.220631+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "f1061ec9",
+    "timestamp": "2026-10-27T08:31:46.212906+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "86db857e",
+    "timestamp": "2026-10-27T08:31:46.194506+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "8d4bebb6",
+    "timestamp": "2026-10-27T08:31:46.185546+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 2.2s...",
+    "details": {}
+  },
+  {
+    "id": "6039ad7b",
+    "timestamp": "2026-10-27T08:31:46.177905+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "66cfa3e8",
+    "timestamp": "2026-10-27T08:31:46.169499+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "6f0c3adf",
+    "timestamp": "2026-10-27T08:31:46.161489+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "8bc0a5be",
+    "timestamp": "2026-10-27T08:31:46.151866+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "54dd08bf",
+    "timestamp": "2026-10-27T08:31:45.517822+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: name 'accepted' is not defined",
+    "details": {}
+  },
+  {
+    "id": "e0d4e384",
+    "timestamp": "2026-10-27T08:31:45.510019+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "d90ea5f0",
+    "timestamp": "2026-10-27T08:31:45.493351+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "b956f6dc",
+    "timestamp": "2026-10-27T08:31:45.464496+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (quick_add) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "ddc1d878",
+    "timestamp": "2026-10-27T08:31:45.457722+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Quick Add finished: Total 3 friend(s) added.",
+    "details": {}
+  },
+  {
+    "id": "de2df27c",
+    "timestamp": "2026-10-27T08:31:45.450857+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "QUICK_ADD_BATCH",
+    "message": "Added 3 suggested friend(s). Total added: 3/3.",
+    "details": {}
+  },
+  {
+    "id": "ad3613a3",
+    "timestamp": "2026-10-27T08:31:45.441101+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning Quick Add suggestions list (Target: up to 3)...",
+    "details": {}
+  },
+  {
+    "id": "97ce53f0",
+    "timestamp": "2026-10-27T08:31:45.431443+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "3226288a",
+    "timestamp": "2026-10-27T08:31:35.564900+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "568ea6a5",
+    "timestamp": "2026-10-27T08:31:23.391942+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "0cca7b6d",
+    "timestamp": "2026-10-27T08:30:50.272040+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "b52f51ab",
+    "timestamp": "2026-10-27T08:30:06.702542+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "a4cf1513",
+    "timestamp": "2026-10-27T08:30:06.579203+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "FAILED",
+    "reason_code": "BOOSTER_FAILED",
+    "message": "Snapscore booster halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "241b1bbc",
+    "timestamp": "2026-10-27T08:30:06.257088+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "FAILED",
+    "reason_code": "SNAP_WORKFLOW_FAILED",
+    "message": "Auto Snap halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "202f811d",
+    "timestamp": "2026-10-27T08:30:05.996212+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "FAILED",
+    "reason_code": "UNFOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk unfollow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "a54b01fd",
+    "timestamp": "2026-10-27T08:30:05.793801+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "FAILED",
+    "reason_code": "FOLLOW_WORKFLOW_FAILED",
+    "message": "Bulk follow halted: Device '08265372BO000706' is not connected via ADB.",
+    "details": {}
+  },
+  {
+    "id": "fea02407",
+    "timestamp": "2026-10-27T08:30:05.553532+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "a1caadcc",
+    "timestamp": "2026-10-27T08:30:05.547040+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "eee6aebb",
+    "timestamp": "2026-10-27T08:30:05.541010+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 4.9s...",
+    "details": {}
+  },
+  {
+    "id": "bea929cb",
+    "timestamp": "2026-10-27T08:30:05.536866+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "33dd8da1",
+    "timestamp": "2026-10-27T08:30:05.528683+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "5d571d75",
+    "timestamp": "2026-10-27T08:30:05.518633+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "31c6f3e7",
+    "timestamp": "2026-10-27T08:30:05.511803+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "7d6bfd5c",
+    "timestamp": "2026-10-27T08:30:05.505410+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "fc9d6330",
+    "timestamp": "2026-10-27T08:30:05.499977+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "eed2574d",
+    "timestamp": "2026-10-27T08:30:05.494176+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "1a542a3e",
+    "timestamp": "2026-10-27T08:30:05.487700+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "bee9d990",
+    "timestamp": "2026-10-27T08:30:05.481886+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "4439462b",
+    "timestamp": "2026-10-27T08:30:05.467536+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "5a303e97",
+    "timestamp": "2026-10-27T08:30:05.464164+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "fbe8c856",
+    "timestamp": "2026-10-27T08:30:05.454804+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "a1e52db0",
+    "timestamp": "2026-10-27T08:30:05.448834+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "0b360e66",
+    "timestamp": "2026-10-27T08:30:05.443643+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (3 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "16553ecf",
+    "timestamp": "2026-10-27T08:30:05.437906+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "4fc5f2e5",
+    "timestamp": "2026-10-27T08:30:05.431107+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "43112754",
+    "timestamp": "2026-10-27T08:30:05.413837+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "3eba6d40",
+    "timestamp": "2026-10-27T08:30:05.408478+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 2.2s...",
+    "details": {}
+  },
+  {
+    "id": "49996159",
+    "timestamp": "2026-10-27T08:30:05.402595+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "9ad02ad0",
+    "timestamp": "2026-10-27T08:30:05.397121+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "55f85302",
+    "timestamp": "2026-10-27T08:30:05.391634+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "c92e2af3",
+    "timestamp": "2026-10-27T08:30:05.381968+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "25960964",
+    "timestamp": "2026-10-27T08:30:05.362592+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (accept) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "e99e70a9",
+    "timestamp": "2026-10-27T08:30:05.350266+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "REQUESTS_ACCEPTED",
+    "message": "Successfully accepted 2 incoming friend request(s)!",
+    "details": {}
+  },
+  {
+    "id": "69b48142",
+    "timestamp": "2026-10-27T08:30:05.287123+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "a9d58b8e",
+    "timestamp": "2026-10-27T08:30:05.207870+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "2014e357",
+    "timestamp": "2026-10-27T08:29:53.060360+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "f0ae6b7b",
+    "timestamp": "2026-10-27T08:29:26.419683+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "8768d290",
+    "timestamp": "2026-10-27T08:29:03.244150+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "fda308d5",
+    "timestamp": "2026-10-27T08:28:38.548368+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "35518017",
+    "timestamp": "2026-10-27T08:28:20.070249+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "6ce31834",
+    "timestamp": "2026-10-27T08:27:54.774247+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "f78abb3c",
+    "timestamp": "2026-10-27T08:27:53.001026+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "d4f2987f",
+    "timestamp": "2026-10-27T08:27:45.108552+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "8a5c976c",
+    "timestamp": "2026-10-27T08:27:35.879891+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "924dad6a",
+    "timestamp": "2026-10-27T08:27:18.193071+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "8d11db8b",
+    "timestamp": "2026-10-27T08:27:17.657007+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "d3d759ef",
+    "timestamp": "2026-10-27T08:27:11.189843+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 15084e47",
+    "details": {}
+  },
+  {
+    "id": "fdab65f1",
+    "timestamp": "2026-10-27T08:27:10.928987+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID b637392c",
+    "details": {}
+  },
+  {
+    "id": "4b65859a",
+    "timestamp": "2026-10-27T08:27:10.768276+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 65421df9",
+    "details": {}
+  },
+  {
+    "id": "b453d5bf",
+    "timestamp": "2026-10-27T08:27:10.573597+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 2413ad28",
+    "details": {}
+  },
+  {
+    "id": "a23170f4",
+    "timestamp": "2026-10-27T08:27:10.412059+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 3f93de43",
+    "details": {}
+  },
+  {
+    "id": "9692c02d",
+    "timestamp": "2026-10-27T08:27:10.243107+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID e2342673",
+    "details": {}
+  },
+  {
+    "id": "edd5c9cd",
+    "timestamp": "2026-10-27T08:27:10.063993+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID ecde79f0",
+    "details": {}
+  },
+  {
+    "id": "08b21098",
+    "timestamp": "2026-10-27T08:27:09.886296+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID b505d9c5",
+    "details": {}
+  },
+  {
+    "id": "0d1fdd10",
+    "timestamp": "2026-10-27T08:27:09.732562+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 31f4b5f5",
+    "details": {}
+  },
+  {
+    "id": "25c08440",
+    "timestamp": "2026-10-27T08:27:09.548405+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID f6effe37",
+    "details": {}
+  },
+  {
+    "id": "77f60286",
+    "timestamp": "2026-10-27T08:27:09.393974+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 7db1caaf",
+    "details": {}
+  },
+  {
+    "id": "b346d1d4",
+    "timestamp": "2026-10-27T08:27:09.221778+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 118cb98b",
+    "details": {}
+  },
+  {
+    "id": "70c51067",
+    "timestamp": "2026-10-27T08:27:09.030716+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID a88f1f23",
+    "details": {}
+  },
+  {
+    "id": "57e3b3b4",
+    "timestamp": "2026-10-27T08:27:08.891285+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 6101c894",
+    "details": {}
+  },
+  {
+    "id": "5895a427",
+    "timestamp": "2026-10-27T08:27:08.502710+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 54f0e5cd",
+    "details": {}
+  },
+  {
+    "id": "4c1920a3",
+    "timestamp": "2026-10-27T08:27:08.186967+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_REMOVED",
+    "message": "Removed contact ID 4986cd12",
+    "details": {}
+  },
+  {
+    "id": "1412008f",
+    "timestamp": "2026-10-27T08:26:40.589439+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "57e9189b",
+    "timestamp": "2026-10-27T08:26:15.380217+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "9ec67c54",
+    "timestamp": "2026-10-27T08:25:59.692430+00:00",
+    "workflow": "Streak Reminder",
+    "result": "COMPLETED",
+    "reason_code": "REMINDER_CREATED",
+    "message": "Created streak reminder for @test_streak_user at 19:00",
+    "details": {}
+  },
+  {
+    "id": "376f49cf",
+    "timestamp": "2026-10-27T08:25:59.678231+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "f662a541",
+    "timestamp": "2026-10-27T08:25:59.571681+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "098b8442",
+    "timestamp": "2026-10-27T08:25:55.865558+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "0c2d7355",
+    "timestamp": "2026-10-27T08:25:44.339723+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "7d308443",
+    "timestamp": "2026-10-27T08:25:44.269728+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "4a024e34",
+    "timestamp": "2026-10-27T08:25:44.255424+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "362d425b",
+    "timestamp": "2026-10-27T08:25:44.251690+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Closing search interface and returning to primary camera view...",
+    "details": {}
+  },
+  {
+    "id": "b20992d1",
+    "timestamp": "2026-10-27T08:25:44.248570+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @user_7fcb3572!",
+    "details": {}
+  },
+  {
+    "id": "6823440e",
+    "timestamp": "2026-10-27T08:25:44.245556+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Found Add Friend button for @user_7fcb3572. Performing organic finger tap gesture...",
+    "details": {}
+  },
+  {
+    "id": "8d1abe17",
+    "timestamp": "2026-10-27T08:25:44.242717+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting Snapchat servers and scanning search results (3.0s)...",
+    "details": {}
+  },
+  {
+    "id": "2ed9b9c0",
+    "timestamp": "2026-10-27T08:25:44.239685+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Typing target '@user_7fcb3572' with organic human keystroke intervals...",
+    "details": {}
+  },
+  {
+    "id": "a81a8a12",
+    "timestamp": "2026-10-27T08:25:44.236533+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Confirmed camera landing view. Transitioning to search...",
+    "details": {}
+  },
+  {
+    "id": "f9084133",
+    "timestamp": "2026-10-27T08:25:44.233796+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_7fcb3572 (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "52f58e2a",
+    "timestamp": "2026-10-27T08:25:44.230760+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "1edc1f26",
+    "timestamp": "2026-10-27T08:25:44.226468+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "8a02532f",
+    "timestamp": "2026-10-27T08:25:44.102364+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "73cb453b",
+    "timestamp": "2026-10-27T08:25:32.861731+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "432b30e2",
+    "timestamp": "2026-10-27T08:25:32.521601+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "a28a9624",
+    "timestamp": "2026-10-27T08:25:15.817540+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "7007f703",
+    "timestamp": "2026-10-27T08:25:15.271023+00:00",
+    "workflow": "Streak Reminder",
+    "result": "COMPLETED",
+    "reason_code": "REMINDER_CREATED",
+    "message": "Created streak reminder for @test_streak_user at 19:00",
+    "details": {}
+  },
+  {
+    "id": "c9acd284",
+    "timestamp": "2026-10-27T08:25:15.242213+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "9685b1cf",
+    "timestamp": "2026-10-27T08:25:15.002176+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "78729b55",
+    "timestamp": "2026-10-27T08:25:11.227768+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "f5ef1745",
+    "timestamp": "2026-10-27T08:24:58.927894+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "f107dfae",
+    "timestamp": "2026-10-27T08:24:58.813571+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "05f8c734",
+    "timestamp": "2026-10-27T08:24:58.793078+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "5d344cfa",
+    "timestamp": "2026-10-27T08:24:58.762513+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Closing search interface and returning to primary camera view...",
+    "details": {}
+  },
+  {
+    "id": "993de1ca",
+    "timestamp": "2026-10-27T08:24:58.759587+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @user_a23bd82c!",
+    "details": {}
+  },
+  {
+    "id": "8adae418",
+    "timestamp": "2026-10-27T08:24:58.747025+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Found Add Friend button for @user_a23bd82c. Performing organic finger tap gesture...",
+    "details": {}
+  },
+  {
+    "id": "9039e02d",
+    "timestamp": "2026-10-27T08:24:58.743307+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting Snapchat servers and scanning search results (2.38s)...",
+    "details": {}
+  },
+  {
+    "id": "1f6a4d81",
+    "timestamp": "2026-10-27T08:24:58.729707+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Typing target '@user_a23bd82c' with organic human keystroke intervals...",
+    "details": {}
+  },
+  {
+    "id": "34378fdf",
+    "timestamp": "2026-10-27T08:24:58.726117+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Confirmed camera landing view. Transitioning to search...",
+    "details": {}
+  },
+  {
+    "id": "dbac9505",
+    "timestamp": "2026-10-27T08:24:58.723331+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_a23bd82c (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "e24134f9",
+    "timestamp": "2026-10-27T08:24:58.661341+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "27e66daa",
+    "timestamp": "2026-10-27T08:24:58.658170+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "c5f8c9c5",
+    "timestamp": "2026-10-27T08:24:58.654994+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "c129f291",
+    "timestamp": "2026-10-27T08:24:58.593364+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "56d4b243",
+    "timestamp": "2026-10-27T08:24:58.584730+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_1f4f68",
+    "details": {}
+  },
+  {
+    "id": "344e1507",
+    "timestamp": "2026-10-27T08:24:58.183838+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "507cb9ef",
+    "timestamp": "2026-10-27T08:24:44.420848+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "9d6d7031",
+    "timestamp": "2026-10-27T08:24:07.710959+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_fd07d8f5 (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "bd1ac336",
+    "timestamp": "2026-10-27T08:24:07.707291+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "7167d162",
+    "timestamp": "2026-10-27T08:24:07.360451+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Initial screen unexpected; attempting deep recovery restart...",
+    "details": {}
+  },
+  {
+    "id": "9c5f49fe",
+    "timestamp": "2026-10-27T08:23:54.812545+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "33b282a0",
+    "timestamp": "2026-10-27T08:23:54.721641+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "01584b9c",
+    "timestamp": "2026-10-27T08:23:54.681884+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "930ae464",
+    "timestamp": "2026-10-27T08:23:54.671159+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_f2e6ec",
+    "details": {}
+  },
+  {
+    "id": "4f05aaeb",
+    "timestamp": "2026-10-27T08:23:54.151173+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "412f34f0",
+    "timestamp": "2026-10-27T08:21:06.043170+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
     "id": "b4e056a2",
     "timestamp": "2026-10-27T07:40:07.113410+00:00",
     "workflow": "Streak Reminder",

@@ -6,9 +6,13 @@ import ControlPanel from './components/ControlPanel';
 import TargetList from './components/TargetList';
 import DemoRunner from './components/DemoRunner';
 import AuditLogView from './components/AuditLogView';
-import SnapscoreGate from './components/SnapscoreGate';
 import LiveExecutionModal from './components/LiveExecutionModal';
 import ReminderDraftView from './components/ReminderDraftView';
+import BulkFollowCard from './components/BulkFollowCard';
+import BulkUnfollowCard from './components/BulkUnfollowCard';
+import AutoSnapCard from './components/AutoSnapCard';
+import SnapscoreBoosterCard from './components/SnapscoreBoosterCard';
+import ChainedWorkflowCard from './components/ChainedWorkflowCard';
 
 const API_BASE = 'http://localhost:8000/api';
 
@@ -125,6 +129,44 @@ export default function App() {
     }
   };
 
+  const handleTriggerWorkflow = async (type, params = {}) => {
+    try {
+      setActiveScenario('live_workflow');
+      setExecutionStartTime(Date.now());
+
+      const titles = {
+        follow: `Bulk Follow Automation (${params.mode || 'Quick Add'})`,
+        unfollow: `Smart Unfollow (${params.filter_type || 'No Streak'})`,
+        snap: 'Auto Snap Dispatch (Random Filter)',
+        snapscore: `Snapscore Booster (${params.cycles || 3} Cycles)`,
+        chain: `Chained Routine: ${params.routine_type || 'Morning Growth'}`
+      };
+      setExecutionTitle(titles[type] || `Snapchat Workflow: ${type}`);
+      setExecutionModalOpen(true);
+
+      const endpoints = {
+        follow: `${API_BASE}/workflow/follow`,
+        unfollow: `${API_BASE}/workflow/unfollow`,
+        snap: `${API_BASE}/workflow/snap`,
+        snapscore: `${API_BASE}/workflow/snapscore`,
+        chain: `${API_BASE}/workflow/chain`
+      };
+
+      const payload = { ...params };
+      if (type === 'follow' && params.mode === 'search') {
+        payload.target_ids = selectedIds;
+      }
+
+      await fetch(endpoints[type], {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handlePauseWorkflow = async () => {
     try {
       await fetch(`${API_BASE}/control/pause`, { method: 'POST' });
@@ -209,6 +251,49 @@ export default function App() {
         onToggleAcknowledge={setDisclosureAcknowledged}
       />
 
+      {/* Day 3 Production Automation Hub */}
+      <div style={{ marginTop: '20px', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexWrap: 'wrap', gap: '8px' }}>
+          <div>
+            <h2 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#f8fafc', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span>🚀 Day 3 Production Automation Hub</span>
+            </h2>
+            <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0 0' }}>
+              One-click multi-modal follow, engagement-based unfollow, auto snap sending, and legitimate score booster.
+            </p>
+          </div>
+          <span className="badge badge-emerald">Resilient &amp; Anti-Ban</span>
+        </div>
+
+        {/* 2-Column Responsive Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px', marginBottom: '16px' }}>
+          <BulkFollowCard
+            isRunning={appState === 'RUNNING'}
+            onTriggerWorkflow={handleTriggerWorkflow}
+            selectedCount={selectedIds.length}
+          />
+          <BulkUnfollowCard
+            isRunning={appState === 'RUNNING'}
+            onTriggerWorkflow={handleTriggerWorkflow}
+            selectedTargets={selectedTargets}
+          />
+          <AutoSnapCard
+            isRunning={appState === 'RUNNING'}
+            onTriggerWorkflow={handleTriggerWorkflow}
+          />
+          <SnapscoreBoosterCard
+            isRunning={appState === 'RUNNING'}
+            onTriggerWorkflow={handleTriggerWorkflow}
+          />
+        </div>
+
+        {/* Full-Width Chained Daily Routines */}
+        <ChainedWorkflowCard
+          isRunning={appState === 'RUNNING'}
+          onTriggerWorkflow={handleTriggerWorkflow}
+        />
+      </div>
+
       {/* FR-03 & FR-05: Controls and Confirmation Review */}
       <ControlPanel
         appState={appState}
@@ -251,9 +336,6 @@ export default function App() {
           activeScenario={activeScenario}
         />
       </div>
-
-      {/* FR-13: Snapscore Feature Gate */}
-      <SnapscoreGate />
 
       {/* FR-05 & FR-09: Live Execution Modal for Workflows & Demos */}
       <LiveExecutionModal

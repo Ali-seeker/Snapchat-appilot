@@ -733,6 +733,325 @@ class ADBService:
         final_state = self.detect_screen_state(device_id)
         return final_state in ["CAMERA_LANDING", "SEARCH_PAGE"]
 
+    def dismiss_heads_up_notification(self, device_id: str) -> bool:
+        """Swipes up at top of screen to dismiss heads-up notification banners"""
+        try:
+            cmd = [self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "150", "360", "20", "180"]
+            self._run_cmd(cmd, timeout=3)
+            return True
+        except Exception:
+            return False
+
+    def scroll_down(self, device_id: str, distance: int = 450) -> bool:
+        """Smoothly scrolls the screen downwards with organic swipe velocity"""
+        try:
+            start_y = 1100
+            end_y = max(100, start_y - distance)
+            duration = random.randint(350, 480)
+            cmd = [self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", str(start_y), "360", str(end_y), str(duration)]
+            self._run_cmd(cmd, timeout=4)
+            time.sleep(random.uniform(0.5, 0.9))
+            return True
+        except Exception:
+            return False
+
+    def scroll_up(self, device_id: str, distance: int = 450) -> bool:
+        """Smoothly scrolls the screen upwards with organic swipe velocity"""
+        try:
+            start_y = 400
+            end_y = min(1500, start_y + distance)
+            duration = random.randint(350, 480)
+            cmd = [self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", str(start_y), "360", str(end_y), str(duration)]
+            self._run_cmd(cmd, timeout=4)
+            time.sleep(random.uniform(0.5, 0.9))
+            return True
+        except Exception:
+            return False
+
+    def open_add_friends_page(self, device_id: str) -> bool:
+        """Opens Add Friends screen from camera landing via the top-right Add Friends icon"""
+        elem = (
+            self.find_element(device_id, resource_id="neon_add_friend_button_container")
+            or self.find_element(device_id, content_desc="Add Friends")
+        )
+        coords = elem["center"] if elem else (569, 122)
+        bounds = elem["bounds"] if elem else None
+        self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
+        time.sleep(1.2)
+        xml = self.dump_ui_hierarchy(device_id) or ""
+        return "quick add" in xml.lower() or "added me" in xml.lower() or "add friends" in xml.lower()
+
+    def quick_add_batch(self, device_id: str, max_count: int = 5) -> List[str]:
+        """Scans Quick Add suggestions on the Add Friends screen and taps + Add with human pacing"""
+        added_names = []
+        for _ in range(3):
+            if len(added_names) >= max_count:
+                break
+            xml_content = self.dump_ui_hierarchy(device_id)
+            if not xml_content:
+                break
+
+            import xml.etree.ElementTree as ET
+            root = ET.fromstring(xml_content)
+
+            def parse_bounds(bounds_str: str):
+                m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+                if len(m) == 2:
+                    return int(m[0][0]), int(m[0][1]), int(m[1][0]), int(m[1][1])
+                return None
+
+            buttons = []
+            for node in root.iter("node"):
+                res_id = (node.attrib.get("resource-id") or "").lower()
+                txt = (node.attrib.get("text") or "").strip().lower()
+                desc = (node.attrib.get("content-desc") or "").strip().lower()
+                b = parse_bounds(node.attrib.get("bounds", ""))
+                if not b:
+                    continue
+                if "add-friend-button" in res_id or (txt in ["add", "+ add"] and "story" not in res_id):
+                    center = ((b[0] + b[2]) // 2, (b[1] + b[3]) // 2)
+                    buttons.append({"center": center, "bounds": b})
+
+            if not buttons:
+                # Scroll down gently to reveal more suggestions
+                self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "1100", "360", "650", "400"], timeout=4)
+                time.sleep(1.2)
+                continue
+
+            for btn in buttons:
+                if len(added_names) >= max_count:
+                    break
+                self.input_tap_human(device_id, btn["center"][0], btn["center"][1], bounds=btn["bounds"])
+                added_names.append(f"Suggestion #{len(added_names) + 1}")
+                time.sleep(random.uniform(1.8, 3.2)) # Anti-ban human jitter between quick adds
+
+            if len(added_names) < max_count:
+                self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "1100", "360", "650", "400"], timeout=4)
+                time.sleep(1.2)
+
+        return added_names
+
+    def accept_incoming_requests(self, device_id: str, max_count: int = 5) -> List[str]:
+        """Taps 'Accept' for incoming friend requests under the 'Added Me' section"""
+        accepted = []
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return accepted
+
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(xml_content)
+
+        def parse_bounds(bounds_str: str):
+            m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+            if len(m) == 2:
+                return int(m[0][0]), int(m[0][1]), int(m[1][0]), int(m[1][1])
+            return None
+
+        accept_btns = []
+        for node in root.iter("node"):
+            txt = (node.attrib.get("text") or "").strip().lower()
+            desc = (node.attrib.get("content-desc") or "").strip().lower()
+            b = parse_bounds(node.attrib.get("bounds", ""))
+            if not b:
+                continue
+            if txt == "accept" or desc == "accept":
+                center = ((b[0] + b[2]) // 2, (b[1] + b[3]) // 2)
+                accept_btns.append({"center": center, "bounds": b})
+
+        for btn in accept_btns[:max_count]:
+            self.input_tap_human(device_id, btn["center"][0], btn["center"][1], bounds=btn["bounds"])
+            accepted.append(f"Follower #{len(accepted) + 1}")
+            time.sleep(random.uniform(1.5, 2.5))
+
+        return accepted
+
+    def capture_snap_photo(self, device_id: str) -> bool:
+        """Triggers hardware photo capture on Camera Landing screen"""
+        elem = (
+            self.find_element(device_id, resource_id="camera_capture_button")
+            or self.find_element(device_id, content_desc="Take a Snap")
+        )
+        coords = elem["center"] if elem else (360, 1360)
+        bounds = elem["bounds"] if elem else None
+        self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
+        time.sleep(1.2)
+        return True
+
+    def apply_random_filter(self, device_id: str, swipes_count: Optional[int] = None) -> int:
+        """Swipes horizontally across preview screen to apply artistic color or lens filter"""
+        count = swipes_count if swipes_count is not None else random.randint(1, 3)
+        for _ in range(count):
+            # Swipe left across preview screen to change filter
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "620", "750", "120", "750", "350"], timeout=4)
+            time.sleep(random.uniform(0.4, 0.7))
+        return count
+
+    def open_send_to_screen(self, device_id: str) -> bool:
+        """Taps the yellow circular Send To button from the Snap preview screen"""
+        elem = (
+            self.find_element(device_id, resource_id="send_to_button")
+            or self.find_element(device_id, content_desc="Send To")
+            or self.find_element(device_id, resource_id="action_menu_send_button")
+        )
+        coords = elem["center"] if elem else (640, 1475)
+        bounds = elem["bounds"] if elem else None
+        self.input_tap_human(device_id, coords[0], coords[1], bounds=bounds)
+        time.sleep(1.2)
+        xml = self.dump_ui_hierarchy(device_id) or ""
+        return "send to" in xml.lower() or "best friends" in xml.lower() or "recents" in xml.lower()
+
+    def select_recipients_and_send(self, device_id: str, select_all: bool = True, max_recipients: int = 15) -> int:
+        """Selects recipients on Send To screen and dispatches the Snap"""
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return 0
+
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(xml_content)
+
+        def parse_bounds(bounds_str: str):
+            m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+            if len(m) == 2:
+                return int(m[0][0]), int(m[0][1]), int(m[1][0]), int(m[1][1])
+            return None
+
+        # Look for friends or shortcut rows
+        selected_count = 0
+        candidate_rows = []
+        for node in root.iter("node"):
+            res_id = (node.attrib.get("resource-id") or "").lower()
+            b = parse_bounds(node.attrib.get("bounds", ""))
+            if not b:
+                continue
+            # Select contact item rows in Send To view
+            if "recipient" in res_id or "friend" in res_id or "contact" in res_id or "user_row" in res_id:
+                candidate_rows.append(((b[0] + b[2]) // 2, (b[1] + b[3]) // 2, b))
+
+        # Tap up to max_recipients
+        for row in candidate_rows[:max_recipients]:
+            self.input_tap_human(device_id, row[0], row[1], bounds=row[2])
+            selected_count += 1
+            time.sleep(random.uniform(0.3, 0.6))
+
+        if selected_count == 0:
+            # Fallback tap on first 3 visible rows in middle section
+            fallback_coords = [(360, 480), (360, 620), (360, 760)]
+            for fc in fallback_coords:
+                self.input_tap_human(device_id, fc[0], fc[1])
+                selected_count += 1
+                time.sleep(0.4)
+
+        time.sleep(0.6) # Human hesitation before pressing Send
+
+        # Tap Send button (bottom right blue or yellow send button)
+        send_elem = (
+            self.find_element(device_id, resource_id="send_button")
+            or self.find_element(device_id, content_desc="Send")
+        )
+        send_coords = send_elem["center"] if send_elem else (630, 1500)
+        self.input_tap_human(device_id, send_coords[0], send_coords[1])
+        time.sleep(1.8) # Wait for return to camera screen
+        return selected_count
+
+    def open_chat_screen(self, device_id: str) -> bool:
+        """Navigates to the Chat feed tab from camera landing"""
+        chat_elem = (
+            self.find_element(device_id, resource_id="hova_header_chat_icon")
+            or self.find_element(device_id, content_desc="Chat")
+        )
+        if chat_elem:
+            self.input_tap_human(device_id, chat_elem["center"][0], chat_elem["center"][1], bounds=chat_elem["bounds"])
+        else:
+            # Human swipe right to open Chat feed
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "120", "800", "620", "800", "300"], timeout=4)
+        time.sleep(1.2)
+        xml = self.dump_ui_hierarchy(device_id) or ""
+        return "chat" in xml.lower() or "feed" in xml.lower() or "snap" in xml.lower()
+
+    def scan_chat_friends_and_filter(self, device_id: str, filter_type: str = "no_streak", days_threshold: int = 17) -> List[dict]:
+        """
+        Scans friend items in Chat feed and filters according to rules:
+        - 'no_streak': Friends without active 🔥 streak
+        - 'inactive': Friends where timestamp indicates inactivity (e.g., '2w', '3w', '1mo')
+        """
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return []
+
+        import xml.etree.ElementTree as ET
+        root = ET.fromstring(xml_content)
+
+        def parse_bounds(bounds_str: str):
+            m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+            if len(m) == 2:
+                return int(m[0][0]), int(m[0][1]), int(m[1][0]), int(m[1][1])
+            return None
+
+        candidates = []
+        for node in root.iter("node"):
+            t = (node.attrib.get("text") or "").strip()
+            d = (node.attrib.get("content-desc") or "").strip()
+            res_id = (node.attrib.get("resource-id") or "").lower()
+            b = parse_bounds(node.attrib.get("bounds", ""))
+            if not b:
+                continue
+
+            # Candidate chat rows typically have height > 80px and y > 200px
+            if (b[3] - b[1]) > 80 and b[1] > 200 and b[3] < 1450:
+                full_text = f"{t} {d}".lower()
+                has_streak = ("🔥" in full_text or "streak" in full_text)
+                is_inactive = any(marker in full_text for marker in ["2w", "3w", "4w", "1mo", "2mo", "3mo", "received weeks ago"])
+
+                matches = False
+                reason = ""
+                if filter_type == "no_streak" and not has_streak:
+                    matches = True
+                    reason = "No active streak emoji (🔥) found"
+                elif filter_type == "inactive" and is_inactive:
+                    matches = True
+                    reason = f"Dormant timestamp detected (exceeds {days_threshold} days)"
+
+                if matches and (t or d):
+                    center = ((b[0] + b[2]) // 2, (b[1] + b[3]) // 2)
+                    candidates.append({
+                        "name": t or d,
+                        "center": center,
+                        "bounds": b,
+                        "reason": reason
+                    })
+
+        return candidates
+
+    def unfollow_friend(self, device_id: str, x: int, y: int) -> bool:
+        """Executes full friendship removal sequence: Long press -> Manage Friendship -> Remove Friend -> Confirm Remove"""
+        try:
+            # 1. Long-press on friend row
+            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", str(x), str(y), str(x), str(y), "850"], timeout=4)
+            time.sleep(1.0)
+
+            # 2. Tap 'Manage Friendship'
+            manage_elem = self.find_element(device_id, text="Manage Friendship") or self.find_element(device_id, text="Friendship")
+            if manage_elem:
+                self.input_tap_human(device_id, manage_elem["center"][0], manage_elem["center"][1], bounds=manage_elem["bounds"])
+                time.sleep(0.8)
+
+            # 3. Tap 'Remove Friend'
+            remove_elem = self.find_element(device_id, text="Remove Friend") or self.find_element(device_id, text="Remove")
+            if remove_elem:
+                self.input_tap_human(device_id, remove_elem["center"][0], remove_elem["center"][1], bounds=remove_elem["bounds"])
+                time.sleep(0.8)
+
+            # 4. Tap 'Remove' in confirmation modal
+            confirm_elem = self.find_element(device_id, text="Remove", exact=True) or self.find_element(device_id, resource_id="button1")
+            if confirm_elem:
+                self.input_tap_human(device_id, confirm_elem["center"][0], confirm_elem["center"][1], bounds=confirm_elem["bounds"])
+                time.sleep(1.0)
+                return True
+
+            return False
+        except Exception:
+            return False
+
     def take_screenshot(self, device_id: str, local_path: str) -> bool:
         """Captures device screenshot and saves locally"""
         try:

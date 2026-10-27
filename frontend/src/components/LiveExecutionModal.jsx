@@ -23,15 +23,32 @@ export default function LiveExecutionModal({
   const isStopped = appState === 'STOPPED';
   const isFailed = appState === 'FAILED';
 
-  // Filter logs specifically for this execution session
+  // Filter logs specifically for this execution session and hide noisy internal debug strings
   const executionLogs = logs.filter((l) => {
-    const isEngine = l.workflow.includes('Live Snapchat') || l.workflow.includes('Workflow') || l.workflow === 'Demo Engine' || l.workflow === 'Device Action';
+    const isEngine =
+      l.workflow.includes('Live Snapchat') ||
+      l.workflow.includes('Bulk Follow') ||
+      l.workflow.includes('Bulk Unfollow') ||
+      l.workflow.includes('Auto Snap') ||
+      l.workflow.includes('Snapscore') ||
+      l.workflow.includes('Chained') ||
+      l.workflow.includes('Workflow') ||
+      l.workflow === 'Demo Engine' ||
+      l.workflow === 'Device Action';
+
     if (!isEngine) return false;
+
+    // Filter out internal a11y noise
+    const msg = (l.message || '').toLowerCase();
+    if (msg.includes('accessibility service active and bound') || msg.includes('snapchat window:')) {
+      return false;
+    }
+
     if (startTime && l.timestamp) {
       return new Date(l.timestamp).getTime() >= (startTime - 2000);
     }
     return true;
-  }).slice(0, 35);
+  }).slice(0, 40);
 
   return createPortal(
     <div className="modal-overlay" onClick={() => (isRunning ? null : onClose())}>

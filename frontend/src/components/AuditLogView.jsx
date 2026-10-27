@@ -13,6 +13,11 @@ export default function AuditLogView({ logs, onClearLogs }) {
     }
   };
 
+  const filteredLogs = (logs || []).filter((l) => {
+    const msg = (l.message || '').toLowerCase();
+    return !msg.includes('accessibility service active and bound') && !msg.includes('snapchat window:');
+  });
+
   return (
     <div className="glass-panel" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="panel-header">
@@ -22,7 +27,7 @@ export default function AuditLogView({ logs, onClearLogs }) {
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <span style={{ fontSize: '0.78rem', color: 'var(--text-dim)' }}>
-            {logs.length} entries recorded
+            {filteredLogs.length} events
           </span>
           <button
             type="button"
@@ -50,12 +55,12 @@ export default function AuditLogView({ logs, onClearLogs }) {
 
       <div className="panel-body" style={{ flex: 1, padding: '14px', display: 'flex', flexDirection: 'column' }}>
         <div className="log-stream" style={{ flex: 1 }}>
-          {!logs || logs.length === 0 ? (
+          {filteredLogs.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#64748b', padding: '30px 0' }}>
               No audit events logged yet. Execute an action or demo above.
             </div>
           ) : (
-            logs.map((log) => {
+            filteredLogs.map((log) => {
               const timeStr = new Date(log.timestamp).toLocaleTimeString();
               return (
                 <div key={log.id} className="log-entry">

@@ -18,6 +18,11 @@ from .services.websocket_hub import ws_hub
 from .services.demo_engine import demo_engine
 from .services.live_automation_engine import live_engine
 from .services.reminder_service import reminder_service, ReminderItem, ReminderCreate
+from .services.bulk_follow_engine import bulk_follow_engine
+from .services.bulk_unfollow_engine import bulk_unfollow_engine
+from .services.auto_snap_engine import auto_snap_engine
+from .services.snapscore_engine import snapscore_engine
+from .services.chained_workflow_engine import chained_engine
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -203,15 +208,128 @@ class LiveRunRequest(BaseModel):
     target_ids: List[str] = []
     action: str = "add"
 
+def _resolve_device_id(dev_id: Optional[str]) -> str:
+    if dev_id:
+        return dev_id
+    devices = adb_service.list_devices()
+    return devices[0].device_id if devices else "08265372BO000706"
+
 @app.post("/api/live/run")
 async def run_live_automation(req: LiveRunRequest):
-    dev_id = req.device_id
-    if not dev_id:
-        devices = adb_service.list_devices()
-        dev_id = devices[0].device_id if devices else "08265372BO000706"
-
+    dev_id = _resolve_device_id(req.device_id)
     asyncio.create_task(live_engine.run_live_add_workflow(dev_id, req.target_ids))
     return {"status": "started", "device_id": dev_id, "targets_count": len(req.target_ids)}
+
+# --- Day 3 Dedicated Production Endpoints --- #
+
+class FollowWorkflowRequest(BaseModel):
+    mode: str = "quick_add"  # "search" | "quick_add" | "accept"
+    target_ids: Optional[List[str]] = []
+    max_count: int = 10
+    device_id: Optional[str] = None
+
+@app.post("/api/workflow/follow")
+async def start_follow_workflow(req: FollowWorkflowRequest):
+    dev_id = _resolve_device_id(req.device_id)
+    if not adb_service.list_devices():
+        asyncio.create_task(demo_engine.run_demo_follow(req.mode, req.max_count, req.target_ids))
+        return {"status": "started", "mode": req.mode, "device_id": "simulated"}
+
+    asyncio.create_task(bulk_follow_engine.run_follow_workflow(
+        device_id=dev_id,
+        mode=req.mode,
+        target_ids=req.target_ids,
+        max_count=req.max_count
+    ))
+    return {"status": "started", "mode": req.mode, "device_id": dev_id}
+
+class UnfollowWorkflowRequest(BaseModel):
+    filter_type: str = "no_streak"  # "no_streak" | "inactive" | "custom"
+    days_threshold: int = 17
+    custom_targets: Optional[List[str]] = []
+    max_unfollow: int = 10
+    device_id: Optional[str] = None
+
+@app.post("/api/workflow/unfollow")
+async def start_unfollow_workflow(req: UnfollowWorkflowRequest):
+    dev_id = _resolve_device_id(req.device_id)
+    if not adb_service.list_devices():
+        asyncio.create_task(demo_engine.run_demo_unfollow(req.filter_type, req.days_threshold, req.max_unfollow))
+        return {"status": "started", "filter_type": req.filter_type, "device_id": "simulated"}
+
+    asyncio.create_task(bulk_unfollow_engine.run_unfollow_workflow(
+        device_id=dev_id,
+        filter_type=req.filter_type,
+        days_threshold=req.days_threshold,
+        custom_targets=req.custom_targets,
+        max_unfollow=req.max_unfollow
+    ))
+    return {"status": "started", "filter_type": req.filter_type, "device_id": dev_id}
+
+class SnapWorkflowRequest(BaseModel):
+    random_filter: bool = True
+    select_all: bool = True
+    max_recipients: int = 15
+    device_id: Optional[str] = None
+
+@app.post("/api/workflow/snap")
+async def start_snap_workflow(req: SnapWorkflowRequest):
+    dev_id = _resolve_device_id(req.device_id)
+    if not adb_service.list_devices():
+        asyncio.create_task(demo_engine.run_demo_snap(req.random_filter, req.select_all))
+        return {"status": "started", "random_filter": req.random_filter, "device_id": "simulated"}
+
+    asyncio.create_task(auto_snap_engine.run_snap_workflow(
+        device_id=dev_id,
+        random_filter=req.random_filter,
+        select_all=req.select_all,
+        max_recipients=req.max_recipients
+    ))
+    return {"status": "started", "random_filter": req.random_filter, "device_id": dev_id}
+
+class SnapscoreWorkflowRequest(BaseModel):
+    cycles: int = 3
+    select_all: bool = True
+    max_recipients: int = 15
+    cooldown_seconds: int = 15
+    device_id: Optional[str] = None
+
+@app.post("/api/workflow/snapscore")
+async def start_snapscore_workflow(req: SnapscoreWorkflowRequest):
+    dev_id = _resolve_device_id(req.device_id)
+    if not adb_service.list_devices():
+        asyncio.create_task(demo_engine.run_demo_snapscore(req.cycles))
+        return {"status": "started", "cycles": req.cycles, "device_id": "simulated"}
+
+    asyncio.create_task(snapscore_engine.run_booster_workflow(
+        device_id=dev_id,
+        cycles=req.cycles,
+        select_all=req.select_all,
+        max_recipients=req.max_recipients,
+        cooldown_seconds=req.cooldown_seconds
+    ))
+    return {"status": "started", "cycles": req.cycles, "device_id": dev_id}
+
+class ChainedWorkflowRequest(BaseModel):
+    routine_type: str = "morning"  # "morning" | "score_and_clean" | "all_in_one" | "custom"
+    custom_steps: Optional[List[Dict[str, Any]]] = None
+    device_id: Optional[str] = None
+
+@app.post("/api/workflow/chain")
+async def start_chained_workflow(req: ChainedWorkflowRequest):
+    dev_id = _resolve_device_id(req.device_id)
+    if not adb_service.list_devices():
+        asyncio.create_task(demo_engine.run_demo_chain(req.routine_type))
+        return {"status": "started", "routine_type": req.routine_type, "device_id": "simulated"}
+
+    asyncio.create_task(chained_engine.run_chained_routine(
+        device_id=dev_id,
+        routine_type=req.routine_type,
+        custom_steps=req.custom_steps
+    ))
+    return {"status": "started", "routine_type": req.routine_type, "device_id": dev_id}
+
+
 
 @app.get("/api/logs", response_model=List[AuditLogEntry])
 async def get_audit_logs(limit: int = Query(50, le=200)):

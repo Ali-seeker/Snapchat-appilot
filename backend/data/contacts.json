@@ -10,133 +10,103 @@
     "created_at": "2026-10-26T09:44:27.010952+00:00"
   },
   {
-    "id": "4986cd12",
-    "username": "sam_snap99",
-    "display_name": "Samir Khan",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "Daily streak candidate",
-    "created_at": "2026-10-26T09:44:27.022416+00:00"
-  },
-  {
-    "id": "54f0e5cd",
-    "username": "taylor_creative",
-    "display_name": "Taylor Swift-like",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "Demo inactive candidate",
-    "created_at": "2026-10-26T09:44:27.023181+00:00"
-  },
-  {
-    "id": "6101c894",
-    "username": "new_tester_bot",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T09:44:27.265844+00:00"
-  },
-  {
-    "id": "a88f1f23",
-    "username": "bot_03103e",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T10:04:46.645301+00:00"
-  },
-  {
-    "id": "118cb98b",
-    "username": "bot_8f56ac",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T10:05:09.736225+00:00"
-  },
-  {
-    "id": "7db1caaf",
-    "username": "mynewfriend_99",
-    "display_name": "Test Friend",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T10:40:57.389521+00:00"
-  },
-  {
-    "id": "f6effe37",
-    "username": "bot_aaa88a",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T10:51:16.347143+00:00"
-  },
-  {
-    "id": "31f4b5f5",
-    "username": "bot_470bba",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T10:52:05.726621+00:00"
-  },
-  {
-    "id": "b505d9c5",
-    "username": "bot_49e814",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T11:25:48.180189+00:00"
-  },
-  {
-    "id": "ecde79f0",
-    "username": "bot_e04adc",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T12:06:53.232580+00:00"
-  },
-  {
-    "id": "e2342673",
-    "username": "bot_019cab",
-    "display_name": "New Tester",
-    "status": "active",
-    "last_active_days": null,
-    "last_active_provenance": "Synthetic / Local Curated",
-    "notes": "",
-    "created_at": "2026-10-26T12:48:49.249872+00:00"
-  },
-  {
-    "id": "3f93de43",
-    "username": "live_test_user",
+    "id": "defbffdc",
+    "username": "user_a23bd82c",
     "display_name": "Live Tester",
     "status": "active",
     "last_active_days": null,
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
-    "created_at": "2026-10-26T12:48:49.283708+00:00"
+    "created_at": "2026-10-27T08:24:58.625455+00:00"
   },
   {
-    "id": "2413ad28",
-    "username": "stop_tester",
+    "id": "e530f28c",
+    "username": "stop_b2816803",
     "display_name": "Stop Tester",
     "status": "active",
     "last_active_days": null,
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
-    "created_at": "2026-10-26T12:48:49.315966+00:00"
+    "created_at": "2026-10-27T08:24:58.807314+00:00"
+  },
+  {
+    "id": "5f997d0d",
+    "username": "user_7fcb3572",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:25:44.091393+00:00"
+  },
+  {
+    "id": "92b8f52d",
+    "username": "stop_2c28ec99",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:25:44.266662+00:00"
+  },
+  {
+    "id": "821d37d6",
+    "username": "bot_03a1c3",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:32:58.868345+00:00"
+  },
+  {
+    "id": "775fa0d8",
+    "username": "user_a628cf98",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:32:58.911757+00:00"
+  },
+  {
+    "id": "56170014",
+    "username": "stop_ca721a87",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:32:59.030207+00:00"
+  },
+  {
+    "id": "6a88233e",
+    "username": "bot_f65749",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:39:54.401169+00:00"
+  },
+  {
+    "id": "8eddad3c",
+    "username": "user_0714e569",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:39:54.449604+00:00"
+  },
+  {
+    "id": "dd979818",
+    "username": "stop_fecc1554",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-27T08:39:54.598446+00:00"
   }
 ]
