@@ -115,17 +115,27 @@ class LiveAutomationEngine:
                     adb_service.ensure_landing_or_search(device_id)
                     screen_state = adb_service.detect_screen_state(device_id)
 
-                # Step 4b: Open / Focus Search Bar
+                # Step 4b: Open / Focus Search Bar dynamically by element
                 if screen_state != "SEARCH_PAGE":
-                    search_coords = adb_service.find_bounds(device_id, "search")
+                    search_elem = (
+                        adb_service.find_element(device_id, resource_id="hova_header_search_icon")
+                        or adb_service.find_element(device_id, content_desc="Search")
+                        or adb_service.find_element(device_id, resource_id="search-textfield")
+                    )
+                    search_coords = search_elem["center"] if search_elem else adb_service.find_bounds(device_id, "search")
                     if search_coords:
-                        await self._step(f"[{idx}/{total}] Located Search Bar at ({search_coords[0]}, {search_coords[1]}). Tapping...", delay=0.6)
-                        adb_service.input_tap(device_id, search_coords[0], search_coords[1])
+                        await self._step(
+                            f"[{idx}/{total}] Located search element by attributes. Tapping with human finger gesture...",
+                            delay=0.4
+                        )
+                        await asyncio.sleep(random.uniform(0.3, 0.6))
+                        bounds = search_elem["bounds"] if search_elem else None
+                        adb_service.input_tap_human(device_id, search_coords[0], search_coords[1], bounds=bounds)
                     else:
-                        await self._step(f"[{idx}/{total}] Activating Snapchat search icon...", delay=0.6)
-                        adb_service.input_tap(device_id, 156, 124)
+                        await self._step(f"[{idx}/{total}] Search element not found in current UI hierarchy. Attempting recovery...", delay=0.6)
+                        adb_service.ensure_landing_or_search(device_id)
 
-                    await asyncio.sleep(1.0)
+                    await asyncio.sleep(random.uniform(0.8, 1.2))
 
                     # Post-tap verification: if a popup intercepted the tap or profile opened
                     post_open_state = adb_service.detect_screen_state(device_id)
@@ -135,18 +145,33 @@ class LiveAutomationEngine:
                     elif post_open_state == "PROFILE_PAGE":
                         adb_service.input_key(device_id, 4) # Exit profile back to camera
                         await asyncio.sleep(0.8)
-                        adb_service.input_tap(device_id, 156, 124)
+                        retry_elem = (
+                            adb_service.find_element(device_id, resource_id="hova_header_search_icon")
+                            or adb_service.find_element(device_id, content_desc="Search")
+                        )
+                        retry_coords = retry_elem["center"] if retry_elem else adb_service.find_bounds(device_id, "search")
+                        if retry_coords:
+                            bounds = retry_elem["bounds"] if retry_elem else None
+                            adb_service.input_tap_human(device_id, retry_coords[0], retry_coords[1], bounds=bounds)
                         await asyncio.sleep(0.8)
 
-                # Clear previous search if clear button exists
-                clear_coords = adb_service.find_bounds(device_id, "clear")
+                # Clear previous search if clear button exists (by resource-id or content-desc)
+                clear_elem = (
+                    adb_service.find_element(device_id, resource_id="clear-button")
+                    or adb_service.find_element(device_id, content_desc="Clear")
+                )
+                clear_coords = clear_elem["center"] if clear_elem else adb_service.find_bounds(device_id, "clear")
                 if clear_coords:
-                    adb_service.input_tap(device_id, clear_coords[0], clear_coords[1])
-                    await asyncio.sleep(0.4)
+                    await asyncio.sleep(random.uniform(0.2, 0.4))
+                    bounds = clear_elem["bounds"] if clear_elem else None
+                    adb_service.input_tap_human(device_id, clear_coords[0], clear_coords[1], bounds=bounds)
+                    await asyncio.sleep(random.uniform(0.3, 0.5))
 
-                # Step 4c: Inject Target Username
-                adb_service.input_text(device_id, username)
-                await self._step(f"[{idx}/{total}] Injected target '@{username}' into Snapchat search.", delay=0.8)
+                # Step 4c: Inject Target Username with Human Keystroke Pacing
+                await asyncio.sleep(random.uniform(0.4, 0.7)) # Human delay looking at keyboard
+                await self._step(f"[{idx}/{total}] Typing target '@{username}' with human keystroke pacing...", delay=0.3)
+                adb_service.input_text_human(device_id, username, min_delay=0.08, max_delay=0.18)
+                await asyncio.sleep(random.uniform(0.3, 0.6)) # Human delay before submitting search
                 adb_service.input_key(device_id, 66) # Enter / Submit search query
 
                 # Also send companion event to accessibility service
@@ -156,14 +181,25 @@ class LiveAutomationEngine:
                     "params": {"username": username}
                 })
 
-                # Await search query results from Snapchat servers
-                await self._step(f"[{idx}/{total}] Awaiting search query results from Snapchat servers...", delay=2.4)
+                # Await search query results with human visual scanning delay
+                scan_delay = round(random.uniform(2.3, 3.2), 2)
+                await self._step(f"[{idx}/{total}] Waiting for Snapchat servers and visually scanning results ({scan_delay}s)...", delay=scan_delay)
 
-                # Step 4d: Locate and Tap 'Add' or 'Subscribe' button
-                add_coords = adb_service.find_bounds(device_id, "add", target_name=username)
+                # Step 4d: Locate and Tap 'Add' or 'Subscribe' button dynamically by element attributes
+                add_elem = (
+                    adb_service.find_element(device_id, resource_id="add-friend-button", target_name=username)
+                    or adb_service.find_element(device_id, text="Add", target_name=username)
+                    or adb_service.find_element(device_id, content_desc="Add", target_name=username)
+                )
+                add_coords = add_elem["center"] if add_elem else adb_service.find_bounds(device_id, "add", target_name=username)
                 if add_coords:
-                    await self._step(f"[{idx}/{total}] Matched Add button at ({add_coords[0]}, {add_coords[1]}). Tapping...", delay=0.8)
-                    adb_service.input_tap(device_id, add_coords[0], add_coords[1])
+                    await self._step(
+                        f"[{idx}/{total}] Matched Add button by element attributes. Tapping with human finger gesture...",
+                        delay=0.3
+                    )
+                    await asyncio.sleep(random.uniform(0.5, 0.9)) # Human decision time before tapping Add
+                    bounds = add_elem["bounds"] if add_elem else None
+                    adb_service.input_tap_human(device_id, add_coords[0], add_coords[1], bounds=bounds)
                     successful_targets.append(username)
                     await self._step(
                         f"[{idx}/{total}] Successfully sent friend request to @{username}!",
@@ -173,10 +209,19 @@ class LiveAutomationEngine:
                     )
                 else:
                     # Check for subscribe button
-                    sub_coords = adb_service.find_bounds(device_id, "subscribe", target_name=username)
+                    sub_elem = (
+                        adb_service.find_element(device_id, resource_id="subscribe-button", target_name=username)
+                        or adb_service.find_element(device_id, text="Subscribe", target_name=username)
+                    )
+                    sub_coords = sub_elem["center"] if sub_elem else adb_service.find_bounds(device_id, "subscribe", target_name=username)
                     if sub_coords:
-                        await self._step(f"[{idx}/{total}] Matched Subscribe button at ({sub_coords[0]}, {sub_coords[1]}). Tapping...", delay=0.8)
-                        adb_service.input_tap(device_id, sub_coords[0], sub_coords[1])
+                        await self._step(
+                            f"[{idx}/{total}] Matched Subscribe button by element attributes. Tapping...",
+                            delay=0.3
+                        )
+                        await asyncio.sleep(random.uniform(0.5, 0.9))
+                        bounds = sub_elem["bounds"] if sub_elem else None
+                        adb_service.input_tap_human(device_id, sub_coords[0], sub_coords[1], bounds=bounds)
                         successful_targets.append(username)
                         await self._step(
                             f"[{idx}/{total}] Subscribed to Snap Star / Creator @{username}!",
@@ -201,17 +246,21 @@ class LiveAutomationEngine:
                         )
 
                 # Step 4e: Clear search bar or navigate back for next target
-                clear_coords = adb_service.find_bounds(device_id, "clear")
-                if clear_coords:
-                    adb_service.input_tap(device_id, clear_coords[0], clear_coords[1])
+                clear_elem_post = (
+                    adb_service.find_element(device_id, resource_id="clear-button")
+                    or adb_service.find_element(device_id, content_desc="Clear")
+                )
+                if clear_elem_post:
+                    await asyncio.sleep(random.uniform(0.2, 0.4))
+                    adb_service.input_tap_human(device_id, clear_elem_post["center"][0], clear_elem_post["center"][1], bounds=clear_elem_post["bounds"])
                 else:
                     adb_service.input_key(device_id, 4) # Back
-                await asyncio.sleep(0.5)
+                await asyncio.sleep(random.uniform(0.4, 0.7))
 
-                # Step 4f: Human Pacing Delay (Random jitter between 1.8s and 3.2s to prevent account flags)
+                # Step 4f: Human Pacing Delay (Random jitter between 2.2s and 3.8s to prevent account flags)
                 if idx < total:
-                    jitter = round(random.uniform(1.8, 3.2), 2)
-                    await self._step(f"Human pacing guard: Waiting {jitter}s jitter before next action...", delay=jitter)
+                    jitter = round(random.uniform(2.2, 3.8), 2)
+                    await self._step(f"Human pacing guard: Resting {jitter}s before processing next target...", delay=jitter)
 
             # 5. Workflow Outcome Evaluation
             if not state_machine.is_stopped:

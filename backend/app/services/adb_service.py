@@ -2,6 +2,7 @@ import subprocess
 import shutil
 import re
 import time
+import random
 from typing import List, Dict, Optional
 from ..models.schemas import DeviceInfo
 
@@ -121,6 +122,32 @@ class ADBService:
         except Exception:
             return False
 
+    def input_tap_human(self, device_id: str, x: int, y: int, bounds: Optional[tuple[int, int, int, int]] = None) -> bool:
+        """
+        Executes a human-like finger tap with realistic touch duration (55-115ms)
+        and subtle organic finger placement within element bounds rather than robotic center tap.
+        """
+        try:
+            if bounds:
+                x1, y1, x2, y2 = bounds
+                margin_x = max(2, (x2 - x1) // 6)
+                margin_y = max(2, (y2 - y1) // 6)
+                target_x = random.randint(x1 + margin_x, x2 - margin_x)
+                target_y = random.randint(y1 + margin_y, y2 - margin_y)
+            else:
+                target_x = x + random.randint(-3, 3)
+                target_y = y + random.randint(-3, 3)
+
+            press_duration = random.randint(60, 115) # Realistic human touch contact time
+            cmd = [
+                self.adb_path, "-s", device_id, "shell",
+                "input", "swipe", str(target_x), str(target_y), str(target_x), str(target_y), str(press_duration)
+            ]
+            res = self._run_cmd(cmd, timeout=5)
+            return res.returncode == 0
+        except Exception:
+            return False
+
     def input_text(self, device_id: str, text: str) -> bool:
         """Types text via adb input text, escaping whitespace and shell characters"""
         try:
@@ -128,6 +155,21 @@ class ADBService:
             cmd = [self.adb_path, "-s", device_id, "shell", "input", "text", safe_text]
             res = self._run_cmd(cmd, timeout=5)
             return res.returncode == 0
+        except Exception:
+            return False
+
+    def input_text_human(self, device_id: str, text: str, min_delay: float = 0.08, max_delay: float = 0.20) -> bool:
+        """
+        Types text character-by-character with realistic human typing speed
+        and natural timing variations to bypass heuristic bot detection.
+        """
+        try:
+            for char in text:
+                safe_char = "%s" if char == " " else re.escape(char) if char in ["&", "'", '"', "(", ")", ";", "|", "<", ">", "$", "`", "\\"] else char
+                cmd = [self.adb_path, "-s", device_id, "shell", "input", "text", safe_char]
+                self._run_cmd(cmd, timeout=4)
+                time.sleep(random.uniform(min_delay, max_delay))
+            return True
         except Exception:
             return False
 
@@ -157,6 +199,98 @@ class ADBService:
             pass
         return None
 
+    def find_element(
+        self,
+        device_id: str,
+        resource_id: Optional[str] = None,
+        text: Optional[str] = None,
+        content_desc: Optional[str] = None,
+        target_name: Optional[str] = None,
+        exact: bool = False
+    ) -> Optional[dict]:
+        """
+        Dynamically locates an interactive UI element strictly by its resource-id,
+        text, or content-desc attributes in the live XML hierarchy.
+        Returns a dict: {'center': (x, y), 'bounds': (x1, y1, x2, y2), 'resource_id': ..., 'text': ...}
+        Never uses hardcoded coordinates.
+        """
+        xml_content = self.dump_ui_hierarchy(device_id)
+        if not xml_content:
+            return None
+
+        try:
+            import xml.etree.ElementTree as ET
+            root = ET.fromstring(xml_content)
+
+            def parse_bounds(bounds_str: str) -> Optional[tuple[int, int, int, int]]:
+                m = re.findall(r"\[(\d+),(\d+)\]", bounds_str)
+                if len(m) == 2:
+                    x1, y1 = int(m[0][0]), int(m[0][1])
+                    x2, y2 = int(m[1][0]), int(m[1][1])
+                    if (x2 - x1) > 10 and (y2 - y1) > 10 and (x1 > 0 or y1 > 0 or x2 > 0 or y2 > 0):
+                        return (x1, y1, x2, y2)
+                return None
+
+            target_y = None
+            if target_name:
+                t_clean = target_name.lower().replace("@", "")
+                for node in root.iter("node"):
+                    txt = (node.attrib.get("text") or "").lower()
+                    desc = (node.attrib.get("content-desc") or "").lower()
+                    if t_clean in txt or t_clean in desc:
+                        b = parse_bounds(node.attrib.get("bounds", ""))
+                        if b:
+                            target_y = (b[1] + b[3]) // 2
+                            break
+
+            candidates = []
+            for node in root.iter("node"):
+                node_res = node.attrib.get("resource-id") or ""
+                node_txt = node.attrib.get("text") or ""
+                node_desc = node.attrib.get("content-desc") or ""
+                bounds = parse_bounds(node.attrib.get("bounds", ""))
+                if not bounds:
+                    continue
+
+                matched = False
+                if resource_id:
+                    if exact:
+                        matched = (resource_id.lower() == node_res.lower())
+                    else:
+                        matched = (resource_id.lower() in node_res.lower())
+
+                if not matched and text:
+                    if exact:
+                        matched = (text.lower() == node_txt.lower())
+                    else:
+                        matched = (text.lower() in node_txt.lower())
+
+                if not matched and content_desc:
+                    if exact:
+                        matched = (content_desc.lower() == node_desc.lower())
+                    else:
+                        matched = (content_desc.lower() in node_desc.lower())
+
+                if matched:
+                    center = ((bounds[0] + bounds[2]) // 2, (bounds[1] + bounds[3]) // 2)
+                    candidates.append({
+                        "center": center,
+                        "bounds": bounds,
+                        "resource_id": node_res,
+                        "text": node_txt,
+                        "content_desc": node_desc
+                    })
+
+            if not candidates:
+                return None
+
+            if target_y is not None:
+                candidates.sort(key=lambda item: abs(item["center"][1] - target_y))
+
+            return candidates[0]
+        except Exception:
+            return None
+
     def find_bounds(self, device_id: str, query: str, target_name: Optional[str] = None) -> Optional[tuple[int, int]]:
         """
         Parses UI XML hierarchy to find center (x, y) coordinates for target text or id.
@@ -183,18 +317,12 @@ class ADBService:
 
             # 1. Specialized query: "search"
             if q_lower == "search":
-                # Look for search-textfield first
-                for node in root.iter("node"):
-                    res_id = (node.attrib.get("resource-id") or "").lower()
-                    if "search-textfield" in res_id:
-                        c = get_valid_center(node.attrib.get("bounds", ""))
-                        if c:
-                            return c
-                # Look for header search icon
                 for node in root.iter("node"):
                     res_id = (node.attrib.get("resource-id") or "").lower()
                     desc = (node.attrib.get("content-desc") or "").lower()
-                    if "hova_header_search_icon" in res_id or "search" in desc:
+                    txt = (node.attrib.get("text") or "").lower()
+                    if ("search-textfield" in res_id or "search-box" in res_id or "search_bar" in res_id
+                            or "hova_header_search_icon" in res_id or desc == "search" or txt == "search"):
                         c = get_valid_center(node.attrib.get("bounds", ""))
                         if c:
                             return c
@@ -242,12 +370,12 @@ class ADBService:
             if q_lower in ["clear", "clear-button"]:
                 for node in root.iter("node"):
                     res_id = (node.attrib.get("resource-id") or "").lower()
-                    if "clear-button" in res_id or "clear_button" in res_id:
+                    desc = (node.attrib.get("content-desc") or "").lower()
+                    if "clear-button" in res_id or "clear_button" in res_id or desc == "clear":
                         c = get_valid_center(node.attrib.get("bounds", ""))
                         if c:
                             return c
-                # Fallback to known clear button bounds for search bar
-                return (516, 132)
+                return None
 
             # 4. General fallback search across text, content-desc, and resource-id
             for node in root.iter("node"):
