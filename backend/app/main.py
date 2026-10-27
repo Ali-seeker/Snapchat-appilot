@@ -33,7 +33,24 @@ async def lifespan(app: FastAPI):
         reason_code="SERVER_START",
         message="Appilot Backend Orchestrator started successfully"
     )
-    yield
+
+    # Background keep-alive to ensure ADB reverse tunnel stays alive persistently
+    async def reverse_port_heartbeat():
+        while True:
+            try:
+                if adb_service.is_adb_available():
+                    devices = adb_service.list_devices()
+                    for dev in devices:
+                        adb_service.reverse_port(dev.device_id)
+            except Exception:
+                pass
+            await asyncio.sleep(8)
+
+    heartbeat_task = asyncio.create_task(reverse_port_heartbeat())
+    try:
+        yield
+    finally:
+        heartbeat_task.cancel()
 
 app = FastAPI(title="Appilot Snapchat Companion API", version="1.0.0", lifespan=lifespan)
 
