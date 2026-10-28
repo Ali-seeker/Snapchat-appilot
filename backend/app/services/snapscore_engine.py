@@ -76,6 +76,11 @@ class SnapscoreEngine:
                 raise Exception(f"Device '{device_id}' is not connected via ADB.")
 
             adb_service.reverse_port(device_id)
+
+            # Bring Snapchat to foreground deterministically
+            adb_service.launch_snapchat(device_id)
+            await asyncio.sleep(1.2)
+
             adb_service.dismiss_heads_up_notification(device_id)
             adb_service.dismiss_popups(device_id)
 

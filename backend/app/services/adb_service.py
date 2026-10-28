@@ -129,11 +129,27 @@ class ADBService:
             return False
 
     def is_snapchat_running(self, device_id: str) -> bool:
-        """Checks if Snapchat is currently visible in foreground"""
+        """Checks if Snapchat is currently running on the device"""
         try:
             cmd = [self.adb_path, "-s", device_id, "shell", "dumpsys", "window"]
             res = self._run_cmd(cmd, timeout=5)
             return "com.snapchat.android" in res.stdout
+        except Exception:
+            return False
+
+    def is_snapchat_foreground(self, device_id: str) -> bool:
+        """Checks if Snapchat is currently the active focused foreground window"""
+        try:
+            cmd = [self.adb_path, "-s", device_id, "shell", "dumpsys", "window", "windows"]
+            res = self._run_cmd(cmd, timeout=5)
+            output = res.stdout or ""
+            for line in output.splitlines():
+                if "mCurrentFocus" in line or "mFocusedApp" in line:
+                    if "com.snapchat.android" in line:
+                        return True
+                    if "com.appilot.companion" in line:
+                        return False
+            return "com.snapchat.android" in output
         except Exception:
             return False
 
@@ -758,6 +774,11 @@ class ADBService:
         - If still not settled, executes a clean application restart (kill -> relaunch)
         as requested by user.
         """
+        # Step 0: Ensure Snapchat is the active foreground app before touching screen
+        if not self.is_snapchat_foreground(device_id):
+            self.launch_snapchat(device_id)
+            time.sleep(2.0)
+
         for _ in range(max_retries):
             state = self.detect_screen_state(device_id)
 
@@ -779,13 +800,18 @@ class ADBService:
                     return True
 
             # If on another tab (Chat/Stories/Map) or memories sheet open, tap Camera tab & swipe down
-            self.input_tap(device_id, 360, 1560)
-            time.sleep(0.5)
-            self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "300", "360", "1200", "250"], timeout=3)
-            time.sleep(0.8)
-            state = self.detect_screen_state(device_id)
-            if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
-                return True
+            # Safety Guard: Only tap bottom navigation coordinates if Snapchat is confirmed in foreground!
+            if self.is_snapchat_foreground(device_id):
+                self.input_tap(device_id, 360, 1560)
+                time.sleep(0.5)
+                self._run_cmd([self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "300", "360", "1200", "250"], timeout=3)
+                time.sleep(0.8)
+                state = self.detect_screen_state(device_id)
+                if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                    return True
+            else:
+                self.launch_snapchat(device_id)
+                time.sleep(2.0)
 
             # If still unexpected or app not running, perform Clean Recovery Restart
             self.stop_snapchat(device_id)

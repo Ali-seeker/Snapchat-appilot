@@ -35,8 +35,12 @@ public class MainActivity extends AppCompatActivity implements WebSocketClientMa
             startActivity(intent);
         });
 
-        btnEmergencyStop.setOnClickListener(v -> {
+        btnEmergencyStop.setOnLongClickListener(v -> {
             triggerEmergencyStop();
+            return true;
+        });
+        btnEmergencyStop.setOnClickListener(v -> {
+            Toast.makeText(this, "Press and HOLD button to Emergency STOP", Toast.LENGTH_SHORT).show();
         });
 
         tvWsStatus.setOnClickListener(v -> {

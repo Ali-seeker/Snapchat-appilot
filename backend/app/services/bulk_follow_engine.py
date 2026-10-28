@@ -71,6 +71,10 @@ class BulkFollowEngine:
 
             adb_service.reverse_port(device_id)
 
+            # Bring Snapchat to foreground deterministically before touching screen
+            adb_service.launch_snapchat(device_id)
+            await asyncio.sleep(1.2)
+
             # 2. Interruption resilience: Dismiss any top notifications or stale popups
             adb_service.dismiss_heads_up_notification(device_id)
             adb_service.dismiss_popups(device_id)

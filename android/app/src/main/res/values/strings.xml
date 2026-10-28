@@ -8,5 +8,5 @@
     <string name="status_accessibility_on">Accessibility Service: ACTIVE</string>
     <string name="status_ws_connected">Backend Link: CONNECTED</string>
     <string name="status_ws_disconnected">Backend Link: DISCONNECTED</string>
-    <string name="btn_emergency_stop">EMERGENCY STOP</string>
+    <string name="btn_emergency_stop">HOLD TO EMERGENCY STOP</string>
 </resources>
