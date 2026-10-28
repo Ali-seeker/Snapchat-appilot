@@ -77,12 +77,19 @@ async def get_system_status():
     for d in adb_devs:
         if d.device_id not in all_devs:
             all_devs[d.device_id] = d
+    snapchat_ver = "14.29.0.50"
+    for d in all_devs.values():
+        if getattr(d, "snapchat_version", None):
+            snapchat_ver = d.snapchat_version
+            break
+
     return {
         "state": state_machine.current_state.value,
         "workflow": state_machine.current_workflow,
         "is_paused": state_machine.is_paused,
         "is_stopped": state_machine.is_stopped,
         "adb_available": adb_service.is_adb_available(),
+        "snapchat_version": snapchat_ver,
         "devices": list(all_devs.values())
     }
 
@@ -348,6 +355,18 @@ async def client_websocket_endpoint(websocket: WebSocket):
     await ws_hub.connect_client(websocket)
     try:
         # Send initial status
+        adb_devs = adb_service.list_devices()
+        ws_devs = ws_hub.get_all_devices()
+        all_devs = {d.device_id: d for d in ws_devs}
+        for d in adb_devs:
+            if d.device_id not in all_devs:
+                all_devs[d.device_id] = d
+        snap_ver = "14.29.0.50"
+        for d in all_devs.values():
+            if getattr(d, "snapchat_version", None):
+                snap_ver = d.snapchat_version
+                break
+
         await websocket.send_text(json.dumps({
             "type": "INITIAL_STATE",
             "payload": {
@@ -355,9 +374,10 @@ async def client_websocket_endpoint(websocket: WebSocket):
                 "workflow": state_machine.current_workflow,
                 "is_paused": state_machine.is_paused,
                 "is_stopped": state_machine.is_stopped,
+                "snapchat_version": snap_ver,
                 "contacts": [c.model_dump() for c in contact_service.get_contacts()],
                 "logs": [l.model_dump() for l in audit_logger.get_logs(20)],
-                "devices": [d.model_dump() for d in ws_hub.get_all_devices()]
+                "devices": [d.model_dump() for d in all_devs.values()]
             }
         }))
         while True:

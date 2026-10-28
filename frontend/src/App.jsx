@@ -24,6 +24,7 @@ export default function App() {
     isPaused,
     isStopped,
     devices,
+    snapchatVersion,
     contacts,
     setContacts,
     logs,
@@ -242,6 +243,7 @@ export default function App() {
         activeWorkflow={activeWorkflow}
         isConnected={isConnected}
         latency={latency}
+        snapchatVersion={snapchatVersion}
         onReset={handleReset}
       />
 
@@ -262,7 +264,26 @@ export default function App() {
               One-click multi-modal follow, engagement-based unfollow, auto snap sending, and legitimate score booster.
             </p>
           </div>
-          <span className="badge badge-emerald">Resilient &amp; Anti-Ban</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span
+              style={{
+                fontSize: '0.74rem',
+                fontWeight: 600,
+                color: '#facc15',
+                background: 'rgba(250, 204, 21, 0.1)',
+                border: '1px solid rgba(250, 204, 21, 0.3)',
+                padding: '3px 8px',
+                borderRadius: '6px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '5px'
+              }}
+            >
+              <span>👻</span>
+              <span>Target: Snapchat v{snapchatVersion || '14.29.0.50'}</span>
+            </span>
+            <span className="badge badge-emerald">Resilient &amp; Anti-Ban</span>
+          </div>
         </div>
 
         {/* 2-Column Responsive Grid */}
@@ -307,6 +328,7 @@ export default function App() {
         disclosureAcknowledged={disclosureAcknowledged}
         logs={logs}
         devices={devices}
+        snapchatVersion={snapchatVersion}
       />
 
       {/* Two-Column Grid: Contacts (FR-04) & Audit Logs (FR-09, FR-10) */}

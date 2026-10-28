@@ -9,6 +9,7 @@ from ..models.schemas import DeviceInfo
 class ADBService:
     def __init__(self):
         self.adb_path = shutil.which("adb") or "adb"
+        self._snapchat_version_cache: Dict[str, str] = {}
 
     def _run_cmd(self, cmd: List[str], timeout: int = 8) -> subprocess.CompletedProcess:
         """Executes subprocess with explicit UTF-8 encoding and error replacement to prevent Windows cp1252 crashes"""
@@ -28,6 +29,27 @@ class ADBService:
         except Exception:
             return False
 
+    def get_snapchat_version(self, device_id: str) -> str:
+        """Retrieves and caches the installed Snapchat version from device (fallback: '14.29.0.50')"""
+        if device_id in self._snapchat_version_cache:
+            return self._snapchat_version_cache[device_id]
+
+        try:
+            res = self._run_cmd(
+                [self.adb_path, "-s", device_id, "shell", "dumpsys", "package", "com.snapchat.android"],
+                timeout=4
+            )
+            m = re.search(r"versionName=([0-9\.]+)", res.stdout or "")
+            if m:
+                ver = m.group(1)
+                self._snapchat_version_cache[device_id] = ver
+                return ver
+        except Exception:
+            pass
+
+        self._snapchat_version_cache[device_id] = "14.29.0.50"
+        return "14.29.0.50"
+
     def list_devices(self) -> List[DeviceInfo]:
         devices: List[DeviceInfo] = []
         if not self.is_adb_available():
@@ -46,9 +68,11 @@ class ADBService:
                 if status == "device":
                     model_match = re.search(r"model:(\S+)", line)
                     model = model_match.group(1) if model_match else "Android Device"
+                    snap_ver = self.get_snapchat_version(device_id)
                     devices.append(DeviceInfo(
                         device_id=device_id,
                         model=model,
+                        snapchat_version=snap_ver,
                         is_connected=True
                     ))
                     # Ensure reverse port tunnel is continually kept alive for mobile companion

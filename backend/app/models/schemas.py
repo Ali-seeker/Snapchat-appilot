@@ -50,6 +50,7 @@ class DeviceInfo(BaseModel):
     device_id: str
     model: str = "Android Device"
     android_version: Optional[str] = "Unknown"
+    snapchat_version: Optional[str] = "14.29.0.50"
     accessibility_enabled: bool = False
     overlay_enabled: bool = False
     notification_enabled: bool = False

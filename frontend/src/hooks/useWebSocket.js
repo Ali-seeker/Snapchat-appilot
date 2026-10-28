@@ -7,6 +7,7 @@ export function useWebSocket(url = 'ws://localhost:8000/ws/client') {
   const [isPaused, setIsPaused] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [devices, setDevices] = useState([]);
+  const [snapchatVersion, setSnapchatVersion] = useState('14.29.0.50');
   const [contacts, setContacts] = useState([]);
   const [logs, setLogs] = useState([]);
   const [latency, setLatency] = useState(0);
@@ -38,6 +39,7 @@ export function useWebSocket(url = 'ws://localhost:8000/ws/client') {
             setActiveWorkflow(p.workflow || null);
             setIsPaused(p.is_paused || false);
             setIsStopped(p.is_stopped || false);
+            if (p.snapchat_version) setSnapchatVersion(p.snapchat_version);
             if (p.contacts) setContacts(p.contacts);
             if (p.logs) setLogs(p.logs);
             if (p.devices) setDevices(p.devices);
@@ -109,6 +111,7 @@ export function useWebSocket(url = 'ws://localhost:8000/ws/client') {
     isPaused,
     isStopped,
     devices,
+    snapchatVersion,
     contacts,
     setContacts,
     logs,

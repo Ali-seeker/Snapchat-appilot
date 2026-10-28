@@ -1,5 +1,626 @@
 [
   {
+    "id": "9b9c5499",
+    "timestamp": "2026-10-28T05:31:27.905774+00:00",
+    "workflow": "Assisted Workflow (2 targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "b3ae6e83",
+    "timestamp": "2026-10-28T05:31:27.516850+00:00",
+    "workflow": "Workflow Engine",
+    "result": "COMPLETED",
+    "reason_code": "STEP_OK",
+    "message": "Starting assisted processing for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "b008e150",
+    "timestamp": "2026-10-28T05:31:27.049470+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "c735c576",
+    "timestamp": "2026-10-28T05:31:26.776222+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 3 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "7020bcd5",
+    "timestamp": "2026-10-28T05:31:22.106956+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "e823d4cc",
+    "timestamp": "2026-10-28T05:31:17.850727+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "789d1fe7",
+    "timestamp": "2026-10-28T05:31:13.496756+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "8c383de3",
+    "timestamp": "2026-10-28T05:31:07.863070+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_COMPLETE",
+    "message": "Chained routine 'Morning Growth Routine (Auto Snap + Quick Add)' finished completely!",
+    "details": {}
+  },
+  {
+    "id": "9bd1e411",
+    "timestamp": "2026-10-28T05:31:07.836843+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 2/2: Executing Quick Add Suggestions...",
+    "details": {}
+  },
+  {
+    "id": "dbea9e2c",
+    "timestamp": "2026-10-28T05:31:07.814259+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Inter-stage rest: Cooling down for 6.8s...",
+    "details": {}
+  },
+  {
+    "id": "a0ef9515",
+    "timestamp": "2026-10-28T05:31:07.797759+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_STEP_OK",
+    "message": "Stage 1/2: Executing Auto Snap Dispatch...",
+    "details": {}
+  },
+  {
+    "id": "30ed01db",
+    "timestamp": "2026-10-28T05:31:07.770591+00:00",
+    "workflow": "Chained Routine Engine",
+    "result": "COMPLETED",
+    "reason_code": "CHAIN_START",
+    "message": "Initiating 'Morning Growth Routine (Auto Snap + Quick Add)'...",
+    "details": {}
+  },
+  {
+    "id": "e0f3f395",
+    "timestamp": "2026-10-28T05:31:07.737783+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_COMPLETE",
+    "message": "Snapscore Booster completed! All 2 cycles executed. Estimated score increase: +20 points.",
+    "details": {}
+  },
+  {
+    "id": "e2e8baff",
+    "timestamp": "2026-10-28T05:31:07.715629+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 2/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +20).",
+    "details": {}
+  },
+  {
+    "id": "cba62c5b",
+    "timestamp": "2026-10-28T05:31:07.697608+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "283194ce",
+    "timestamp": "2026-10-28T05:31:07.680412+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "COOLDOWN_WAIT",
+    "message": "Anti-ban safety cooldown: Waiting 8s before cycle 2...",
+    "details": {}
+  },
+  {
+    "id": "9abd429f",
+    "timestamp": "2026-10-28T05:31:07.656789+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "CYCLE_DISPATCH_COMPLETE",
+    "message": "[Cycle 1/2] Snap delivered to 10 contact(s). Estimated points gained: +10 (Total: +10).",
+    "details": {}
+  },
+  {
+    "id": "da061b31",
+    "timestamp": "2026-10-28T05:31:07.629947+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "SNAPSCORE_STEP_OK",
+    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
+    "details": {}
+  },
+  {
+    "id": "61ab0389",
+    "timestamp": "2026-10-28T05:31:07.596986+00:00",
+    "workflow": "Snapscore Booster",
+    "result": "COMPLETED",
+    "reason_code": "BOOSTER_START",
+    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
+    "details": {}
+  },
+  {
+    "id": "0c081531",
+    "timestamp": "2026-10-28T05:31:07.555678+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Returned to camera landing. Auto Snap workflow complete.",
+    "details": {}
+  },
+  {
+    "id": "79a4b2e3",
+    "timestamp": "2026-10-28T05:31:07.525698+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_SENT",
+    "message": "Snap successfully sent to 5 recipient(s)!",
+    "details": {}
+  },
+  {
+    "id": "097f8cf5",
+    "timestamp": "2026-10-28T05:31:07.499679+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
+    "details": {}
+  },
+  {
+    "id": "58060aee",
+    "timestamp": "2026-10-28T05:31:07.475568+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Transitioning to 'Send To' recipient selection screen...",
+    "details": {}
+  },
+  {
+    "id": "ad6d9e9d",
+    "timestamp": "2026-10-28T05:31:07.446394+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Applying random aesthetic filter (3 lens swipe gestures)...",
+    "details": {}
+  },
+  {
+    "id": "fa3aff72",
+    "timestamp": "2026-10-28T05:31:07.426066+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Triggering camera hardware shutter to capture Snap...",
+    "details": {}
+  },
+  {
+    "id": "4e9644aa",
+    "timestamp": "2026-10-28T05:31:07.393249+00:00",
+    "workflow": "Auto Snap Engine",
+    "result": "COMPLETED",
+    "reason_code": "SNAP_STEP_OK",
+    "message": "Verifying clean Snapchat camera landing screen...",
+    "details": {}
+  },
+  {
+    "id": "f5684342",
+    "timestamp": "2026-10-28T05:31:07.341211+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk unfollow routine finished: Total 1 friend(s) removed.",
+    "details": {}
+  },
+  {
+    "id": "7a1b3102",
+    "timestamp": "2026-10-28T05:31:07.310498+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Anti-ban safety pause: resting 3.4s...",
+    "details": {}
+  },
+  {
+    "id": "f1c2d342",
+    "timestamp": "2026-10-28T05:31:07.263970+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_UNFOLLOWED",
+    "message": "Successfully unfollowed 'DormantUser1'. [Reason: No active streak emoji (\ud83d\udd25) found] (1/1)",
+    "details": {}
+  },
+  {
+    "id": "533743ab",
+    "timestamp": "2026-10-28T05:31:07.182895+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_CANDIDATE_IDENTIFIED",
+    "message": "Target identified: 'DormantUser1' (No active streak emoji (\ud83d\udd25) found). Initiating friend removal...",
+    "details": {}
+  },
+  {
+    "id": "3c9b9bc2",
+    "timestamp": "2026-10-28T05:31:07.115240+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Scanning friend conversations for criteria: No Streak Filter (\ud83d\udd25 Missing)...",
+    "details": {}
+  },
+  {
+    "id": "c23e9794",
+    "timestamp": "2026-10-28T05:31:07.074220+00:00",
+    "workflow": "Bulk Unfollow Engine",
+    "result": "COMPLETED",
+    "reason_code": "UNFOLLOW_STEP_OK",
+    "message": "Transitioning to Snapchat Chat feed...",
+    "details": {}
+  },
+  {
+    "id": "d10d745b",
+    "timestamp": "2026-10-28T05:31:07.021697+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (accept) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "ce5c827a",
+    "timestamp": "2026-10-28T05:31:06.915370+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "REQUESTS_ACCEPTED",
+    "message": "Successfully accepted 2 incoming friend request(s)!",
+    "details": {}
+  },
+  {
+    "id": "22b3363e",
+    "timestamp": "2026-10-28T05:31:06.833230+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning 'Added Me' incoming friend requests (Target: up to 5)...",
+    "details": {}
+  },
+  {
+    "id": "f89b8ba2",
+    "timestamp": "2026-10-28T05:31:06.793750+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Opening Add Friends page to check incoming requests ('Added Me')...",
+    "details": {}
+  },
+  {
+    "id": "3ca396d1",
+    "timestamp": "2026-10-28T05:31:06.754720+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_WORKFLOW_COMPLETE",
+    "message": "Bulk follow routine (quick_add) completed successfully.",
+    "details": {}
+  },
+  {
+    "id": "7ed081ca",
+    "timestamp": "2026-10-28T05:31:06.708277+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Quick Add finished: Total 3 friend(s) added.",
+    "details": {}
+  },
+  {
+    "id": "da1e6d3e",
+    "timestamp": "2026-10-28T05:31:06.671136+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "QUICK_ADD_BATCH",
+    "message": "Added 3 suggested friend(s). Total added: 3/3.",
+    "details": {}
+  },
+  {
+    "id": "f37f403f",
+    "timestamp": "2026-10-28T05:31:06.640491+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Scanning Quick Add suggestions list (Target: up to 3)...",
+    "details": {}
+  },
+  {
+    "id": "ccf5aea8",
+    "timestamp": "2026-10-28T05:31:06.576927+00:00",
+    "workflow": "Bulk Follow Engine",
+    "result": "COMPLETED",
+    "reason_code": "FOLLOW_STEP_OK",
+    "message": "Navigating to Add Friends & Quick Add suggestions page...",
+    "details": {}
+  },
+  {
+    "id": "14c9c923",
+    "timestamp": "2026-10-28T05:31:06.391960+00:00",
+    "workflow": "Streak Reminder",
+    "result": "COMPLETED",
+    "reason_code": "REMINDER_CREATED",
+    "message": "Created streak reminder for @test_streak_user at 19:00",
+    "details": {}
+  },
+  {
+    "id": "30ac8164",
+    "timestamp": "2026-10-28T05:31:06.329432+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: 08265372BO000706] Starting live Snapchat automation for 2 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "7f41667f",
+    "timestamp": "2026-10-28T05:31:05.911411+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "bc661b7e",
+    "timestamp": "2026-10-28T05:31:05.893522+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "0566c753",
+    "timestamp": "2026-10-28T05:31:05.867691+00:00",
+    "workflow": "Live Snapchat Add (1 Targets)",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: Emergency Stop in test",
+    "details": {}
+  },
+  {
+    "id": "66519c95",
+    "timestamp": "2026-10-28T05:31:05.835693+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "WORKFLOW_COMPLETE",
+    "message": "Live automation completed successfully for all 1 targets.",
+    "details": {}
+  },
+  {
+    "id": "8103cec4",
+    "timestamp": "2026-10-28T05:31:05.815937+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Closing search interface and returning to primary camera view...",
+    "details": {}
+  },
+  {
+    "id": "5e349253",
+    "timestamp": "2026-10-28T05:31:05.803785+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "FRIEND_REQUEST_SENT",
+    "message": "[1/1] Successfully sent friend request to @user_f61aa15b!",
+    "details": {}
+  },
+  {
+    "id": "91682222",
+    "timestamp": "2026-10-28T05:31:05.789596+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Found Add Friend button for @user_f61aa15b. Performing organic finger tap gesture...",
+    "details": {}
+  },
+  {
+    "id": "f161e168",
+    "timestamp": "2026-10-28T05:31:05.765609+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Awaiting Snapchat servers and scanning search results (2.25s)...",
+    "details": {}
+  },
+  {
+    "id": "d1f6a5ac",
+    "timestamp": "2026-10-28T05:31:05.711682+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Typing target '@user_f61aa15b' with organic human keystroke intervals...",
+    "details": {}
+  },
+  {
+    "id": "b9804910",
+    "timestamp": "2026-10-28T05:31:05.642485+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Confirmed camera landing view. Transitioning to search...",
+    "details": {}
+  },
+  {
+    "id": "7543fe78",
+    "timestamp": "2026-10-28T05:31:05.592445+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "[1/1] Processing target @user_f61aa15b (Live Tester)...",
+    "details": {}
+  },
+  {
+    "id": "eb6fc60f",
+    "timestamp": "2026-10-28T05:31:05.534710+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Snapchat camera landing screen confirmed. Ready for target dispatch.",
+    "details": {}
+  },
+  {
+    "id": "92d9e435",
+    "timestamp": "2026-10-28T05:31:05.506490+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "LIVE_STEP_OK",
+    "message": "Launching Snapchat and verifying clean landing screen...",
+    "details": {}
+  },
+  {
+    "id": "11223497",
+    "timestamp": "2026-10-28T05:31:05.474035+00:00",
+    "workflow": "Live Snapchat Engine",
+    "result": "COMPLETED",
+    "reason_code": "INIT_LIVE_WORKFLOW",
+    "message": "[Device: test_phone] Starting live Snapchat automation for 1 confirmed targets...",
+    "details": {}
+  },
+  {
+    "id": "c7e43053",
+    "timestamp": "2026-10-28T05:31:05.391521+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User pressed Emergency STOP",
+    "details": {}
+  },
+  {
+    "id": "59bc3605",
+    "timestamp": "2026-10-28T05:31:05.366042+00:00",
+    "workflow": "Contact Manager",
+    "result": "COMPLETED",
+    "reason_code": "CONTACT_ADDED",
+    "message": "Added contact @bot_0bfc7a",
+    "details": {}
+  },
+  {
+    "id": "696e0efd",
+    "timestamp": "2026-10-28T05:31:04.416998+00:00",
+    "workflow": "System",
+    "result": "CANCELLED",
+    "reason_code": "USER_EMERGENCY_STOP",
+    "message": "Emergency stop executed: User invoked emergency stop",
+    "details": {}
+  },
+  {
+    "id": "50823433",
+    "timestamp": "2026-10-28T05:25:48.148353+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "253b028b",
+    "timestamp": "2026-10-28T05:25:47.505537+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "144055b5",
+    "timestamp": "2026-10-28T05:23:47.269650+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "852462e0",
+    "timestamp": "2026-10-28T05:23:46.853681+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "db914491",
+    "timestamp": "2026-10-28T05:23:13.854857+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "b0b5847f",
+    "timestamp": "2026-10-28T05:23:12.350899+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "87fdc8e1",
+    "timestamp": "2026-10-28T05:22:07.113983+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
+    "id": "6ca1402c",
+    "timestamp": "2026-10-28T05:22:06.672386+00:00",
+    "workflow": "System",
+    "result": "COMPLETED",
+    "reason_code": "SERVER_START",
+    "message": "Appilot Backend Orchestrator started successfully",
+    "details": {}
+  },
+  {
+    "id": "f52bf5dc",
+    "timestamp": "2026-10-28T05:10:33.354123+00:00",
+    "workflow": "Device Link",
+    "result": "COMPLETED",
+    "reason_code": "DEVICE_REGISTERED",
+    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
+    "details": {}
+  },
+  {
     "id": "9f6d534f",
     "timestamp": "2026-10-27T23:28:26.000879+00:00",
     "workflow": "Bulk Unfollow Engine",
@@ -3876,627 +4497,6 @@
     "result": "COMPLETED",
     "reason_code": "SNAPCHAT_WINDOW",
     "message": "Snapchat window: com.snap.mushroom.MainActivity",
-    "details": {}
-  },
-  {
-    "id": "4c87ca4c",
-    "timestamp": "2026-10-27T14:39:07.953622+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "SNAPCHAT_WINDOW",
-    "message": "Snapchat window: android.widget.FrameLayout",
-    "details": {}
-  },
-  {
-    "id": "832e5232",
-    "timestamp": "2026-10-27T14:39:07.917178+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "d794c1c5",
-    "timestamp": "2026-10-27T14:38:43.310935+00:00",
-    "workflow": "Snapscore Booster",
-    "result": "COMPLETED",
-    "reason_code": "SNAPSCORE_STEP_OK",
-    "message": "[Cycle 2/2] Capturing fresh Snap for score generation...",
-    "details": {}
-  },
-  {
-    "id": "d3be60bf",
-    "timestamp": "2026-10-27T14:38:34.264230+00:00",
-    "workflow": "Snapscore Booster",
-    "result": "COMPLETED",
-    "reason_code": "COOLDOWN_WAIT",
-    "message": "Anti-ban safety cooldown: Waiting 9s before cycle 2...",
-    "details": {}
-  },
-  {
-    "id": "9b198460",
-    "timestamp": "2026-10-27T14:38:33.905886+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "a1226837",
-    "timestamp": "2026-10-27T14:38:33.871507+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "fdfc5ed1",
-    "timestamp": "2026-10-27T14:38:33.838952+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "70ee9ce8",
-    "timestamp": "2026-10-27T14:38:33.807660+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "45d2d768",
-    "timestamp": "2026-10-27T14:38:33.776190+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "0ccf3bfb",
-    "timestamp": "2026-10-27T14:38:33.748536+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "826c3b35",
-    "timestamp": "2026-10-27T14:38:33.231704+00:00",
-    "workflow": "Snapscore Booster",
-    "result": "COMPLETED",
-    "reason_code": "CYCLE_DISPATCH_COMPLETE",
-    "message": "[Cycle 1/2] Snap delivered to 4 contact(s). Estimated points gained: +4 (Total: +4).",
-    "details": {}
-  },
-  {
-    "id": "395b3aaf",
-    "timestamp": "2026-10-27T14:38:06.216095+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "cbf61ec2",
-    "timestamp": "2026-10-27T14:38:06.194599+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "999b5177",
-    "timestamp": "2026-10-27T14:38:06.170694+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "0347c084",
-    "timestamp": "2026-10-27T14:38:06.143821+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "f033a7c8",
-    "timestamp": "2026-10-27T14:38:06.118539+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "cb1fe98f",
-    "timestamp": "2026-10-27T14:38:06.096137+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "7196286c",
-    "timestamp": "2026-10-27T14:38:06.068759+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "75b67406",
-    "timestamp": "2026-10-27T14:38:06.046735+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "48dae662",
-    "timestamp": "2026-10-27T14:38:06.033718+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "7cf9e6ff",
-    "timestamp": "2026-10-27T14:37:32.108298+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "d97cbe68",
-    "timestamp": "2026-10-27T14:37:32.084205+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "58a53afb",
-    "timestamp": "2026-10-27T14:37:22.210834+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "fd522b7f",
-    "timestamp": "2026-10-27T14:37:22.184194+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "3501e211",
-    "timestamp": "2026-10-27T14:37:22.159296+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "7187db9e",
-    "timestamp": "2026-10-27T14:37:22.131130+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "1b823436",
-    "timestamp": "2026-10-27T14:37:22.103614+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "SNAPCHAT_WINDOW",
-    "message": "Snapchat window: com.snap.mushroom.MainActivity",
-    "details": {}
-  },
-  {
-    "id": "cdc706fc",
-    "timestamp": "2026-10-27T14:37:22.075936+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "SNAPCHAT_WINDOW",
-    "message": "Snapchat window: android.widget.FrameLayout",
-    "details": {}
-  },
-  {
-    "id": "2abc0fd7",
-    "timestamp": "2026-10-27T14:37:22.037959+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "471b59e6",
-    "timestamp": "2026-10-27T14:36:57.795841+00:00",
-    "workflow": "Snapscore Booster",
-    "result": "COMPLETED",
-    "reason_code": "SNAPSCORE_STEP_OK",
-    "message": "[Cycle 1/2] Capturing fresh Snap for score generation...",
-    "details": {}
-  },
-  {
-    "id": "c76f8a6e",
-    "timestamp": "2026-10-27T14:36:56.797721+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "503f9e46",
-    "timestamp": "2026-10-27T14:36:56.747747+00:00",
-    "workflow": "Snapscore Booster",
-    "result": "COMPLETED",
-    "reason_code": "BOOSTER_START",
-    "message": "Starting algorithmic Snapscore booster: 2 automated dispatch cycle(s)...",
-    "details": {}
-  },
-  {
-    "id": "f0a8daf8",
-    "timestamp": "2026-10-27T14:35:02.658198+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "WORKFLOW_COMPLETE",
-    "message": "Returned to camera landing. Auto Snap workflow complete.",
-    "details": {}
-  },
-  {
-    "id": "983f1962",
-    "timestamp": "2026-10-27T14:35:02.210323+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "0713b09d",
-    "timestamp": "2026-10-27T14:35:02.176345+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "c9c60747",
-    "timestamp": "2026-10-27T14:35:02.139659+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "913ba3f0",
-    "timestamp": "2026-10-27T14:35:02.111418+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "d705baf6",
-    "timestamp": "2026-10-27T14:35:01.619599+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_SENT",
-    "message": "Snap successfully sent to 7 recipient(s)!",
-    "details": {}
-  },
-  {
-    "id": "85d5174e",
-    "timestamp": "2026-10-27T14:34:38.612471+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_STEP_OK",
-    "message": "Selecting recipients (All Available Friends) and dispatching Snap...",
-    "details": {}
-  },
-  {
-    "id": "15f6724e",
-    "timestamp": "2026-10-27T14:34:38.041821+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "b0e01430",
-    "timestamp": "2026-10-27T14:34:38.001955+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "2516c156",
-    "timestamp": "2026-10-27T14:34:37.959764+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "32797a7f",
-    "timestamp": "2026-10-27T14:34:22.836951+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_STEP_OK",
-    "message": "Transitioning to 'Send To' recipient selection screen...",
-    "details": {}
-  },
-  {
-    "id": "e87162b4",
-    "timestamp": "2026-10-27T14:34:22.796180+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "8d033277",
-    "timestamp": "2026-10-27T14:34:22.743712+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "7d216359",
-    "timestamp": "2026-10-27T14:34:22.693908+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "318ca572",
-    "timestamp": "2026-10-27T14:34:07.575290+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_STEP_OK",
-    "message": "Applying random aesthetic filter (3 lens swipe gestures)...",
-    "details": {}
-  },
-  {
-    "id": "6a929d74",
-    "timestamp": "2026-10-27T14:34:06.363555+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "81f477d0",
-    "timestamp": "2026-10-27T14:34:00.983353+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "576d4874",
-    "timestamp": "2026-10-27T14:34:00.949421+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "e9d69b68",
-    "timestamp": "2026-10-27T14:34:00.916309+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "SNAPCHAT_WINDOW",
-    "message": "Snapchat window: com.snap.mushroom.MainActivity",
-    "details": {}
-  },
-  {
-    "id": "4d42b484",
-    "timestamp": "2026-10-27T14:34:00.886440+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "SNAPCHAT_WINDOW",
-    "message": "Snapchat window: android.widget.FrameLayout",
-    "details": {}
-  },
-  {
-    "id": "01d69ad9",
-    "timestamp": "2026-10-27T14:34:00.860648+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "a07d7237",
-    "timestamp": "2026-10-27T14:34:00.497303+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_STEP_OK",
-    "message": "Triggering camera hardware shutter to capture Snap...",
-    "details": {}
-  },
-  {
-    "id": "c73fe940",
-    "timestamp": "2026-10-27T14:33:45.388805+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "48d84e05",
-    "timestamp": "2026-10-27T14:33:44.867516+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "SNAP_STEP_OK",
-    "message": "Verifying clean Snapchat camera landing screen...",
-    "details": {}
-  },
-  {
-    "id": "de3943a8",
-    "timestamp": "2026-10-27T14:31:45.843087+00:00",
-    "workflow": "Device Link",
-    "result": "COMPLETED",
-    "reason_code": "DEVICE_REGISTERED",
-    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
-    "details": {}
-  },
-  {
-    "id": "add8bad5",
-    "timestamp": "2026-10-27T14:31:45.412233+00:00",
-    "workflow": "System",
-    "result": "COMPLETED",
-    "reason_code": "SERVER_START",
-    "message": "Appilot Backend Orchestrator started successfully",
-    "details": {}
-  },
-  {
-    "id": "b0f75001",
-    "timestamp": "2026-10-27T14:27:09.445242+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "a58c66ea",
-    "timestamp": "2026-10-27T14:26:24.294650+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "8daef106",
-    "timestamp": "2026-10-27T14:26:19.551400+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "5678db11",
-    "timestamp": "2026-10-27T14:26:14.914194+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "69dbf85c",
-    "timestamp": "2026-10-27T14:26:10.417418+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "1d4ee4c0",
-    "timestamp": "2026-10-27T14:25:39.987853+00:00",
-    "workflow": "Device Link",
-    "result": "COMPLETED",
-    "reason_code": "DEVICE_REGISTERED",
-    "message": "Android Device 'android_Infinix_X6817' registered with AccessibilityService",
-    "details": {}
-  },
-  {
-    "id": "a584d98f",
-    "timestamp": "2026-10-27T14:25:39.317709+00:00",
-    "workflow": "System",
-    "result": "COMPLETED",
-    "reason_code": "SERVER_START",
-    "message": "Appilot Backend Orchestrator started successfully",
-    "details": {}
-  },
-  {
-    "id": "eddcae34",
-    "timestamp": "2026-10-27T14:23:46.037867+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "e7654731",
-    "timestamp": "2026-10-27T14:02:59.230284+00:00",
-    "workflow": "Auto Snap Engine",
-    "result": "COMPLETED",
-    "reason_code": "WORKFLOW_COMPLETE",
-    "message": "Returned to camera landing. Auto Snap workflow complete.",
-    "details": {}
-  },
-  {
-    "id": "54f7495d",
-    "timestamp": "2026-10-27T14:02:58.636796+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
-    "details": {}
-  },
-  {
-    "id": "5b23315f",
-    "timestamp": "2026-10-27T14:02:58.542586+00:00",
-    "workflow": "Device Action",
-    "result": "COMPLETED",
-    "reason_code": "ACCESSIBILITY_ENABLED",
-    "message": "Accessibility service active and bound.",
     "details": {}
   }
 ]

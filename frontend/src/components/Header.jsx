@@ -1,7 +1,7 @@
 import React from 'react';
 import { ShieldCheck, Radio, RotateCcw, AlertTriangle } from 'lucide-react';
 
-export default function Header({ appState, activeWorkflow, isConnected, latency, onReset }) {
+export default function Header({ appState, activeWorkflow, isConnected, latency, snapchatVersion, onReset }) {
   const getStateClass = (state) => {
     switch (state) {
       case 'IDLE': return 'idle';
@@ -23,7 +23,27 @@ export default function Header({ appState, activeWorkflow, isConnected, latency,
           <ShieldCheck size={26} color="#ffffff" />
         </div>
         <div>
-          <h1 className="brand-title">Appilot Companion</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h1 className="brand-title">Appilot Companion</h1>
+            <span
+              style={{
+                fontSize: '0.72rem',
+                fontWeight: 700,
+                color: '#000000',
+                backgroundColor: '#FFFC00',
+                padding: '2px 8px',
+                borderRadius: '12px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                boxShadow: '0 0 10px rgba(255, 252, 0, 0.35)',
+                letterSpacing: '0.02em'
+              }}
+              title="Snapchat Target App Version"
+            >
+              👻 Snapchat v{snapchatVersion || '14.29.0.50'}
+            </span>
+          </div>
           <div className="brand-subtitle">
             Snapchat Assisted Management • Day 1 Verified Baseline
           </div>

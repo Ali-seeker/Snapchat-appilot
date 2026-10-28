@@ -14,7 +14,8 @@ export default function ControlPanel({
   onEmergencyStop,
   disclosureAcknowledged,
   onViewLiveProgress,
-  devices = []
+  devices = [],
+  snapchatVersion = '14.29.0.50'
 }) {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [executionMode, setExecutionMode] = useState('live'); // 'live' or 'demo'
@@ -47,12 +48,18 @@ export default function ControlPanel({
           <Play size={18} color="#10b981" />
           <span>FR-03 &amp; FR-05: Execution Controls &amp; Safety Review</span>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
           {connectedDevice && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '3px 8px', borderRadius: '4px' }}>
-              <Smartphone size={13} />
-              <span>Connected: {connectedDevice.model || connectedDevice.device_id}</span>
-            </div>
+            <>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.78rem', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '3px 8px', borderRadius: '4px' }}>
+                <Smartphone size={13} />
+                <span>Connected: {connectedDevice.model || connectedDevice.device_id}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.78rem', color: '#facc15', background: 'rgba(250, 204, 21, 0.1)', border: '1px solid rgba(250, 204, 21, 0.25)', padding: '3px 8px', borderRadius: '4px' }}>
+                <span>👻</span>
+                <span>Snapchat: <strong>v{connectedDevice.snapchat_version || snapchatVersion}</strong></span>
+              </div>
+            </>
           )}
           <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
             Selected: <strong style={{ color: '#38bdf8' }}>{selectedTargets.length}</strong> targets
