@@ -217,48 +217,55 @@ class BulkFollowEngine:
                 raise Exception("Halted by Emergency STOP")
 
             username = target.username
-            await self._step(f"[{idx}/{total}] Searching @{username} with human typing rhythm...", delay=0.4)
+            clean_username = username.lstrip("@").strip()
+            await self._step(f"[{idx}/{total}] Searching @{clean_username} with human typing rhythm...", delay=0.4)
 
-            # Check for interruptions
-            adb_service.dismiss_heads_up_notification(device_id)
+            # Open search if not on SEARCH_PAGE
+            current_state = adb_service.detect_screen_state(device_id)
+            if current_state != "SEARCH_PAGE":
+                if current_state == "MEMORIES_DRAWER":
+                    adb_service.ensure_landing_or_search(device_id)
+                search_elem = (
+                    adb_service.find_element(device_id, resource_id="hova_header_search_icon")
+                    or adb_service.find_element(device_id, content_desc="Search")
+                    or adb_service.find_element(device_id, resource_id="search-textfield")
+                )
+                search_coords = search_elem["center"] if search_elem else (156, 124)
+                adb_service.input_tap_human(device_id, search_coords[0], search_coords[1])
+                await asyncio.sleep(1.0)
 
-            # Open search
-            search_elem = (
-                adb_service.find_element(device_id, resource_id="hova_header_search_icon")
-                or adb_service.find_element(device_id, content_desc="Search")
-                or adb_service.find_element(device_id, resource_id="search-textfield")
-            )
-            search_coords = search_elem["center"] if search_elem else (360, 100)
-            adb_service.input_tap_human(device_id, search_coords[0], search_coords[1])
-            await asyncio.sleep(0.8)
+            # Focus search textfield
+            search_input = adb_service.find_element(device_id, resource_id="search-textfield")
+            input_coords = search_input["center"] if search_input else (295, 133)
+            adb_service.input_tap_human(device_id, input_coords[0], input_coords[1])
+            await asyncio.sleep(0.3)
 
-            # Clear old text if any
-            if adb_service.get_search_field_text(device_id):
-                clear_elem = adb_service.find_element(device_id, resource_id="clear-button")
-                if clear_elem:
-                    adb_service.input_tap_human(device_id, clear_elem["center"][0], clear_elem["center"][1])
-                    await asyncio.sleep(0.3)
+            # Clear old text if present
+            clear_elem = adb_service.find_element(device_id, resource_id="clear-button")
+            if clear_elem:
+                adb_service.input_tap_human(device_id, clear_elem["center"][0], clear_elem["center"][1])
+                await asyncio.sleep(0.3)
 
             # Type username
-            adb_service.input_text_human(device_id, username, min_delay=0.08, max_delay=0.18)
+            adb_service.input_text_human(device_id, clean_username, min_delay=0.08, max_delay=0.18)
             await asyncio.sleep(0.5)
-            adb_service.input_key(device_id, 66) # Submit
+            adb_service.input_key(device_id, 66) # Submit Enter
 
             # Await results
             await asyncio.sleep(random.uniform(2.0, 3.0))
-            res_info = adb_service.inspect_search_result(device_id, username)
+            res_info = adb_service.inspect_search_result(device_id, clean_username)
 
             if res_info["status"] == "CAN_ADD":
                 await asyncio.sleep(random.uniform(0.6, 1.0))
                 adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1])
-                await self._step(f"[{idx}/{total}] Added @{username} successfully!", delay=0.8, reason="FRIEND_ADDED")
+                await self._step(f"[{idx}/{total}] Added @{clean_username} successfully!", delay=0.8, reason="FRIEND_ADDED")
             elif res_info["status"] == "ALREADY_FRIEND":
-                await self._step(f"[{idx}/{total}] @{username} is already added or pending.", delay=0.6, reason="ALREADY_FRIEND")
+                await self._step(f"[{idx}/{total}] @{clean_username} is already added or pending.", delay=0.6, reason="ALREADY_FRIEND")
             elif res_info["status"] == "CAN_SUBSCRIBE":
                 adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1])
-                await self._step(f"[{idx}/{total}] Subscribed to creator @{username}!", delay=0.8, reason="SUBSCRIBED")
+                await self._step(f"[{idx}/{total}] Subscribed to creator @{clean_username}!", delay=0.8, reason="SUBSCRIBED")
             else:
-                await self._step(f"[{idx}/{total}] @{username} not found or no add button.", delay=0.6, status=ResultStatus.SKIPPED, reason="TARGET_NOT_FOUND")
+                await self._step(f"[{idx}/{total}] @{clean_username} not found or no add button.", delay=0.6, status=ResultStatus.SKIPPED, reason="TARGET_NOT_FOUND")
 
             adb_service.close_search_to_camera(device_id)
             if idx < total:

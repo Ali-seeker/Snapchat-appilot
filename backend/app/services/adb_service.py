@@ -520,12 +520,16 @@ class ADBService:
             if "search-textfield" in joined_ids or "search-box" in joined_ids:
                 return "SEARCH_PAGE"
 
-            # 3. Profile Screen Check
+            # 3. Memories Check (Upward drawer on camera screen)
+            if "memories_grid" in joined_ids or "memories" in joined_texts or "memories_create_button" in joined_ids:
+                return "MEMORIES_DRAWER"
+
+            # 4. Profile Screen Check
             if ("my profile" in joined_texts or "bitmoji" in joined_ids or "settings_button" in joined_ids or "profile_avatar" in joined_ids):
                 if "camera_capture_button" not in joined_ids:
                     return "PROFILE_PAGE"
 
-            # 4. Camera Landing Screen Check
+            # 5. Camera Landing Screen Check
             if ("hova_header_search_icon" in joined_ids or "camera_capture_button" in joined_ids or "neon_header_avatar" in joined_ids):
                 return "CAMERA_LANDING"
 
@@ -634,6 +638,15 @@ class ADBService:
             if state == "CAMERA_LANDING":
                 return True
 
+            if state == "MEMORIES_DRAWER":
+                back_elem = self.find_element(device_id, resource_id="subscreen_top_left") or self.find_element(device_id, content_desc="Back arrow")
+                if back_elem:
+                    self.input_tap(device_id, back_elem["center"][0], back_elem["center"][1])
+                else:
+                    self.input_key(device_id, 4)
+                time.sleep(0.8)
+                continue
+
             # Try tapping the explicit 'Cancel' button in search header
             cancel_elem = (
                 self.find_element(device_id, resource_id="dismiss-button")
@@ -683,23 +696,43 @@ class ADBService:
             t_clean = target_name.lower().replace("@", "").strip()
 
             target_y = None
-            exact_found = False
+            # Priority 1: Exact match on username (result-subtitle)
             for node in root.iter("node"):
-                txt = (node.attrib.get("text") or "").strip().lower()
-                desc = (node.attrib.get("content-desc") or "").strip().lower()
                 res_id = (node.attrib.get("resource-id") or "").lower()
-
-                if "result-title" in res_id or "result-subtitle" in res_id or not res_id:
+                if "result-subtitle" in res_id:
+                    txt = (node.attrib.get("text") or "").strip().lower()
+                    desc = (node.attrib.get("content-desc") or "").strip().lower()
                     if txt == t_clean or desc == t_clean:
                         b = parse_bounds(node.attrib.get("bounds", ""))
                         if b:
                             target_y = (b[1] + b[3]) // 2
-                            exact_found = True
                             break
-                    elif not exact_found and (t_clean in txt or t_clean in desc):
-                        b = parse_bounds(node.attrib.get("bounds", ""))
-                        if b and target_y is None:
-                            target_y = (b[1] + b[3]) // 2
+
+            # Priority 2: Exact match on display name (result-title)
+            if target_y is None:
+                for node in root.iter("node"):
+                    res_id = (node.attrib.get("resource-id") or "").lower()
+                    if "result-title" in res_id:
+                        txt = (node.attrib.get("text") or "").strip().lower()
+                        desc = (node.attrib.get("content-desc") or "").strip().lower()
+                        if txt == t_clean or desc == t_clean:
+                            b = parse_bounds(node.attrib.get("bounds", ""))
+                            if b:
+                                target_y = (b[1] + b[3]) // 2
+                                break
+
+            # Priority 3: Substring match on username or display name
+            if target_y is None:
+                for node in root.iter("node"):
+                    res_id = (node.attrib.get("resource-id") or "").lower()
+                    if "result-title" in res_id or "result-subtitle" in res_id or not res_id:
+                        txt = (node.attrib.get("text") or "").strip().lower()
+                        desc = (node.attrib.get("content-desc") or "").strip().lower()
+                        if t_clean in txt or t_clean in desc:
+                            b = parse_bounds(node.attrib.get("bounds", ""))
+                            if b:
+                                target_y = (b[1] + b[3]) // 2
+                                break
 
             # If target row was NOT found in the search results, it cannot be added or already added!
             if target_y is None:
@@ -785,6 +818,17 @@ class ADBService:
             if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
                 return True
 
+            if state == "MEMORIES_DRAWER":
+                back_elem = self.find_element(device_id, resource_id="subscreen_top_left") or self.find_element(device_id, content_desc="Back arrow")
+                if back_elem:
+                    self.input_tap(device_id, back_elem["center"][0], back_elem["center"][1])
+                else:
+                    self.input_key(device_id, 4)
+                time.sleep(1.0)
+                state = self.detect_screen_state(device_id)
+                if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                    return True
+
             if state == "POPUP":
                 self.dismiss_popups(device_id)
                 time.sleep(1.0)
@@ -828,11 +872,28 @@ class ADBService:
         return final_state in ["CAMERA_LANDING", "SEARCH_PAGE"]
 
     def dismiss_heads_up_notification(self, device_id: str) -> bool:
-        """Swipes up at top of screen to dismiss heads-up notification banners"""
+        """
+        Safely dismisses heads-up notification banners (e.g., WhatsApp, system popups)
+        ONLY if an external notification overlay is actually detected.
+        CRITICAL: Never blindly swipe up on Snapchat Camera screen, as upward swipes trigger
+        Snapchat Memories drawer!
+        """
         try:
-            cmd = [self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "150", "360", "20", "180"]
-            self._run_cmd(cmd, timeout=3)
-            return True
+            state = self.detect_screen_state(device_id)
+            if state in ["CAMERA_LANDING", "SEARCH_PAGE"]:
+                return False
+
+            xml_content = self.dump_ui_hierarchy(device_id)
+            if not xml_content:
+                return False
+
+            xml_lower = xml_content.lower()
+            if any(k in xml_lower for k in ["heads_up_notification", "notification_container", "status_bar_latest_event_content"]):
+                cmd = [self.adb_path, "-s", device_id, "shell", "input", "swipe", "360", "120", "360", "10", "150"]
+                self._run_cmd(cmd, timeout=3)
+                time.sleep(0.5)
+                return True
+            return False
         except Exception:
             return False
 
