@@ -45,15 +45,15 @@ class WorkflowStateMachine:
 
     def transition_to(self, new_state: AppState, workflow: Optional[str] = None, reason: str = "") -> bool:
         allowed_transitions = {
-            AppState.IDLE: [AppState.READY, AppState.REVIEWING, AppState.FAILED],
-            AppState.READY: [AppState.REVIEWING, AppState.IDLE, AppState.RUNNING, AppState.FAILED],
-            AppState.REVIEWING: [AppState.READY, AppState.RUNNING, AppState.IDLE, AppState.STOPPED],
-            AppState.RUNNING: [AppState.PAUSED, AppState.STOPPED, AppState.COMPLETED, AppState.FAILED, AppState.NEEDS_USER_ACTION],
-            AppState.PAUSED: [AppState.RUNNING, AppState.STOPPED, AppState.FAILED],
-            AppState.STOPPED: [AppState.IDLE, AppState.READY],
-            AppState.COMPLETED: [AppState.IDLE, AppState.READY],
-            AppState.FAILED: [AppState.IDLE, AppState.READY],
-            AppState.NEEDS_USER_ACTION: [AppState.RUNNING, AppState.STOPPED, AppState.FAILED]
+            AppState.IDLE: [AppState.READY, AppState.REVIEWING, AppState.FAILED, AppState.COMPLETED],
+            AppState.READY: [AppState.REVIEWING, AppState.IDLE, AppState.RUNNING, AppState.FAILED, AppState.COMPLETED],
+            AppState.REVIEWING: [AppState.READY, AppState.RUNNING, AppState.IDLE, AppState.STOPPED, AppState.COMPLETED, AppState.FAILED],
+            AppState.RUNNING: [AppState.PAUSED, AppState.STOPPED, AppState.COMPLETED, AppState.FAILED, AppState.NEEDS_USER_ACTION, AppState.IDLE],
+            AppState.PAUSED: [AppState.RUNNING, AppState.STOPPED, AppState.FAILED, AppState.IDLE],
+            AppState.STOPPED: [AppState.IDLE, AppState.READY, AppState.COMPLETED, AppState.FAILED],
+            AppState.COMPLETED: [AppState.IDLE, AppState.READY, AppState.RUNNING],
+            AppState.FAILED: [AppState.IDLE, AppState.READY, AppState.RUNNING],
+            AppState.NEEDS_USER_ACTION: [AppState.RUNNING, AppState.STOPPED, AppState.FAILED, AppState.IDLE]
         }
 
         # Any state can transition to STOPPED if emergency stop is triggered
@@ -71,6 +71,12 @@ class WorkflowStateMachine:
             return True
 
         if new_state not in allowed_transitions.get(self._current_state, []):
+            if new_state in (AppState.COMPLETED, AppState.FAILED, AppState.IDLE):
+                self._current_state = new_state
+                if workflow:
+                    self._current_workflow = workflow
+                self._notify()
+                return True
             raise StateMachineError(
                 f"Invalid state transition from {self._current_state} to {new_state}"
             )

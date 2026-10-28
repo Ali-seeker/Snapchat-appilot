@@ -179,12 +179,26 @@ class BulkFollowEngine:
         adb_service.ensure_landing_or_search(device_id)
 
     async def _execute_search_add(self, device_id: str, target_ids: List[str]):
-        # Resolve targets from contact service
+        # Resolve targets from contact service or direct user inputs
         targets: List[ContactTarget] = []
-        for tid in target_ids:
-            c = contact_service.get_contact_by_id(tid)
-            if c:
-                targets.append(c)
+        for tid in (target_ids or []):
+            if not tid or not str(tid).strip():
+                continue
+            cleaned = str(tid).strip()
+            c = contact_service.get_contact_by_id(cleaned)
+            if not c:
+                for existing in contact_service.get_contacts():
+                    if existing.username.lower() == cleaned.lower().lstrip("@"):
+                        c = existing
+                        break
+            if not c:
+                raw_user = cleaned.lstrip("@")
+                c = ContactTarget(
+                    id=f"target_{raw_user}",
+                    username=raw_user,
+                    display_name=raw_user
+                )
+            targets.append(c)
 
         if not targets:
             targets = contact_service.get_contacts()[:5]

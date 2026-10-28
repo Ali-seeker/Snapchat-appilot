@@ -18,17 +18,23 @@
 ### Steps:
 1. Dashboard ke **Home** tab par jayein.
 2. **Quick Actions** section mein pehle yellow card: **"Add Friends"** par click karein.
-3. Ek live popup open hoga: *"Live Workflow Execution • Bulk Follow Automation (Quick Add Suggestions)"*.
-4. Mobile screen ko dekhein:
-   - Bot Snapchat ke Add Friends page par jayega.
-   - Quick Add section mein candidates ke samne **"+ Add"** button par tap karega.
+3. Ek setup modal open hoga jisme aapse poocha jayega:
+   - **Mode Selection:**
+     - **Bulk Quick Add:** Snapchat ki recommendations se doston ko add karein (Select friends count: 3, 5, 10, ya 15).
+     - **Target Friend:** Exact username search kar ke follow karein (e.g. `@target_user`).
+4. **"Start Adding Friends ➔"** par click karein.
+5. Fauran real-time **Live Execution Modal** open ho jayega jisme progress bar aur live telemetry stream nazar aayegi.
+6. Mobile screen ko dekhein:
+   - Agar **Bulk Quick Add** chuna tha: Bot Add Friends page par ja kar `+ Add` suggestions tap karega.
+   - Agar **Target Friend** chuna tha: Bot Search bar open karega, username type karega, profile inspect kar ke Add button press karega.
    - Task complete hone ke baad bot camera landing screen par wapis aa jayega.
-5. Modal mein **"Done / Close"** button click karein.
+7. Modal mein status `COMPLETED` ho jayega aur aap **"Done / Close"** click kar sakte hain.
 
 ### Expected Result (Matlooba Nateeja):
-- Dashboard modal par har step green checkmark ke sath show ho.
-- Mobile par suggestions mein se 2–5 dost add hon aur screen cleanly camera landing par wapis aa jaye.
-- **Activity** tab mein *"Added suggested friends"* ka log record ho jaye.
+- Dashboard par pehle setup dialog open ho, phir live telemetry modal screen ke center mein highlight ho.
+- State Machine clean `COMPLETED` report kare bina kisi stop error ke.
+- Mobile par suggestions ya target username add hon aur screen cleanly camera landing par wapis aa jaye.
+- **Activity** tab mein record show ho jaye.
 
 ---
 

@@ -124,10 +124,10 @@ export default function App() {
 
       const payload = { ...params };
       if (type === 'follow' && params.mode === 'search') {
-        payload.target_ids = selectedIds;
+        payload.target_ids = (params.target_ids && params.target_ids.length > 0) ? params.target_ids : selectedIds;
       }
       if (type === 'unfollow' && params.filter_type === 'custom') {
-        payload.custom_targets = selectedIds;
+        payload.custom_targets = (params.custom_targets && params.custom_targets.length > 0) ? params.custom_targets : selectedIds;
       }
 
       await fetch(endpoints[type], {

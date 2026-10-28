@@ -10,6 +10,8 @@ import {
   Clock
 } from 'lucide-react';
 
+import ActionConfigModal from './ActionConfigModal';
+
 export default function FriendsView({
   contacts = [],
   selectedIds = [],
@@ -22,6 +24,7 @@ export default function FriendsView({
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilterTab, setActiveFilterTab] = useState('all');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showQuickAddConfig, setShowQuickAddConfig] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [newDisplayName, setNewDisplayName] = useState('');
 
@@ -64,6 +67,13 @@ export default function FriendsView({
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <button
+              className="btn-secondary"
+              onClick={() => setShowQuickAddConfig(true)}
+            >
+              <UserPlus size={16} style={{ color: '#D97706' }} />
+              <span>Quick Add Friends</span>
+            </button>
             <button
               className="btn-primary"
               onClick={() => setShowAddModal(true)}
@@ -287,6 +297,14 @@ export default function FriendsView({
           </div>
         </div>
       )}
+
+      {/* Action Configuration Modal */}
+      <ActionConfigModal
+        isOpen={showQuickAddConfig}
+        actionType="add_friends"
+        onClose={() => setShowQuickAddConfig(false)}
+        onConfirm={(type, params) => onTriggerWorkflow(type, params)}
+      />
     </div>
   );
 }

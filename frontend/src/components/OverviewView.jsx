@@ -16,6 +16,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import ghostHero from '../assets/ghost_hero.png';
+import ActionConfigModal from './ActionConfigModal';
 
 export default function OverviewView({
   appState,
@@ -33,6 +34,7 @@ export default function OverviewView({
 }) {
   const isRunning = appState === 'RUNNING';
   const [selectedEngine, setSelectedEngine] = useState('chain');
+  const [configModalAction, setConfigModalAction] = useState(null); // 'add_friends' | 'remove_friends' | 'streak_booster' | 'auto_snap'
 
   return (
     <div className="page-container">
@@ -136,8 +138,8 @@ export default function OverviewView({
             {/* Add Friends (Yellow) */}
             <div
               className="action-box yellow"
-              onClick={() => onTriggerWorkflow('follow', { mode: 'quick_add', max_count: 5 })}
-              title="Click to trigger Bulk Follow"
+              onClick={() => setConfigModalAction('add_friends')}
+              title="Click to configure and add friends"
             >
               <div className="action-top">
                 <div className="action-icon-circle">
@@ -145,7 +147,7 @@ export default function OverviewView({
                 </div>
                 <div className="action-text">
                   <h4>Add Friends</h4>
-                  <p>Bulk add new friends from suggestions or search</p>
+                  <p>Bulk add from suggestions or target exact @username</p>
                 </div>
               </div>
               <div className="action-arrow">
@@ -156,8 +158,8 @@ export default function OverviewView({
             {/* Remove Friends (Purple) */}
             <div
               className="action-box purple"
-              onClick={() => onTriggerWorkflow('unfollow', { filter_type: 'no_streak', days_threshold: 17, max_unfollow: 2 })}
-              title="Click to trigger Smart Unfollow"
+              onClick={() => setConfigModalAction('remove_friends')}
+              title="Click to configure and unfollow friends"
             >
               <div className="action-top">
                 <div className="action-icon-circle">
@@ -176,8 +178,8 @@ export default function OverviewView({
             {/* Streak Reminders / Booster (Green) */}
             <div
               className="action-box green"
-              onClick={() => onTriggerWorkflow('snapscore', { cycles: 3, select_all: true, max_recipients: 5 })}
-              title="Click to trigger Snapscore Booster"
+              onClick={() => setConfigModalAction('streak_booster')}
+              title="Click to configure and boost snapscore"
             >
               <div className="action-top">
                 <div className="action-icon-circle">
@@ -196,8 +198,8 @@ export default function OverviewView({
             {/* Snap Reminders / Dispatch (Blue) */}
             <div
               className="action-box blue"
-              onClick={() => onTriggerWorkflow('snap', { random_filter: true, select_all: true, max_recipients: 5 })}
-              title="Click to trigger Auto Snap Dispatch"
+              onClick={() => setConfigModalAction('auto_snap')}
+              title="Click to configure and dispatch snaps"
             >
               <div className="action-top">
                 <div className="action-icon-circle">
@@ -313,19 +315,19 @@ export default function OverviewView({
           <button
             className="btn-secondary"
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
-            onClick={() => onTriggerWorkflow('follow', { mode: 'quick_add', max_count: 3 })}
+            onClick={() => setConfigModalAction('add_friends')}
           >
             <UserPlus size={18} style={{ color: '#F59E0B' }} />
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>Bulk Follow</div>
-              <div style={{ fontSize: '0.74rem', color: '#64748b' }}>Quick Add Suggestions</div>
+              <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>Add Friends</div>
+              <div style={{ fontSize: '0.74rem', color: '#64748b' }}>Quick Add or Username Search</div>
             </div>
           </button>
 
           <button
             className="btn-secondary"
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
-            onClick={() => onTriggerWorkflow('unfollow', { filter_type: 'no_streak', days_threshold: 17, max_unfollow: 2 })}
+            onClick={() => setConfigModalAction('remove_friends')}
           >
             <Trash2 size={18} style={{ color: '#7C3AED' }} />
             <div style={{ textAlign: 'left' }}>
@@ -337,7 +339,7 @@ export default function OverviewView({
           <button
             className="btn-secondary"
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
-            onClick={() => onTriggerWorkflow('snap', { random_filter: true, select_all: true, max_recipients: 5 })}
+            onClick={() => setConfigModalAction('auto_snap')}
           >
             <Send size={18} style={{ color: '#0284C7' }} />
             <div style={{ textAlign: 'left' }}>
@@ -349,7 +351,7 @@ export default function OverviewView({
           <button
             className="btn-secondary"
             style={{ justifyContent: 'flex-start', padding: '12px 16px' }}
-            onClick={() => onTriggerWorkflow('snapscore', { cycles: 2, select_all: true, max_recipients: 4 })}
+            onClick={() => setConfigModalAction('streak_booster')}
           >
             <Flame size={18} style={{ color: '#16A34A' }} />
             <div style={{ textAlign: 'left' }}>
@@ -371,6 +373,14 @@ export default function OverviewView({
           </button>
         </div>
       </div>
+
+      {/* Interactive Action Configuration Modal */}
+      <ActionConfigModal
+        isOpen={Boolean(configModalAction)}
+        actionType={configModalAction}
+        onClose={() => setConfigModalAction(null)}
+        onConfirm={(type, params) => onTriggerWorkflow(type, params)}
+      />
     </div>
   );
 }

@@ -418,13 +418,19 @@ async def device_websocket_endpoint(websocket: WebSocket, device_id: str = "andr
                     reason_code = msg.get("reason_code", "DEVICE_EVENT")
                     message = msg.get("message", "Device executed action")
 
-                    # If mobile device triggered Emergency STOP, halt state machine immediately
-                    if reason_code == "USER_EMERGENCY_STOP" or status_str == "CANCELLED":
+                    # If mobile device triggered Emergency STOP while a workflow is active, halt state machine
+                    if reason_code == "USER_EMERGENCY_STOP" and state_machine.current_state == AppState.RUNNING:
                         state_machine.request_stop(reason=f"Mobile Device: {message}")
+
+                    parsed_status = ResultStatus.UNKNOWN
+                    try:
+                        parsed_status = ResultStatus(status_str)
+                    except Exception:
+                        pass
 
                     entry = audit_logger.log(
                         workflow="Device Action",
-                        result=ResultStatus(status_str),
+                        result=parsed_status,
                         reason_code=reason_code,
                         message=message
                     )
