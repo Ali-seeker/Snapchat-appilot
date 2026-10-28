@@ -116,7 +116,7 @@ export default function LiveExecutionModal({
           {executionLogs.length === 0 ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#94a3b8', fontSize: '0.82rem', padding: '15px 0' }}>
               <Loader2 size={16} className="pulse-dot" />
-              <span>Initializing test bench...</span>
+              <span>Initializing Snapchat automation engine...</span>
             </div>
           ) : (
             executionLogs.map((log) => (

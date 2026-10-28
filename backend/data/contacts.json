@@ -258,5 +258,35 @@
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
     "created_at": "2026-10-28T05:31:05.863564+00:00"
+  },
+  {
+    "id": "d8287555",
+    "username": "bot_c1be51",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:09:22.326450+00:00"
+  },
+  {
+    "id": "846c1276",
+    "username": "user_aacf8afa",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:09:22.384260+00:00"
+  },
+  {
+    "id": "be952f3f",
+    "username": "stop_3d4c08a3",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:09:22.814119+00:00"
   }
 ]
