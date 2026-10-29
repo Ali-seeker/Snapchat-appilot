@@ -58,6 +58,7 @@ export default function ActionConfigModal({
 
   // Score Booster State
   const [boosterCycles, setBoosterCycles] = useState(3);
+  const [boosterCustomCycles, setBoosterCustomCycles] = useState('');
   const [boosterRecipients, setBoosterRecipients] = useState(5);
   const [boosterMode, setBoosterMode] = useState('count'); // 'count' | 'select_all' | 'shortcut'
   const [boosterShortcutEmoji, setBoosterShortcutEmoji] = useState('🤙');
@@ -109,8 +110,9 @@ export default function ActionConfigModal({
       });
     } else if (actionType === 'streak_booster') {
       const rec = boosterCustomCount ? (parseInt(boosterCustomCount, 10) || 5) : (parseInt(boosterRecipients, 10) || 5);
+      const finalCycles = boosterCustomCycles ? (parseInt(boosterCustomCycles, 10) || 1) : (parseInt(boosterCycles, 10) || 3);
       onConfirm('snapscore', {
-        cycles: parseInt(boosterCycles, 10) || 3,
+        cycles: Math.max(1, finalCycles),
         recipient_mode: boosterMode,
         shortcut_emoji: boosterMode === 'shortcut' ? (boosterShortcutEmoji || shortcuts[0]?.emoji || '🤙') : null,
         select_all: boosterMode === 'select_all',
@@ -406,17 +408,42 @@ export default function ActionConfigModal({
             <>
               <div className="config-form-group">
                 <label className="config-form-label">Booster Execution Cycles</label>
-                <div className="preset-chip-group">
-                  {[1, 3, 5].map((c) => (
+                <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                  {[1, 2, 3, 5, 10].map((c) => (
                     <button
                       key={c}
                       type="button"
-                      className={`preset-chip ${boosterCycles === c ? 'active' : ''}`}
-                      onClick={() => setBoosterCycles(c)}
+                      className={`preset-chip ${!boosterCustomCycles && boosterCycles === c ? 'active' : ''}`}
+                      onClick={() => {
+                        setBoosterCycles(c);
+                        setBoosterCustomCycles('');
+                      }}
                     >
                       {c} {c === 1 ? 'Cycle' : 'Cycles'}
                     </button>
                   ))}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom cycles:</span>
+                  <input
+                    type="number"
+                    min="1"
+                    max="100"
+                    placeholder="e.g. 7"
+                    value={boosterCustomCycles}
+                    onChange={(e) => {
+                      setBoosterCustomCycles(e.target.value);
+                      if (e.target.value) {
+                        setBoosterCycles(parseInt(e.target.value, 10) || 1);
+                      }
+                    }}
+                    style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                  />
+                  {boosterCustomCycles && (
+                    <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 600 }}>
+                      ⚡ {boosterCustomCycles} {parseInt(boosterCustomCycles, 10) === 1 ? 'cycle' : 'cycles'} targeted
+                    </span>
+                  )}
                 </div>
               </div>
 
