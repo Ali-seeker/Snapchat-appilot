@@ -19,7 +19,8 @@ import {
   ShieldCheck,
   Zap,
   X,
-  RotateCw
+  Sparkles,
+  Search
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:8000/api';
@@ -40,23 +41,33 @@ export default function ScheduleView({ onTriggerWorkflow }) {
   const [endTime, setEndTime] = useState('');
   const [frequency, setFrequency] = useState('daily'); // once | daily
 
-  // Automation-specific parameters
-  const [cycles, setCycles] = useState(3);
-  const [boosterMode, setBoosterMode] = useState('count');
+  // 1. Score Booster State
+  const [boosterCycles, setBoosterCycles] = useState(3);
+  const [boosterCustomCycles, setBoosterCustomCycles] = useState('');
   const [boosterRecipients, setBoosterRecipients] = useState(5);
-  const [shortcutEmoji, setShortcutEmoji] = useState('🤙');
+  const [boosterCustomCount, setBoosterCustomCount] = useState('');
+  const [boosterMode, setBoosterMode] = useState('count'); // 'count' | 'select_all' | 'shortcut'
+  const [boosterShortcutEmoji, setBoosterShortcutEmoji] = useState('🤙');
 
+  // 2. Auto Snap (Snap Send) State
   const [randomFilter, setRandomFilter] = useState(true);
-  const [snapMode, setSnapMode] = useState('count');
   const [snapRecipients, setSnapRecipients] = useState(5);
+  const [snapCustomCount, setSnapCustomCount] = useState('');
+  const [snapMode, setSnapMode] = useState('count'); // 'count' | 'select_all' | 'shortcut'
+  const [snapShortcutEmoji, setSnapShortcutEmoji] = useState('🤙');
 
-  const [followMode, setFollowMode] = useState('quick_add');
+  // 3. Add Friends State
+  const [followMode, setFollowMode] = useState('quick_add'); // 'quick_add' | 'search'
   const [followCount, setFollowCount] = useState(5);
+  const [followCustomCount, setFollowCustomCount] = useState('');
   const [targetUsername, setTargetUsername] = useState('');
 
-  const [unfollowFilter, setUnfollowFilter] = useState('no_streak');
+  // 4. Remove Friends State
+  const [unfollowFilter, setUnfollowFilter] = useState('no_streak'); // 'no_streak' | 'inactive'
   const [unfollowDays, setUnfollowDays] = useState(14);
+  const [unfollowCustomDays, setUnfollowCustomDays] = useState('');
   const [unfollowCount, setUnfollowCount] = useState(5);
+  const [unfollowCustomCount, setUnfollowCustomCount] = useState('');
   const [unfollowSelectAll, setUnfollowSelectAll] = useState(false);
 
   // Fetch schedules, device status, and shortcuts
@@ -87,7 +98,12 @@ export default function ScheduleView({ onTriggerWorkflow }) {
         const scData = await scRes.json();
         if (Array.isArray(scData) && scData.length > 0) {
           setShortcuts(scData);
-          setShortcutEmoji(scData[0].emoji);
+          if (!scData.some(s => s.emoji === boosterShortcutEmoji)) {
+            setBoosterShortcutEmoji(scData[0].emoji);
+          }
+          if (!scData.some(s => s.emoji === snapShortcutEmoji)) {
+            setSnapShortcutEmoji(scData[0].emoji);
+          }
         }
       }
     } catch (e) { }
@@ -108,32 +124,45 @@ export default function ScheduleView({ onTriggerWorkflow }) {
 
     let params = {};
     if (automationType === 'snapscore') {
+      const finalCycles = boosterCustomCycles ? (parseInt(boosterCustomCycles, 10) || 1) : (parseInt(boosterCycles, 10) || 3);
+      const rec = boosterCustomCount ? (parseInt(boosterCustomCount, 10) || 5) : (parseInt(boosterRecipients, 10) || 5);
       params = {
-        cycles: parseInt(cycles, 10) || 3,
+        cycles: Math.max(1, finalCycles),
         recipient_mode: boosterMode,
         select_all: boosterMode === 'select_all',
-        max_recipients: boosterMode === 'select_all' ? 999 : (parseInt(boosterRecipients, 10) || 5),
-        shortcut_emoji: boosterMode === 'shortcut' ? shortcutEmoji : null
+        max_recipients: boosterMode === 'select_all' ? 999 : rec,
+        shortcut_emoji: boosterMode === 'shortcut' ? (boosterShortcutEmoji || shortcuts[0]?.emoji || '🤙') : null
       };
     } else if (automationType === 'snap') {
+      const rec = snapCustomCount ? (parseInt(snapCustomCount, 10) || 5) : (parseInt(snapRecipients, 10) || 5);
       params = {
         random_filter: randomFilter,
         recipient_mode: snapMode,
         select_all: snapMode === 'select_all',
-        max_recipients: snapMode === 'select_all' ? 999 : (parseInt(snapRecipients, 10) || 5),
-        shortcut_emoji: snapMode === 'shortcut' ? shortcutEmoji : null
+        max_recipients: snapMode === 'select_all' ? 999 : rec,
+        shortcut_emoji: snapMode === 'shortcut' ? (snapShortcutEmoji || shortcuts[0]?.emoji || '🤙') : null
       };
     } else if (automationType === 'follow') {
+      const count = followCustomCount ? (parseInt(followCustomCount, 10) || 5) : (parseInt(followCount, 10) || 5);
       params = {
         mode: followMode,
         target_ids: followMode === 'search' ? [targetUsername.trim().replace(/^@/, '')] : [],
-        max_count: parseInt(followCount, 10) || 5
+        max_count: followMode === 'search' ? 1 : count
       };
     } else if (automationType === 'unfollow') {
+      const finalDays = unfollowCustomDays ? (parseInt(unfollowCustomDays, 10) || 14) : (parseInt(unfollowDays, 10) || 14);
+      let count = 5;
+      if (unfollowSelectAll) {
+        count = 999;
+      } else if (unfollowCustomCount) {
+        count = parseInt(unfollowCustomCount, 10) || 5;
+      } else {
+        count = parseInt(unfollowCount, 10) || 5;
+      }
       params = {
         filter_type: unfollowFilter,
-        days_threshold: unfollowFilter === 'inactive' ? (parseInt(unfollowDays, 10) || 14) : 0,
-        max_unfollow: unfollowSelectAll ? 999 : (parseInt(unfollowCount, 10) || 5),
+        days_threshold: unfollowFilter === 'inactive' ? finalDays : 0,
+        max_unfollow: count,
         select_all: unfollowSelectAll
       };
     }
@@ -293,7 +322,10 @@ export default function ScheduleView({ onTriggerWorkflow }) {
 
             <button
               className="btn-primary"
-              onClick={() => setShowModal(true)}
+              onClick={() => {
+                fetchStatus();
+                setShowModal(true);
+              }}
             >
               <Plus size={16} />
               <span>Create New Schedule</span>
@@ -431,16 +463,16 @@ export default function ScheduleView({ onTriggerWorkflow }) {
                     {/* Configured Routine Parameters */}
                     <div className="schedule-params-pillbox">
                       {isBooster && (
-                        <span>⚡ <strong>{item.params?.cycles || 3} Cycles</strong> • Target: {item.params?.recipient_mode === 'shortcut' ? `Shortcut (${item.params?.shortcut_emoji || '🤙'})` : item.params?.recipient_mode === 'select_all' ? 'Select All' : 'Streak Friends'}</span>
+                        <span>⚡ <strong>{item.params?.cycles || 3} Cycles</strong> • Target: {item.params?.recipient_mode === 'shortcut' ? `Shortcut (${item.params?.shortcut_emoji || '🤙'})` : item.params?.recipient_mode === 'select_all' ? 'Select All' : `Streak Friends (${item.params?.max_recipients || 5})`}</span>
                       )}
                       {isSnap && (
-                        <span>📸 <strong>Filter:</strong> {item.params?.random_filter ? 'Aesthetic Lens' : 'None'} • Mode: {item.params?.recipient_mode?.toUpperCase()}</span>
+                        <span>📸 <strong>Filter:</strong> {item.params?.random_filter ? 'Aesthetic Lens' : 'None'} • Mode: {item.params?.recipient_mode === 'shortcut' ? `Shortcut (${item.params?.shortcut_emoji || '🤙'})` : item.params?.recipient_mode === 'select_all' ? 'Select All' : `Top Friends (${item.params?.max_recipients || 5})`}</span>
                       )}
                       {isFollow && (
                         <span>👥 <strong>{item.params?.mode === 'search' ? `Target @${item.params?.target_ids?.[0]}` : `Quick Add (${item.params?.max_count || 5})`}</strong></span>
                       )}
                       {isUnfollow && (
-                        <span>🗑️ <strong>Filter:</strong> {item.params?.filter_type} • Limit: {item.params?.select_all ? 'ALL' : item.params?.max_unfollow}</span>
+                        <span>🗑️ <strong>Filter:</strong> {item.params?.filter_type === 'inactive' ? `Inactive (${item.params?.days_threshold || 14}+ Days)` : 'No Streak'} • Limit: <strong>{item.params?.select_all ? 'ALL' : `${item.params?.max_unfollow || 5} Contacts`}</strong></span>
                       )}
                     </div>
                   </div>
@@ -553,96 +585,294 @@ export default function ScheduleView({ onTriggerWorkflow }) {
               </div>
 
               {/* Dynamic Automation Settings */}
-              <div style={{ background: '#f8fafc', padding: '14px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#334155', marginBottom: '10px' }}>
+              <div style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#334155', marginBottom: '12px' }}>
                   ⚙️ Automation Parameters
                 </div>
 
+                {/* ================= 1. SNAPSCORE BOOSTER ================= */}
                 {automationType === 'snapscore' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '0.82rem', color: '#475569' }}>Booster Cycles:</span>
-                      <input
-                        type="number"
-                        min="1"
-                        max="50"
-                        value={cycles}
-                        onChange={(e) => setCycles(e.target.value)}
-                        style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                      />
-                    </div>
-                    <div>
-                      <span style={{ fontSize: '0.82rem', color: '#475569', display: 'block', marginBottom: '6px' }}>Recipient Mode:</span>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        {['count', 'select_all', 'shortcut'].map((m) => (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                    {/* Booster Cycles */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Booster Execution Cycles</label>
+                      <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                        {[1, 2, 3, 5, 10].map((c) => (
                           <button
-                            key={m}
+                            key={c}
                             type="button"
-                            className={`preset-chip ${boosterMode === m ? 'active' : ''}`}
-                            onClick={() => setBoosterMode(m)}
+                            className={`preset-chip ${!boosterCustomCycles && boosterCycles === c ? 'active' : ''}`}
+                            onClick={() => {
+                              setBoosterCycles(c);
+                              setBoosterCustomCycles('');
+                            }}
                           >
-                            {m === 'count' ? '🔥 Streak Friends' : m === 'select_all' ? '⚡ Select All' : '🤙 Shortcut'}
+                            {c} {c === 1 ? 'Cycle' : 'Cycles'}
                           </button>
                         ))}
                       </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom cycles:</span>
+                        <input
+                          type="number"
+                          min="1"
+                          max="100"
+                          placeholder="e.g. 7"
+                          value={boosterCustomCycles}
+                          onChange={(e) => {
+                            setBoosterCustomCycles(e.target.value);
+                            if (e.target.value) {
+                              setBoosterCycles(parseInt(e.target.value, 10) || 1);
+                            }
+                          }}
+                          style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                        />
+                        {boosterCustomCycles && (
+                          <span style={{ fontSize: '0.78rem', color: '#16a34a', fontWeight: 600 }}>
+                            ⚡ {boosterCustomCycles} {parseInt(boosterCustomCycles, 10) === 1 ? 'cycle' : 'cycles'} targeted
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    {boosterMode === 'shortcut' && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
-                        <span style={{ fontSize: '0.82rem', color: '#475569' }}>Shortcut Emoji:</span>
-                        {shortcuts.length > 0 ? (
-                          <div style={{ display: 'flex', gap: '6px' }}>
-                            {shortcuts.map((sc) => (
+
+                    {/* Recipient Mode */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Recipient Mode per Cycle</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
+                        <button
+                          type="button"
+                          className={`preset-chip ${boosterMode === 'count' ? 'active' : ''}`}
+                          onClick={() => setBoosterMode('count')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          🔥 Streak Friends
+                        </button>
+                        <button
+                          type="button"
+                          className={`preset-chip ${boosterMode === 'select_all' ? 'active' : ''}`}
+                          onClick={() => setBoosterMode('select_all')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          ⚡ Select All
+                        </button>
+                        <button
+                          type="button"
+                          className={`preset-chip ${boosterMode === 'shortcut' ? 'active' : ''}`}
+                          onClick={() => setBoosterMode('shortcut')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          🤙 Shortcut
+                        </button>
+                      </div>
+
+                      {boosterMode === 'count' && (
+                        <div>
+                          <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                            {[5, 10, 15].map((r) => (
                               <button
-                                key={sc.id}
+                                key={r}
                                 type="button"
-                                onClick={() => setShortcutEmoji(sc.emoji)}
-                                className={`preset-chip ${shortcutEmoji === sc.emoji ? 'active' : ''}`}
-                                style={{ padding: '4px 10px' }}
+                                className={`preset-chip ${!boosterCustomCount && boosterRecipients === r ? 'active' : ''}`}
+                                onClick={() => {
+                                  setBoosterRecipients(r);
+                                  setBoosterCustomCount('');
+                                }}
                               >
-                                {sc.emoji} {sc.name}
+                                Up to {r} Friends
                               </button>
                             ))}
                           </div>
-                        ) : (
-                          <input
-                            type="text"
-                            value={shortcutEmoji}
-                            onChange={(e) => setShortcutEmoji(e.target.value)}
-                            style={{ width: '60px', padding: '4px 8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
-                          />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom count:</span>
+                            <input
+                              type="number"
+                              min="1"
+                              max="50"
+                              placeholder="e.g. 8"
+                              value={boosterCustomCount}
+                              onChange={(e) => setBoosterCustomCount(e.target.value)}
+                              style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                            />
+                          </div>
+                        </div>
+                      )}
 
-                {automationType === 'snap' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#334155', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={randomFilter}
-                        onChange={(e) => setRandomFilter(e.target.checked)}
-                      />
-                      <span>Apply Aesthetic Trending Lens Filter</span>
-                    </label>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      {['count', 'select_all', 'shortcut'].map((m) => (
-                        <button
-                          key={m}
-                          type="button"
-                          className={`preset-chip ${snapMode === m ? 'active' : ''}`}
-                          onClick={() => setSnapMode(m)}
-                        >
-                          {m === 'count' ? 'Top Friends' : m === 'select_all' ? 'Select All' : 'Shortcut'}
-                        </button>
-                      ))}
+                      {boosterMode === 'select_all' && (
+                        <div style={{ padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', fontSize: '0.82rem', color: '#166534' }}>
+                          ⚡ Dispatches each cycle by tapping <strong>'Select All'</strong> on the Send To screen.
+                        </div>
+                      )}
+
+                      {boosterMode === 'shortcut' && (
+                        <div>
+                          <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '8px' }}>
+                            Select the shortcut matching your phone app:
+                          </div>
+                          {shortcuts.length === 0 ? (
+                            <div style={{ padding: '8px 12px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', fontSize: '0.8rem', color: '#b91c1c' }}>
+                              No shortcuts configured. Add one in Snap Shortcuts tab!
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                              {shortcuts.map((sc) => (
+                                <button
+                                  key={sc.id}
+                                  type="button"
+                                  className={`preset-chip ${boosterShortcutEmoji === sc.emoji ? 'active' : ''}`}
+                                  onClick={() => setBoosterShortcutEmoji(sc.emoji)}
+                                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                                >
+                                  <span style={{ fontSize: '1.2rem' }}>{sc.emoji}</span>
+                                  <span>{sc.name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
 
+                {/* ================= 2. AUTO SNAP (SNAP SEND) ================= */}
+                {automationType === 'snap' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                    {/* Filter & Lens */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Filter &amp; Lens Selection</label>
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '10px',
+                          padding: '12px 14px',
+                          background: '#ffffff',
+                          borderRadius: '12px',
+                          border: '1px solid #e2e8f0',
+                          cursor: 'pointer'
+                        }}
+                        onClick={() => setRandomFilter(!randomFilter)}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={randomFilter}
+                          onChange={(e) => setRandomFilter(e.target.checked)}
+                          style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--primary)' }}
+                        />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#0f172a' }}>
+                            Apply Aesthetic Lens Carousel
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: '#64748b' }}>
+                            Picks a trending face lens before taking snap
+                          </div>
+                        </div>
+                        <Sparkles size={18} color="#0284c7" />
+                      </div>
+                    </div>
+
+                    {/* Recipient Selection */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Recipient Selection</label>
+                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
+                        <button
+                          type="button"
+                          className={`preset-chip ${snapMode === 'count' ? 'active' : ''}`}
+                          onClick={() => setSnapMode('count')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          🔥 Streak Friends
+                        </button>
+                        <button
+                          type="button"
+                          className={`preset-chip ${snapMode === 'select_all' ? 'active' : ''}`}
+                          onClick={() => setSnapMode('select_all')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          ⚡ Select All
+                        </button>
+                        <button
+                          type="button"
+                          className={`preset-chip ${snapMode === 'shortcut' ? 'active' : ''}`}
+                          onClick={() => setSnapMode('shortcut')}
+                          style={{ justifyContent: 'center' }}
+                        >
+                          🤙 Shortcut
+                        </button>
+                      </div>
+
+                      {snapMode === 'count' && (
+                        <div>
+                          <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                            {[3, 5, 10].map((r) => (
+                              <button
+                                key={r}
+                                type="button"
+                                className={`preset-chip ${!snapCustomCount && snapRecipients === r ? 'active' : ''}`}
+                                onClick={() => {
+                                  setSnapRecipients(r);
+                                  setSnapCustomCount('');
+                                }}
+                              >
+                                {r} Friends
+                              </button>
+                            ))}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom count:</span>
+                            <input
+                              type="number"
+                              min="1"
+                              max="50"
+                              placeholder="e.g. 7"
+                              value={snapCustomCount}
+                              onChange={(e) => setSnapCustomCount(e.target.value)}
+                              style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      {snapMode === 'select_all' && (
+                        <div style={{ padding: '10px 14px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '10px', fontSize: '0.82rem', color: '#166534' }}>
+                          ⚡ Dispatches by tapping <strong>'Select All'</strong> on the Send To screen.
+                        </div>
+                      )}
+
+                      {snapMode === 'shortcut' && (
+                        <div>
+                          <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '8px' }}>
+                            Select the shortcut matching your phone app:
+                          </div>
+                          {shortcuts.length === 0 ? (
+                            <div style={{ padding: '8px 12px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', fontSize: '0.8rem', color: '#b91c1c' }}>
+                              No shortcuts configured. Add one in Snap Shortcuts tab!
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                              {shortcuts.map((sc) => (
+                                <button
+                                  key={sc.id}
+                                  type="button"
+                                  className={`preset-chip ${snapShortcutEmoji === sc.emoji ? 'active' : ''}`}
+                                  onClick={() => setSnapShortcutEmoji(sc.emoji)}
+                                  style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                                >
+                                  <span style={{ fontSize: '1.2rem' }}>{sc.emoji}</span>
+                                  <span>{sc.name}</span>
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* ================= 3. ADD FRIENDS ================= */}
                 {automationType === 'follow' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button
                         type="button"
@@ -659,70 +889,182 @@ export default function ScheduleView({ onTriggerWorkflow }) {
                         Search Username
                       </button>
                     </div>
+
                     {followMode === 'quick_add' ? (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '0.82rem', color: '#475569' }}>Max to Add:</span>
-                        <input
-                          type="number"
-                          min="1"
-                          max="20"
-                          value={followCount}
-                          onChange={(e) => setFollowCount(e.target.value)}
-                          style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                        />
+                      <div className="config-form-group">
+                        <label className="config-form-label">Number of Friends to Add</label>
+                        <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                          {[3, 5, 10, 15].map((cnt) => (
+                            <button
+                              key={cnt}
+                              type="button"
+                              className={`preset-chip ${!followCustomCount && followCount === cnt ? 'active' : ''}`}
+                              onClick={() => {
+                                setFollowCount(cnt);
+                                setFollowCustomCount('');
+                              }}
+                            >
+                              {cnt} Friends
+                            </button>
+                          ))}
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom count:</span>
+                          <input
+                            type="number"
+                            min="1"
+                            max="20"
+                            placeholder="e.g. 7"
+                            value={followCustomCount}
+                            onChange={(e) => setFollowCustomCount(e.target.value)}
+                            style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                          />
+                        </div>
                       </div>
                     ) : (
-                      <input
-                        type="text"
-                        placeholder="Snapchat Username (e.g. john_doe)"
-                        value={targetUsername}
-                        onChange={(e) => setTargetUsername(e.target.value)}
-                        className="input-field"
-                        style={{ width: '100%' }}
-                      />
+                      <div className="config-form-group">
+                        <label className="config-form-label">Snapchat Target Username</label>
+                        <div style={{ position: 'relative' }}>
+                          <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 600 }}>@</span>
+                          <input
+                            type="text"
+                            placeholder="username (e.g. alex_smith)"
+                            value={targetUsername}
+                            onChange={(e) => setTargetUsername(e.target.value)}
+                            className="input-field"
+                            style={{ width: '100%', paddingLeft: '32px' }}
+                          />
+                        </div>
+                      </div>
                     )}
                   </div>
                 )}
 
+                {/* ================= 4. REMOVE FRIENDS ================= */}
                 {automationType === 'unfollow' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <button
-                        type="button"
-                        className={`preset-chip ${unfollowFilter === 'no_streak' ? 'active' : ''}`}
-                        onClick={() => setUnfollowFilter('no_streak')}
-                      >
-                        No Streak Friends
-                      </button>
-                      <button
-                        type="button"
-                        className={`preset-chip ${unfollowFilter === 'inactive' ? 'active' : ''}`}
-                        onClick={() => setUnfollowFilter('inactive')}
-                      >
-                        Inactive Friends
-                      </button>
-                    </div>
-                    {unfollowFilter === 'inactive' && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '0.82rem', color: '#475569' }}>Inactive Days Threshold:</span>
-                        <input
-                          type="number"
-                          min="1"
-                          max="365"
-                          value={unfollowDays}
-                          onChange={(e) => setUnfollowDays(e.target.value)}
-                          style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
-                        />
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                    {/* Filter Criteria */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Filter Criteria</label>
+                      <div className="preset-chip-group">
+                        <button
+                          type="button"
+                          className={`preset-chip ${unfollowFilter === 'no_streak' ? 'active' : ''}`}
+                          onClick={() => setUnfollowFilter('no_streak')}
+                        >
+                          🔥 No Streak Friends
+                        </button>
+                        <button
+                          type="button"
+                          className={`preset-chip ${unfollowFilter === 'inactive' ? 'active' : ''}`}
+                          onClick={() => setUnfollowFilter('inactive')}
+                        >
+                          ⏳ Inactive Friends ({unfollowCustomDays || unfollowDays}+ Days)
+                        </button>
                       </div>
-                    )}
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#334155', cursor: 'pointer' }}>
-                      <input
-                        type="checkbox"
-                        checked={unfollowSelectAll}
-                        onChange={(e) => setUnfollowSelectAll(e.target.checked)}
-                      />
-                      <span>⚡ Remove All Matching Friends (Select All)</span>
-                    </label>
+
+                      {/* Inactive Days Threshold */}
+                      {unfollowFilter === 'inactive' && (
+                        <div style={{ background: '#ffffff', padding: '12px 14px', borderRadius: '10px', border: '1px solid #e2e8f0', marginTop: '10px' }}>
+                          <label className="config-form-label" style={{ marginBottom: '6px' }}>Inactive Days Threshold</label>
+                          <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                            {[7, 14, 17, 30].map((d) => (
+                              <button
+                                key={d}
+                                type="button"
+                                className={`preset-chip ${!unfollowCustomDays && unfollowDays === d ? 'active' : ''}`}
+                                onClick={() => {
+                                  setUnfollowDays(d);
+                                  setUnfollowCustomDays('');
+                                }}
+                              >
+                                {d} Days
+                              </button>
+                            ))}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom days:</span>
+                            <input
+                              type="number"
+                              min="1"
+                              max="365"
+                              placeholder="e.g. 17"
+                              value={unfollowCustomDays}
+                              onChange={(e) => setUnfollowCustomDays(e.target.value)}
+                              style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                            />
+                            {(unfollowCustomDays || unfollowDays) && (
+                              <span style={{ fontSize: '0.78rem', color: '#7c3aed', fontWeight: 600 }}>
+                                ⏳ Inactive for {unfollowCustomDays || unfollowDays}+ days targeted
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Max Friends to Unfollow */}
+                    <div className="config-form-group">
+                      <label className="config-form-label">Max Friends to Unfollow</label>
+                      <div className="preset-chip-group" style={{ marginBottom: '8px' }}>
+                        {[2, 3, 5, 10].map((cnt) => (
+                          <button
+                            key={cnt}
+                            type="button"
+                            className={`preset-chip ${!unfollowSelectAll && !unfollowCustomCount && unfollowCount === cnt ? 'active' : ''}`}
+                            onClick={() => {
+                              setUnfollowCount(cnt);
+                              setUnfollowSelectAll(false);
+                              setUnfollowCustomCount('');
+                            }}
+                          >
+                            {cnt} Contacts
+                          </button>
+                        ))}
+                        <button
+                          type="button"
+                          className={`preset-chip ${unfollowSelectAll ? 'active' : ''}`}
+                          onClick={() => {
+                            setUnfollowSelectAll(true);
+                            setUnfollowCustomCount('');
+                          }}
+                          style={{
+                            background: unfollowSelectAll ? '#fee2e2' : undefined,
+                            borderColor: unfollowSelectAll ? '#ef4444' : undefined,
+                            color: unfollowSelectAll ? '#b91c1c' : undefined,
+                            fontWeight: 600
+                          }}
+                        >
+                          ⚡ All Eligible Friends
+                        </button>
+                      </div>
+
+                      {!unfollowSelectAll && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Custom count:</span>
+                          <input
+                            type="number"
+                            min="1"
+                            max="500"
+                            placeholder="e.g. 7"
+                            value={unfollowCustomCount}
+                            onChange={(e) => {
+                              setUnfollowCustomCount(e.target.value);
+                              setUnfollowSelectAll(false);
+                            }}
+                            style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Safeguard note */}
+                    <div className="safety-note-box">
+                      <ShieldCheck size={18} color="#7C3AED" style={{ flexShrink: 0, marginTop: '2px' }} />
+                      <div>
+                        Contacts with active streak flames (🔥) are strictly safeguarded and will never be unfollowed.
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
