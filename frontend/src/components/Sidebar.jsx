@@ -4,6 +4,7 @@ import {
   Users,
   Flame,
   Send,
+  Bookmark,
   Activity,
   Settings,
   HelpCircle,
@@ -15,8 +16,9 @@ export default function Sidebar({ activeTab, onSelectTab }) {
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'friends', label: 'Friends', icon: Users },
-    { id: 'streaks', label: 'Streak Reminders', icon: Flame },
-    { id: 'snaps', label: 'Snap Reminders', icon: Send },
+    { id: 'streaks', label: 'Snapscore Booster', icon: Flame },
+    { id: 'snaps', label: 'Snap Send', icon: Send },
+    { id: 'shortcuts', label: 'Snap Shortcuts', icon: Bookmark },
     { id: 'activity', label: 'Activity', icon: Activity },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'help', label: 'Help', icon: HelpCircle }
@@ -58,7 +60,7 @@ export default function Sidebar({ activeTab, onSelectTab }) {
       {/* Sidebar Footer Card */}
       <div className="sidebar-footer-card">
         <div className="crown-icon-wrap">
-          <Crown size={22} color="#FACC15" fill="#FACC15" />
+          <Crown size={20} color="#FACC15" fill="#FACC15" />
         </div>
         <div className="sidebar-footer-title">Stay Connected</div>
         <div className="sidebar-footer-sub">Keep Your Streaks Alive!</div>

@@ -48,7 +48,8 @@ class BulkFollowEngine:
         device_id: str,
         mode: str = "quick_add",  # "search" | "quick_add" | "accept"
         target_ids: Optional[List[str]] = None,
-        max_count: int = 10
+        max_count: int = 10,
+        is_chained: bool = False
     ):
         if self._is_running:
             return {"status": "error", "message": "An automation workflow is already running"}
@@ -60,7 +61,8 @@ class BulkFollowEngine:
             "accept": f"Accept Incoming Requests (Target: {max_count})"
         }
         workflow_name = mode_titles.get(mode, f"Bulk Follow ({mode.upper()})")
-        state_machine.start_workflow(workflow=workflow_name)
+        if not is_chained:
+            state_machine.start_workflow(workflow=workflow_name)
 
         try:
             # 1. Device connection verification & reverse tunnel
@@ -87,7 +89,7 @@ class BulkFollowEngine:
             else:
                 await self._execute_search_add(device_id, target_ids or [])
 
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
                 await self._step(
                     f"Bulk follow routine ({mode}) completed successfully.",
@@ -97,7 +99,7 @@ class BulkFollowEngine:
 
         except Exception as e:
             print(f"DEBUG EXCEPTION IN BULK FOLLOW: {e!r}")
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.FAILED, reason=str(e))
                 await self._step(
                     f"Bulk follow halted: {str(e)}",
@@ -105,6 +107,8 @@ class BulkFollowEngine:
                     status=ResultStatus.FAILED,
                     reason="FOLLOW_WORKFLOW_FAILED"
                 )
+            if is_chained:
+                raise e
         finally:
             self._is_running = False
 
@@ -151,8 +155,9 @@ class BulkFollowEngine:
                 await asyncio.sleep(random.uniform(1.2, 2.0))
 
         # Return safely to camera landing
-        adb_service.input_key(device_id, 4) # Back to camera
-        adb_service.ensure_landing_or_search(device_id)
+        adb_service.hide_keyboard_if_present(device_id)
+        adb_service.close_search_to_camera(device_id)
+        adb_service.ensure_camera_landing(device_id)
         await self._step(f"Quick Add finished: Total {total_added} friend(s) added.", delay=0.6)
 
     async def _execute_accept_incoming(self, device_id: str, max_count: int):
@@ -248,21 +253,40 @@ class BulkFollowEngine:
 
             # Type username
             adb_service.input_text_human(device_id, clean_username, min_delay=0.08, max_delay=0.18)
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.4)
             adb_service.input_key(device_id, 66) # Submit Enter
+            await asyncio.sleep(0.4)
+            adb_service.hide_keyboard_if_present(device_id)
 
-            # Await results
-            await asyncio.sleep(random.uniform(2.0, 3.0))
+            # Await results with human-paced network scan
+            await asyncio.sleep(random.uniform(1.8, 2.5))
             res_info = adb_service.inspect_search_result(device_id, clean_username)
+
+            # If not found immediately, retry once after a brief pause and ensure keyboard dismissed
+            if res_info.get("status") == "NOT_FOUND":
+                await asyncio.sleep(1.2)
+                adb_service.hide_keyboard_if_present(device_id)
+                res_info = adb_service.inspect_search_result(device_id, clean_username)
+
+            # Robust fallback to find_bounds for tests or edge layouts
+            if res_info.get("status") == "NOT_FOUND":
+                fallback_add = adb_service.find_bounds(device_id, "add", target_name=clean_username)
+                if fallback_add:
+                    res_info = {
+                        "status": "CAN_ADD",
+                        "center": fallback_add,
+                        "bounds": None,
+                        "details": "Matched Add button via bounds fallback"
+                    }
 
             if res_info["status"] == "CAN_ADD":
                 await asyncio.sleep(random.uniform(0.6, 1.0))
-                adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1])
+                adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1], bounds=res_info.get("bounds"))
                 await self._step(f"[{idx}/{total}] Added @{clean_username} successfully!", delay=0.8, reason="FRIEND_ADDED")
             elif res_info["status"] == "ALREADY_FRIEND":
                 await self._step(f"[{idx}/{total}] @{clean_username} is already added or pending.", delay=0.6, reason="ALREADY_FRIEND")
             elif res_info["status"] == "CAN_SUBSCRIBE":
-                adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1])
+                adb_service.input_tap_human(device_id, res_info["center"][0], res_info["center"][1], bounds=res_info.get("bounds"))
                 await self._step(f"[{idx}/{total}] Subscribed to creator @{clean_username}!", delay=0.8, reason="SUBSCRIBED")
             else:
                 await self._step(f"[{idx}/{total}] @{clean_username} not found or no add button.", delay=0.6, status=ResultStatus.SKIPPED, reason="TARGET_NOT_FOUND")

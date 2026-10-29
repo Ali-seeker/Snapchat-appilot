@@ -46,15 +46,19 @@ class AutoSnapEngine:
         self,
         device_id: str,
         random_filter: bool = True,
-        select_all: bool = True,
-        max_recipients: int = 15
+        select_all: bool = False,
+        max_recipients: int = 5,
+        recipient_mode: str = "count",
+        shortcut_emoji: Optional[str] = None,
+        is_chained: bool = False
     ):
         if self._is_running:
             return {"status": "error", "message": "An automation workflow is already running"}
 
         self._is_running = True
         workflow_name = "Auto Snap Dispatch"
-        state_machine.start_workflow(workflow=workflow_name)
+        if not is_chained:
+            state_machine.start_workflow(workflow=workflow_name)
 
         try:
             # 1. Device connection check & tunnel
@@ -95,13 +99,20 @@ class AutoSnapEngine:
             await asyncio.sleep(1.2)
 
             # 7. Select Recipients & Send
-            mode_desc = "All Available Friends" if select_all else f"Top {max_recipients} Friends"
+            if recipient_mode == "shortcut" and shortcut_emoji:
+                mode_desc = f"Shortcut '{shortcut_emoji}'"
+            elif recipient_mode == "select_all" or (select_all and max_recipients >= 999):
+                mode_desc = "All Available Friends (Select All)"
+            else:
+                mode_desc = f"Top {max_recipients} Friends"
             await self._step(f"Selecting recipients ({mode_desc}) and dispatching Snap...", delay=0.8)
 
             sent_count = adb_service.select_recipients_and_send(
                 device_id,
                 select_all=select_all,
-                max_recipients=max_recipients
+                max_recipients=max_recipients,
+                recipient_mode=recipient_mode,
+                shortcut_emoji=shortcut_emoji
             )
 
             # Interruption check
@@ -110,14 +121,14 @@ class AutoSnapEngine:
             # 8. Complete & Verify Camera Return
             await self._step(f"Snap successfully sent to {sent_count} recipient(s)!", delay=1.0, reason="SNAP_SENT")
 
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
                 await self._step("Returned to camera landing. Auto Snap workflow complete.", delay=0.5, reason="WORKFLOW_COMPLETE")
 
             return {"status": "ok", "recipients_count": sent_count}
 
         except Exception as e:
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.FAILED, reason=str(e))
                 await self._step(
                     f"Auto Snap halted: {str(e)}",
@@ -125,6 +136,8 @@ class AutoSnapEngine:
                     status=ResultStatus.FAILED,
                     reason="SNAP_WORKFLOW_FAILED"
                 )
+            if is_chained:
+                raise e
             return {"status": "error", "message": str(e)}
         finally:
             self._is_running = False

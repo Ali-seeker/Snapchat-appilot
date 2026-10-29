@@ -18,6 +18,7 @@ from .services.websocket_hub import ws_hub
 from .services.demo_engine import demo_engine
 from .services.live_automation_engine import live_engine
 from .services.reminder_service import reminder_service, ReminderItem, ReminderCreate
+from .services.shortcut_service import shortcut_service, ShortcutItem, ShortcutCreate
 from .services.bulk_follow_engine import bulk_follow_engine
 from .services.bulk_unfollow_engine import bulk_unfollow_engine
 from .services.auto_snap_engine import auto_snap_engine
@@ -172,6 +173,29 @@ async def delete_reminder(reminder_id: str):
         raise HTTPException(status_code=404, detail="Reminder not found")
     return {"status": "ok"}
 
+
+@app.get("/api/shortcuts", response_model=List[ShortcutItem])
+async def list_shortcuts():
+    return shortcut_service.get_all()
+
+@app.post("/api/shortcuts", response_model=ShortcutItem)
+async def create_shortcut(item_in: ShortcutCreate):
+    created = shortcut_service.create(item_in)
+    audit_logger.log(
+        workflow="Snap Shortcuts",
+        result=ResultStatus.COMPLETED,
+        reason_code="SHORTCUT_CREATED",
+        message=f"Created shortcut '{item_in.name}' with emoji {item_in.emoji}"
+    )
+    return created
+
+@app.delete("/api/shortcuts/{shortcut_id}")
+async def delete_shortcut(shortcut_id: str):
+    success = shortcut_service.delete(shortcut_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Shortcut not found")
+    return {"status": "ok"}
+
 @app.post("/api/control/transition")
 async def transition_state(state: AppState, workflow: str = "Manual"):
     try:
@@ -252,9 +276,10 @@ async def start_follow_workflow(req: FollowWorkflowRequest):
 
 class UnfollowWorkflowRequest(BaseModel):
     filter_type: str = "no_streak"  # "no_streak" | "inactive" | "custom"
-    days_threshold: int = 17
+    days_threshold: int = 14
     custom_targets: Optional[List[str]] = []
     max_unfollow: int = 10
+    select_all: bool = False
     device_id: Optional[str] = None
 
 @app.post("/api/workflow/unfollow")
@@ -269,14 +294,17 @@ async def start_unfollow_workflow(req: UnfollowWorkflowRequest):
         filter_type=req.filter_type,
         days_threshold=req.days_threshold,
         custom_targets=req.custom_targets,
-        max_unfollow=req.max_unfollow
+        max_unfollow=req.max_unfollow,
+        select_all=req.select_all
     ))
     return {"status": "started", "filter_type": req.filter_type, "device_id": dev_id}
 
 class SnapWorkflowRequest(BaseModel):
     random_filter: bool = True
-    select_all: bool = True
-    max_recipients: int = 15
+    select_all: bool = False
+    max_recipients: int = 5
+    recipient_mode: str = "count"  # "count" | "select_all" | "shortcut"
+    shortcut_emoji: Optional[str] = None
     device_id: Optional[str] = None
 
 @app.post("/api/workflow/snap")
@@ -290,14 +318,18 @@ async def start_snap_workflow(req: SnapWorkflowRequest):
         device_id=dev_id,
         random_filter=req.random_filter,
         select_all=req.select_all,
-        max_recipients=req.max_recipients
+        max_recipients=req.max_recipients,
+        recipient_mode=req.recipient_mode,
+        shortcut_emoji=req.shortcut_emoji
     ))
     return {"status": "started", "random_filter": req.random_filter, "device_id": dev_id}
 
 class SnapscoreWorkflowRequest(BaseModel):
     cycles: int = 3
-    select_all: bool = True
-    max_recipients: int = 15
+    select_all: bool = False
+    max_recipients: int = 5
+    recipient_mode: str = "count"  # "count" | "select_all" | "shortcut"
+    shortcut_emoji: Optional[str] = None
     cooldown_seconds: int = 15
     device_id: Optional[str] = None
 
@@ -313,6 +345,8 @@ async def start_snapscore_workflow(req: SnapscoreWorkflowRequest):
         cycles=req.cycles,
         select_all=req.select_all,
         max_recipients=req.max_recipients,
+        recipient_mode=req.recipient_mode,
+        shortcut_emoji=req.shortcut_emoji,
         cooldown_seconds=req.cooldown_seconds
     ))
     return {"status": "started", "cycles": req.cycles, "device_id": dev_id}

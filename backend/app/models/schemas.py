@@ -62,6 +62,16 @@ class WorkflowActionRequest(BaseModel):
     target_ids: List[str] = []
     parameters: Optional[Dict[str, Any]] = None
 
+class ShortcutItem(BaseModel):
+    id: str
+    name: str
+    emoji: str
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+class ShortcutCreate(BaseModel):
+    name: str
+    emoji: str
+
 class WebSocketMessage(BaseModel):
     type: str
     payload: Any

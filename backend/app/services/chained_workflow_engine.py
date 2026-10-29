@@ -70,7 +70,7 @@ class ChainedWorkflowEngine:
             if routine_type == "morning":
                 # Stage 1: Auto Snap
                 await self._step("Stage 1/2: Executing Auto Snap Dispatch...", delay=0.8)
-                await auto_snap_engine.run_snap_workflow(device_id, random_filter=True, select_all=True)
+                await auto_snap_engine.run_snap_workflow(device_id, random_filter=True, select_all=True, is_chained=True)
 
                 if state_machine.is_stopped:
                     raise Exception("Halted during Stage 1")
@@ -81,12 +81,12 @@ class ChainedWorkflowEngine:
 
                 # Stage 2: Quick Add
                 await self._step("Stage 2/2: Executing Quick Add Suggestions...", delay=0.8)
-                await bulk_follow_engine.run_follow_workflow(device_id, mode="quick_add", max_count=5)
+                await bulk_follow_engine.run_follow_workflow(device_id, mode="quick_add", max_count=5, is_chained=True)
 
             elif routine_type == "score_and_clean":
                 # Stage 1: Snapscore Booster
                 await self._step("Stage 1/2: Executing Snapscore Booster (3 Cycles)...", delay=0.8)
-                await snapscore_engine.run_booster_workflow(device_id, cycles=3, select_all=True, cooldown_seconds=12)
+                await snapscore_engine.run_booster_workflow(device_id, cycles=3, select_all=True, cooldown_seconds=12, is_chained=True)
 
                 if state_machine.is_stopped:
                     raise Exception("Halted during Stage 1")
@@ -96,7 +96,7 @@ class ChainedWorkflowEngine:
 
                 # Stage 2: Unfollow Friends without Streak
                 await self._step("Stage 2/2: Executing Smart Unfollow (No Streak 🔥)...", delay=0.8)
-                await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type="no_streak", max_unfollow=5)
+                await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type="no_streak", max_unfollow=5, is_chained=True)
 
             elif routine_type == "all_in_one":
                 # Stage 1: Auto Snap
@@ -113,13 +113,13 @@ class ChainedWorkflowEngine:
 
                 # Stage 3: Accept Incoming
                 await self._step("Stage 3/4: Accept Incoming Requests...", delay=0.6)
-                await bulk_follow_engine.run_follow_workflow(device_id, mode="accept", max_count=5)
+                await bulk_follow_engine.run_follow_workflow(device_id, mode="accept", max_count=5, is_chained=True)
 
                 await asyncio.sleep(4.0)
 
                 # Stage 4: Smart Unfollow
                 await self._step("Stage 4/4: Smart Unfollow (Inactive >17 Days)...", delay=0.6)
-                await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type="inactive", days_threshold=17, max_unfollow=5)
+                await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type="inactive", days_threshold=17, max_unfollow=5, is_chained=True)
 
             elif routine_type == "custom" and custom_steps:
                 for idx, step in enumerate(custom_steps, 1):
@@ -129,17 +129,18 @@ class ChainedWorkflowEngine:
                     await self._step(f"Custom Stage {idx}/{len(custom_steps)}: {action}...", delay=0.5)
 
                     if action == "snap":
-                        await auto_snap_engine.run_snap_workflow(device_id, random_filter=step.get("random_filter", True))
+                        await auto_snap_engine.run_snap_workflow(device_id, random_filter=step.get("random_filter", True), is_chained=True)
                     elif action == "follow":
-                        await bulk_follow_engine.run_follow_workflow(device_id, mode=step.get("mode", "quick_add"), max_count=step.get("count", 5))
+                        await bulk_follow_engine.run_follow_workflow(device_id, mode=step.get("mode", "quick_add"), max_count=step.get("count", 5), is_chained=True)
                     elif action == "unfollow":
-                        await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type=step.get("filter_type", "no_streak"), max_unfollow=step.get("count", 5))
+                        await bulk_unfollow_engine.run_unfollow_workflow(device_id, filter_type=step.get("filter_type", "no_streak"), max_unfollow=step.get("count", 5), is_chained=True)
                     elif action == "snapscore":
-                        await snapscore_engine.run_booster_workflow(device_id, cycles=step.get("cycles", 2))
+                        await snapscore_engine.run_booster_workflow(device_id, cycles=step.get("cycles", 2), is_chained=True)
 
                     await asyncio.sleep(3.0)
 
             if not state_machine.is_stopped:
+                adb_service.ensure_camera_landing(device_id)
                 state_machine.transition_to(AppState.COMPLETED, workflow=title)
                 await self._step(f"Chained routine '{title}' finished completely!", delay=0.5, reason="CHAIN_COMPLETE")
 

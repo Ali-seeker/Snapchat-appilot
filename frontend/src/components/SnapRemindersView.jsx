@@ -10,6 +10,8 @@ import {
   Camera
 } from 'lucide-react';
 
+import { useEffect } from 'react';
+
 export default function SnapRemindersView({
   onTriggerWorkflow
 }) {
@@ -21,6 +23,31 @@ export default function SnapRemindersView({
   ]);
 
   const [randomFilter, setRandomFilter] = useState(true);
+  const [shortcuts, setShortcuts] = useState([]);
+  const [selectedShortcut, setSelectedShortcut] = useState('🤙');
+  const [dispatchMode, setDispatchMode] = useState('count'); // 'count' | 'select_all' | 'shortcut'
+
+  useEffect(() => {
+    fetch('http://localhost:8000/api/shortcuts')
+      .then(res => res.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          setShortcuts(data);
+          setSelectedShortcut(data[0].emoji);
+        }
+      })
+      .catch(() => { });
+  }, []);
+
+  const handleSendNow = () => {
+    onTriggerWorkflow('snap', {
+      random_filter: randomFilter,
+      recipient_mode: dispatchMode,
+      shortcut_emoji: dispatchMode === 'shortcut' ? selectedShortcut : null,
+      select_all: dispatchMode === 'select_all',
+      max_recipients: dispatchMode === 'select_all' ? 999 : 5
+    });
+  };
 
   const toggleSchedule = (id) => {
     setSchedules((prev) =>
@@ -34,14 +61,14 @@ export default function SnapRemindersView({
       <div className="white-panel">
         <div className="panel-header-row">
           <div className="panel-header-title">
-            <h3>Snap Reminders &amp; Auto Dispatch</h3>
+            <h3>Snap Send &amp; Auto Dispatch</h3>
             <p>Schedule snaps to send automatically with aesthetic lens filters.</p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button
               className="btn-primary"
-              onClick={() => onTriggerWorkflow('snap', { random_filter: randomFilter, select_all: true, max_recipients: 5 })}
+              onClick={handleSendNow}
             >
               <Send size={16} />
               <span>Send Snap Now</span>
@@ -49,10 +76,45 @@ export default function SnapRemindersView({
           </div>
         </div>
 
-        {/* Filter Selection Pill Bar */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', background: '#f8fafc', padding: '14px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px', flexWrap: 'wrap' }}>
+        {/* Recipient Mode Selection Pill Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', background: '#f8fafc', padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '12px', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Sparkles size={18} style={{ color: '#7c3aed' }} />
+            <Users size={17} style={{ color: '#0284c7' }} />
+            <span style={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a' }}>Dispatch Target:</span>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+            <button
+              className={`filter-tab ${dispatchMode === 'count' ? 'active' : ''}`}
+              onClick={() => setDispatchMode('count')}
+            >
+              🔥 Streak Friends (Top 5)
+            </button>
+            <button
+              className={`filter-tab ${dispatchMode === 'select_all' ? 'active' : ''}`}
+              onClick={() => setDispatchMode('select_all')}
+            >
+              ⚡ Select All (All Friends)
+            </button>
+            {shortcuts.map((sc) => (
+              <button
+                key={sc.id}
+                className={`filter-tab ${dispatchMode === 'shortcut' && selectedShortcut === sc.emoji ? 'active' : ''}`}
+                onClick={() => {
+                  setDispatchMode('shortcut');
+                  setSelectedShortcut(sc.emoji);
+                }}
+              >
+                {sc.emoji} {sc.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Filter Selection Pill Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', background: '#f8fafc', padding: '12px 18px', borderRadius: '12px', border: '1px solid #e2e8f0', marginBottom: '20px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Sparkles size={17} style={{ color: '#7c3aed' }} />
             <span style={{ fontWeight: 600, fontSize: '0.88rem', color: '#0f172a' }}>Filter Setting:</span>
           </div>
 

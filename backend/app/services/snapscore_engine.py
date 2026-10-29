@@ -58,16 +58,20 @@ class SnapscoreEngine:
         self,
         device_id: str,
         cycles: int = 3,
-        select_all: bool = True,
-        max_recipients: int = 15,
-        cooldown_seconds: int = 15
+        select_all: bool = False,
+        max_recipients: int = 5,
+        recipient_mode: str = "count",
+        shortcut_emoji: Optional[str] = None,
+        cooldown_seconds: int = 15,
+        is_chained: bool = False
     ):
         if self._is_running:
             return {"status": "error", "message": "An automation workflow is already running"}
 
         self._is_running = True
         workflow_name = f"Snapscore Booster ({cycles} Cycles)"
-        state_machine.start_workflow(workflow=workflow_name)
+        if not is_chained:
+            state_machine.start_workflow(workflow=workflow_name)
 
         try:
             devices = adb_service.list_devices()
@@ -124,7 +128,9 @@ class SnapscoreEngine:
                 recipients_sent = adb_service.select_recipients_and_send(
                     device_id,
                     select_all=select_all,
-                    max_recipients=max_recipients
+                    max_recipients=max_recipients,
+                    recipient_mode=recipient_mode,
+                    shortcut_emoji=shortcut_emoji
                 )
                 cycle_score = max(1, recipients_sent)
                 total_estimated_score += cycle_score
@@ -134,6 +140,9 @@ class SnapscoreEngine:
                     delay=1.0,
                     reason="CYCLE_DISPATCH_COMPLETE"
                 )
+
+                # Immediately return to Camera Landing after dispatching Snap
+                adb_service.ensure_landing_or_search(device_id)
 
                 # 5. Cooldown pause between cycles (anti-ban behavior)
                 if cycle < cycles:
@@ -145,7 +154,7 @@ class SnapscoreEngine:
                         reason="COOLDOWN_WAIT"
                     )
 
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
                 await self._step(
                     f"Snapscore Booster completed! All {cycles} cycles executed. Estimated score increase: +{total_estimated_score} points.",
@@ -156,7 +165,7 @@ class SnapscoreEngine:
             return {"status": "ok", "total_estimated_points": total_estimated_score}
 
         except Exception as e:
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.FAILED, reason=str(e))
                 await self._step(
                     f"Snapscore booster halted: {str(e)}",
@@ -164,6 +173,8 @@ class SnapscoreEngine:
                     status=ResultStatus.FAILED,
                     reason="BOOSTER_FAILED"
                 )
+            if is_chained:
+                raise e
             return {"status": "error", "message": str(e)}
         finally:
             self._is_running = False

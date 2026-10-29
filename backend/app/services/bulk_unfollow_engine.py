@@ -46,9 +46,11 @@ class BulkUnfollowEngine:
         self,
         device_id: str,
         filter_type: str = "no_streak",  # "no_streak" | "inactive" | "custom"
-        days_threshold: int = 17,
+        days_threshold: int = 14,
         custom_targets: Optional[List[str]] = None,
-        max_unfollow: int = 10
+        max_unfollow: int = 10,
+        select_all: bool = False,
+        is_chained: bool = False
     ):
         if self._is_running:
             return {"status": "error", "message": "An automation workflow is already running"}
@@ -59,8 +61,10 @@ class BulkUnfollowEngine:
             "inactive": f"Inactivity Filter (Dormant >{days_threshold} Days)",
             "custom": f"Custom Target Unfollow ({len(custom_targets) if custom_targets else 0} Targets)"
         }
-        workflow_name = f"Smart Unfollow: {filter_labels.get(filter_type, filter_type.upper())}"
-        state_machine.start_workflow(workflow=workflow_name)
+        scope_str = "All Non-Streak Friends" if select_all else f"Up to {max_unfollow} Friends"
+        workflow_name = f"Smart Unfollow: {filter_labels.get(filter_type, filter_type.upper())} ({scope_str})"
+        if not is_chained:
+            state_machine.start_workflow(workflow=workflow_name)
 
         try:
             # 1. Device check & reverse tunnel
@@ -84,13 +88,16 @@ class BulkUnfollowEngine:
             adb_service.ensure_landing_or_search(device_id)
             adb_service.open_chat_screen(device_id)
 
-            await self._step(f"Scanning friend conversations for criteria: {filter_labels.get(filter_type)}...", delay=1.2)
+            await self._step(f"Scanning friend conversations for criteria: {filter_labels.get(filter_type)} [{scope_str}]...", delay=1.2)
 
+            effective_max = 999 if (select_all or max_unfollow >= 999) else max_unfollow
+            max_scrolls = 60 if (select_all or effective_max >= 50) else max(8, (effective_max // 2) + 4)
             total_unfollowed = 0
             scroll_attempts = 0
-            max_scrolls = 4
+            processed_names = set()
+            consecutive_empty = 0
 
-            while total_unfollowed < max_unfollow and scroll_attempts < max_scrolls:
+            while total_unfollowed < effective_max and scroll_attempts < max_scrolls:
                 if state_machine.is_stopped:
                     raise Exception("Halted by Emergency STOP")
 
@@ -104,20 +111,29 @@ class BulkUnfollowEngine:
                     days_threshold=days_threshold
                 )
 
+                # Exclude already processed friend rows to prevent infinite attempts
+                candidates = [c for c in candidates if c["name"] not in processed_names]
+
                 # If custom targets specified, filter strictly to them
                 if filter_type == "custom" and custom_targets:
                     clean_targets = [ct.lower().strip().lstrip("@") for ct in custom_targets]
                     candidates = [c for c in candidates if any(ct in c["name"].lower() for ct in clean_targets)]
 
                 if not candidates:
+                    consecutive_empty += 1
+                    if consecutive_empty >= 3:
+                        await self._step("Feed scan complete: Reached end of friend list or no further eligible candidates found.", delay=0.8)
+                        break
                     await self._step("No eligible candidates found in visible screen. Scrolling chat feed...", delay=0.6)
                     adb_service.scroll_down(device_id, distance=400)
                     scroll_attempts += 1
                     await asyncio.sleep(random.uniform(1.2, 1.8))
                     continue
 
+                consecutive_empty = 0
+
                 for cand in candidates:
-                    if total_unfollowed >= max_unfollow:
+                    if total_unfollowed >= effective_max:
                         break
                     if state_machine.is_stopped:
                         raise Exception("Halted by Emergency STOP")
@@ -125,7 +141,9 @@ class BulkUnfollowEngine:
                     friend_name = cand["name"]
                     center = cand["center"]
                     reason_desc = cand["reason"]
+                    processed_names.add(friend_name)
 
+                    limit_label = "ALL" if select_all else str(effective_max)
                     await self._step(
                         f"Target identified: '{friend_name}' ({reason_desc}). Initiating friend removal...",
                         delay=0.6,
@@ -137,12 +155,12 @@ class BulkUnfollowEngine:
                     if success:
                         total_unfollowed += 1
                         await self._step(
-                            f"Successfully unfollowed '{friend_name}'. [Reason: {reason_desc}] ({total_unfollowed}/{max_unfollow})",
+                            f"Successfully unfollowed '{friend_name}'. [Reason: {reason_desc}] ({total_unfollowed}/{limit_label})",
                             delay=random.uniform(1.2, 1.8),
                             reason="FRIEND_UNFOLLOWED"
                         )
                         # Anti-ban rest jitter
-                        rest = round(random.uniform(2.2, 3.5), 1)
+                        rest = round(random.uniform(2.0, 3.2), 1)
                         await self._step(f"Anti-ban safety pause: resting {rest}s...", delay=rest)
                     else:
                         await self._step(
@@ -153,7 +171,7 @@ class BulkUnfollowEngine:
                         )
 
                 # Scroll down for next batch
-                if total_unfollowed < max_unfollow:
+                if total_unfollowed < effective_max:
                     adb_service.scroll_down(device_id, distance=420)
                     scroll_attempts += 1
                     await asyncio.sleep(random.uniform(1.0, 1.5))
@@ -162,7 +180,7 @@ class BulkUnfollowEngine:
             adb_service.ensure_landing_or_search(device_id)
             await asyncio.sleep(0.5)
 
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.COMPLETED, workflow=workflow_name)
                 await self._step(
                     f"Bulk unfollow routine finished: Total {total_unfollowed} friend(s) removed.",
@@ -171,7 +189,7 @@ class BulkUnfollowEngine:
                 )
 
         except Exception as e:
-            if not state_machine.is_stopped:
+            if not is_chained and not state_machine.is_stopped:
                 state_machine.transition_to(AppState.FAILED, reason=str(e))
                 await self._step(
                     f"Bulk unfollow halted: {str(e)}",
@@ -179,6 +197,8 @@ class BulkUnfollowEngine:
                     status=ResultStatus.FAILED,
                     reason="UNFOLLOW_WORKFLOW_FAILED"
                 )
+            if is_chained:
+                raise e
         finally:
             self._is_running = False
 

@@ -60,7 +60,7 @@ export default function LiveExecutionModal({
               {title || 'Live Workflow Execution'}
             </h3>
             <span
-              className={`status-pill ${isRunning ? 'running' : isCompleted ? 'completed' : isFailed ? 'failed' : isPaused ? 'paused' : 'stopped'}`}
+              className={`status-pill ${isRunning ? 'running' : isCompleted ? 'completed' : isFailed ? 'failed' : isPaused ? 'paused' : isStopped ? 'stopped' : 'idle'}`}
               style={{ fontSize: '0.75rem', padding: '3px 10px' }}
             >
               {appState}
@@ -79,7 +79,7 @@ export default function LiveExecutionModal({
         <div style={{ marginBottom: '16px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
             <span style={{ fontSize: '0.84rem', color: '#cbd5e1', fontWeight: 500 }}>
-              {isRunning ? 'Executing live automation steps...' : isCompleted ? 'Workflow Completed Successfully' : isFailed ? 'Workflow Halted / Targets Failed' : isPaused ? 'Execution Paused' : 'Stopped / Halted'}
+              {isRunning ? 'Executing live automation steps...' : isCompleted ? 'Workflow Completed Successfully' : isFailed ? 'Workflow Halted / Targets Failed' : isPaused ? 'Execution Paused' : isStopped ? 'Stopped / Halted' : 'Initializing / Ready...'}
             </span>
             <span style={{ fontSize: '0.78rem', color: isFailed ? '#ef4444' : '#38bdf8' }}>
               {executionLogs.length} step(s) logged

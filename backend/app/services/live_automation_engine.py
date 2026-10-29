@@ -181,6 +181,8 @@ class LiveAutomationEngine:
 
                 await asyncio.sleep(random.uniform(0.4, 0.7)) # Human delay before hitting Enter / Search
                 adb_service.input_key(device_id, 66) # KEYCODE_ENTER (Search query submit)
+                await asyncio.sleep(0.4)
+                adb_service.hide_keyboard_if_present(device_id)
 
                 # Also send companion event to accessibility service
                 await ws_hub.send_command_to_devices({

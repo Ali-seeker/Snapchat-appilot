@@ -12,6 +12,7 @@ export default function SnapscoreBoosterCard({ isRunning, onTriggerWorkflow }) {
     onTriggerWorkflow('snapscore', {
       cycles,
       select_all: selectAll,
+      max_recipients: selectAll ? 999 : 5,
       cooldown_seconds: 15
     });
   };

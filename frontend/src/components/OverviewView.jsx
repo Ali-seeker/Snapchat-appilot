@@ -175,7 +175,7 @@ export default function OverviewView({
               </div>
             </div>
 
-            {/* Streak Reminders / Booster (Green) */}
+            {/* Snapscore Booster (Green) */}
             <div
               className="action-box green"
               onClick={() => setConfigModalAction('streak_booster')}
@@ -186,7 +186,7 @@ export default function OverviewView({
                   <Flame size={20} />
                 </div>
                 <div className="action-text">
-                  <h4>Streak Reminders</h4>
+                  <h4>Snapscore Booster</h4>
                   <p>Boost snapscore &amp; maintain streaks automatically</p>
                 </div>
               </div>
@@ -195,7 +195,7 @@ export default function OverviewView({
               </div>
             </div>
 
-            {/* Snap Reminders / Dispatch (Blue) */}
+            {/* Snap Send / Dispatch (Blue) */}
             <div
               className="action-box blue"
               onClick={() => setConfigModalAction('auto_snap')}
@@ -206,7 +206,7 @@ export default function OverviewView({
                   <Send size={20} />
                 </div>
                 <div className="action-text">
-                  <h4>Snap Reminders</h4>
+                  <h4>Snap Send</h4>
                   <p>Send aesthetic lens filtered snaps on schedule</p>
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default function OverviewView({
                   <div className="overview-icon-small" style={{ background: '#FEF3C7', color: '#D97706' }}>
                     <Flame size={16} />
                   </div>
-                  <span>Streak Reminders</span>
+                  <span>Snapscore Booster</span>
                 </div>
                 <span className="overview-val val-amber">4</span>
               </div>
@@ -260,7 +260,7 @@ export default function OverviewView({
                   <div className="overview-icon-small" style={{ background: '#E0F2FE', color: '#0284C7' }}>
                     <Send size={16} />
                   </div>
-                  <span>Snap Reminders</span>
+                  <span>Snap Send</span>
                 </div>
                 <span className="overview-val val-blue">3</span>
               </div>

@@ -1,3 +1,4 @@
+import ActionConfigModal from './ActionConfigModal';
 import React, { useState } from 'react';
 import {
   Flame,
@@ -22,6 +23,7 @@ export default function StreakRemindersView({
   const [showAddModal, setShowAddModal] = useState(false);
   const [newName, setNewName] = useState('');
   const [newTime, setNewTime] = useState('8:00 PM');
+  const [configModalOpen, setConfigModalOpen] = useState(false);
 
   const toggleReminder = (id) => {
     setReminders((prev) =>
@@ -52,15 +54,15 @@ export default function StreakRemindersView({
         {/* Header */}
         <div className="panel-header-row">
           <div className="panel-header-title">
-            <h3>Streak Reminders</h3>
-            <p>Set automated schedules and anti-expiration alerts to keep your streaks going.</p>
+            <h3>Snapscore Booster</h3>
+            <p>Boost snapscore & maintain active streaks automatically.</p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button
               className="btn-secondary"
-              onClick={() => onTriggerWorkflow('snapscore', { cycles: 2, select_all: true, max_recipients: 5 })}
-              title="Trigger active streak boost"
+              onClick={() => setConfigModalOpen(true)}
+              title="Configure and trigger active streak boost"
             >
               <Flame size={16} style={{ color: '#ea580c' }} />
               <span>Run Streak Multiplier</span>
@@ -150,9 +152,9 @@ export default function StreakRemindersView({
       {showAddModal && (
         <div className="modal-backdrop">
           <div className="modal-dialog">
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '6px' }}>Schedule Streak Reminder</h3>
+            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '6px' }}>Schedule Snapscore Booster</h3>
             <p style={{ fontSize: '0.82rem', color: '#64748b', marginBottom: '18px' }}>
-              Create an automated anti-expiration reminder for a friend.
+              Create an automated snapscore booster routine for a friend.
             </p>
 
             <form onSubmit={handleAddSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -198,6 +200,13 @@ export default function StreakRemindersView({
           </div>
         </div>
       )}
+
+      <ActionConfigModal
+        isOpen={configModalOpen}
+        actionType="streak_booster"
+        onClose={() => setConfigModalOpen(false)}
+        onConfirm={(type, params) => onTriggerWorkflow(type, params)}
+      />
     </div>
   );
 }

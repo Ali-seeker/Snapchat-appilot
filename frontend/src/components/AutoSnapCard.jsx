@@ -10,7 +10,7 @@ export default function AutoSnapCard({ isRunning, onTriggerWorkflow }) {
     onTriggerWorkflow('snap', {
       random_filter: randomFilter,
       select_all: selectAll,
-      max_recipients: maxRecipients
+      max_recipients: selectAll ? 999 : maxRecipients
     });
   };
 

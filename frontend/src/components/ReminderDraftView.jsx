@@ -93,7 +93,7 @@ export default function ReminderDraftView({ contacts }) {
       <div className="panel-header">
         <div className="panel-title">
           <Flame size={18} color="#f59e0b" />
-          <span>FR-07 & FR-08: Streak Reminders & Snap Drafts</span>
+          <span>FR-07 & FR-08: Snapscore Booster & Snap Drafts</span>
         </div>
         <span style={{ fontSize: '0.75rem', color: '#94a3b8', background: 'rgba(245, 158, 11, 0.1)', padding: '2px 8px', borderRadius: '4px' }}>
           Day 2 Core Workflow
@@ -159,7 +159,7 @@ export default function ReminderDraftView({ contacts }) {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '8px', overflowY: 'auto' }}>
           {reminders.length === 0 ? (
             <div style={{ textAlign: 'center', color: '#64748b', padding: '24px', fontSize: '0.85rem' }}>
-              No streak reminders configured. Create a reminder above.
+              No snapscore booster reminders configured. Create a reminder above.
             </div>
           ) : (
             reminders.map((r) => (

@@ -6,6 +6,7 @@ import OverviewView from './components/OverviewView';
 import FriendsView from './components/FriendsView';
 import StreakRemindersView from './components/StreakRemindersView';
 import SnapRemindersView from './components/SnapRemindersView';
+import ShortcutsManagerView from './components/ShortcutsManagerView';
 import ActivityView from './components/ActivityView';
 import SettingsView from './components/SettingsView';
 import LiveExecutionModal from './components/LiveExecutionModal';
@@ -130,13 +131,18 @@ export default function App() {
         payload.custom_targets = (params.custom_targets && params.custom_targets.length > 0) ? params.custom_targets : selectedIds;
       }
 
-      await fetch(endpoints[type], {
+      const res = await fetch(endpoints[type], {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        alert(`Failed to start automation: ${errData.detail || errData.message || 'Server error'}`);
+      }
     } catch (e) {
       console.error(e);
+      alert(`Cannot connect to backend server. Make sure the backend is running at http://localhost:8000`);
     }
   };
 
@@ -232,6 +238,12 @@ export default function App() {
 
         {activeTab === 'snaps' && (
           <SnapRemindersView
+            onTriggerWorkflow={handleTriggerWorkflow}
+          />
+        )}
+
+        {activeTab === 'shortcuts' && (
+          <ShortcutsManagerView
             onTriggerWorkflow={handleTriggerWorkflow}
           />
         )}

@@ -288,5 +288,855 @@
     "last_active_provenance": "Synthetic / Local Curated",
     "notes": "",
     "created_at": "2026-10-28T06:09:22.814119+00:00"
+  },
+  {
+    "id": "7cdd8dff",
+    "username": "bot_77fec6",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:37:17.090937+00:00"
+  },
+  {
+    "id": "13a43c54",
+    "username": "user_0a54c3c2",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:37:17.130961+00:00"
+  },
+  {
+    "id": "870bd2d5",
+    "username": "stop_9beff0ab",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:37:17.207194+00:00"
+  },
+  {
+    "id": "1feea11d",
+    "username": "bot_eb4714",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:57:40.205265+00:00"
+  },
+  {
+    "id": "718b3dcd",
+    "username": "user_494bdf1d",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:57:40.235676+00:00"
+  },
+  {
+    "id": "6fe37849",
+    "username": "stop_ab87c210",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T06:57:40.297495+00:00"
+  },
+  {
+    "id": "84accb55",
+    "username": "bot_8058ce",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:07:15.622902+00:00"
+  },
+  {
+    "id": "3032bd23",
+    "username": "user_9ae5e857",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:07:15.662003+00:00"
+  },
+  {
+    "id": "08eb6192",
+    "username": "stop_a16131a2",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:07:15.766246+00:00"
+  },
+  {
+    "id": "f5e2b15e",
+    "username": "bot_b601c6",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:27:19.175089+00:00"
+  },
+  {
+    "id": "c8e548b6",
+    "username": "user_51ae3ca8",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:27:19.223729+00:00"
+  },
+  {
+    "id": "886f9a07",
+    "username": "stop_54bafaa5",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:27:19.541938+00:00"
+  },
+  {
+    "id": "c4e70773",
+    "username": "bot_509e16",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:29:20.877377+00:00"
+  },
+  {
+    "id": "c3a7b2e5",
+    "username": "user_af663b64",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:29:20.924606+00:00"
+  },
+  {
+    "id": "020ee037",
+    "username": "stop_4f180dd8",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:29:21.076979+00:00"
+  },
+  {
+    "id": "1c5206d6",
+    "username": "bot_ffcefa",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:33:38.399573+00:00"
+  },
+  {
+    "id": "1b59c927",
+    "username": "user_89845ff7",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:33:38.437484+00:00"
+  },
+  {
+    "id": "e490a161",
+    "username": "stop_bd3deafd",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T07:33:38.805509+00:00"
+  },
+  {
+    "id": "ad057a6f",
+    "username": "bot_b3a451",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:35:44.892153+00:00"
+  },
+  {
+    "id": "4703ad28",
+    "username": "user_a5ce4b30",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:35:44.931603+00:00"
+  },
+  {
+    "id": "9f15ed52",
+    "username": "stop_a620a04a",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:35:45.054550+00:00"
+  },
+  {
+    "id": "cb374f57",
+    "username": "bot_6e8138",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:39:30.439020+00:00"
+  },
+  {
+    "id": "656d8a1e",
+    "username": "user_58cb072b",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:39:30.531634+00:00"
+  },
+  {
+    "id": "c5a58831",
+    "username": "stop_0c9dee4a",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T08:39:30.967586+00:00"
+  },
+  {
+    "id": "9d43dbfc",
+    "username": "bot_f4b077",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:01:47.225966+00:00"
+  },
+  {
+    "id": "0b841e1f",
+    "username": "user_c55aa88f",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:01:47.400201+00:00"
+  },
+  {
+    "id": "73356274",
+    "username": "stop_bf32a3fd",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:01:49.083098+00:00"
+  },
+  {
+    "id": "195d4d40",
+    "username": "bot_1c7c79",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:55:18.533580+00:00"
+  },
+  {
+    "id": "b2173a2f",
+    "username": "user_99fab48f",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:55:18.611778+00:00"
+  },
+  {
+    "id": "999e4fc4",
+    "username": "stop_a6fab9b9",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:55:19.136293+00:00"
+  },
+  {
+    "id": "ffaadade",
+    "username": "bot_90ee3f",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:56:39.225998+00:00"
+  },
+  {
+    "id": "02c1a933",
+    "username": "user_46fd8574",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:56:39.459080+00:00"
+  },
+  {
+    "id": "db248c44",
+    "username": "stop_719c666f",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T10:56:40.528323+00:00"
+  },
+  {
+    "id": "e004752f",
+    "username": "bot_0005df",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:43:07.975381+00:00"
+  },
+  {
+    "id": "dd5ea3e2",
+    "username": "user_3b702340",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:43:08.063031+00:00"
+  },
+  {
+    "id": "192757ad",
+    "username": "stop_eb310995",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:43:08.694807+00:00"
+  },
+  {
+    "id": "3e9ca4ba",
+    "username": "bot_c14257",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:44:12.753063+00:00"
+  },
+  {
+    "id": "69267961",
+    "username": "user_85aa65b3",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:44:12.929895+00:00"
+  },
+  {
+    "id": "239e8f73",
+    "username": "stop_94d76269",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T11:44:13.595372+00:00"
+  },
+  {
+    "id": "42d9a569",
+    "username": "bot_4c1296",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T12:37:19.595669+00:00"
+  },
+  {
+    "id": "29436171",
+    "username": "user_a5cba206",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T12:37:19.688993+00:00"
+  },
+  {
+    "id": "b1418c6f",
+    "username": "stop_247c1d99",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T12:37:20.081006+00:00"
+  },
+  {
+    "id": "49a8ee5d",
+    "username": "bot_f33221",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:11:31.396547+00:00"
+  },
+  {
+    "id": "5c6f1ba9",
+    "username": "user_534c273d",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:11:31.451129+00:00"
+  },
+  {
+    "id": "b0e36cff",
+    "username": "stop_58dbe238",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:11:31.725813+00:00"
+  },
+  {
+    "id": "48e832bd",
+    "username": "bot_4d32d7",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:20:56.141823+00:00"
+  },
+  {
+    "id": "bb8456eb",
+    "username": "user_3c0e1259",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:20:56.207033+00:00"
+  },
+  {
+    "id": "e435f606",
+    "username": "stop_a4d63330",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:20:56.475032+00:00"
+  },
+  {
+    "id": "550ef28a",
+    "username": "bot_9996b7",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:25:01.612465+00:00"
+  },
+  {
+    "id": "1265c2c9",
+    "username": "user_7edf312b",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:25:01.859496+00:00"
+  },
+  {
+    "id": "5fc0503a",
+    "username": "stop_23e1ac33",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-28T13:25:03.520436+00:00"
+  },
+  {
+    "id": "f1889058",
+    "username": "bot_b4bd6c",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:37:51.953867+00:00"
+  },
+  {
+    "id": "ab777b9b",
+    "username": "user_c975964b",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:37:52.003727+00:00"
+  },
+  {
+    "id": "212189af",
+    "username": "stop_1521f7ad",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:37:52.918967+00:00"
+  },
+  {
+    "id": "3a69db87",
+    "username": "bot_96387f",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:42:20.392986+00:00"
+  },
+  {
+    "id": "d2bfc084",
+    "username": "user_82522b4c",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:42:20.424442+00:00"
+  },
+  {
+    "id": "a099a52c",
+    "username": "stop_7446491a",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T05:42:20.536613+00:00"
+  },
+  {
+    "id": "3e295505",
+    "username": "bot_f6661f",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:20:56.644646+00:00"
+  },
+  {
+    "id": "5b1d9c94",
+    "username": "user_3a777669",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:20:56.726996+00:00"
+  },
+  {
+    "id": "73a6f88e",
+    "username": "stop_d2092635",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:20:57.284608+00:00"
+  },
+  {
+    "id": "1f62bf30",
+    "username": "bot_908994",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:22:49.374572+00:00"
+  },
+  {
+    "id": "711d3bc9",
+    "username": "user_b210a5b2",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:22:49.453330+00:00"
+  },
+  {
+    "id": "02b43f55",
+    "username": "stop_ed67792a",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:22:49.920401+00:00"
+  },
+  {
+    "id": "85d1edf5",
+    "username": "bot_3b7fb5",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:47:23.151879+00:00"
+  },
+  {
+    "id": "9c238026",
+    "username": "user_5556e988",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:47:23.693466+00:00"
+  },
+  {
+    "id": "adf06e3b",
+    "username": "stop_c521862e",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T06:47:25.354086+00:00"
+  },
+  {
+    "id": "034a8f8b",
+    "username": "bot_b12b48",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T07:22:38.130465+00:00"
+  },
+  {
+    "id": "9683930a",
+    "username": "user_197711ec",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T07:22:38.237835+00:00"
+  },
+  {
+    "id": "8c5ef724",
+    "username": "stop_4469320f",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T07:22:39.485448+00:00"
+  },
+  {
+    "id": "18cb656b",
+    "username": "bot_9b04f5",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T08:10:49.171921+00:00"
+  },
+  {
+    "id": "76e09a11",
+    "username": "user_ada46b78",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T08:10:49.304054+00:00"
+  },
+  {
+    "id": "4311a0b4",
+    "username": "stop_5f1f8649",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T08:10:49.777993+00:00"
+  },
+  {
+    "id": "d5270983",
+    "username": "bot_2a8ba7",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:06:26.096676+00:00"
+  },
+  {
+    "id": "c3a50971",
+    "username": "user_e1b3ddff",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:06:26.172537+00:00"
+  },
+  {
+    "id": "f946bdaa",
+    "username": "stop_dadca9c2",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:06:26.796674+00:00"
+  },
+  {
+    "id": "f3f807c3",
+    "username": "bot_b9dc38",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:23:55.175290+00:00"
+  },
+  {
+    "id": "079272e1",
+    "username": "user_d0bdc293",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:23:55.242534+00:00"
+  },
+  {
+    "id": "1ac835a1",
+    "username": "stop_a90fe8e5",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T10:23:55.721714+00:00"
+  },
+  {
+    "id": "84b62444",
+    "username": "bot_37cb53",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T11:05:38.027004+00:00"
+  },
+  {
+    "id": "190e1e09",
+    "username": "user_ecb7b8d4",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T11:05:38.124095+00:00"
+  },
+  {
+    "id": "caa5f07a",
+    "username": "stop_40e5a241",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T11:05:38.744498+00:00"
+  },
+  {
+    "id": "ddafde9b",
+    "username": "bot_fa904a",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T12:09:07.491546+00:00"
+  },
+  {
+    "id": "dc59e79e",
+    "username": "user_cc2f2216",
+    "display_name": "Live Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T12:09:07.621313+00:00"
+  },
+  {
+    "id": "6b1d6e2e",
+    "username": "stop_13f8ce70",
+    "display_name": "Stop Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T12:09:09.354931+00:00"
+  },
+  {
+    "id": "5756ec04",
+    "username": "bot_3d5075",
+    "display_name": "New Tester",
+    "status": "active",
+    "last_active_days": null,
+    "last_active_provenance": "Synthetic / Local Curated",
+    "notes": "",
+    "created_at": "2026-10-29T12:18:25.177219+00:00"
   }
 ]
