@@ -5,6 +5,7 @@ import {
   Flame,
   Send,
   Bookmark,
+  Calendar,
   Activity,
   Settings,
   HelpCircle,
@@ -19,6 +20,7 @@ export default function Sidebar({ activeTab, onSelectTab }) {
     { id: 'streaks', label: 'Snapscore Booster', icon: Flame },
     { id: 'snaps', label: 'Snap Send', icon: Send },
     { id: 'shortcuts', label: 'Snap Shortcuts', icon: Bookmark },
+    { id: 'schedule', label: 'Schedule', icon: Calendar },
     { id: 'activity', label: 'Activity', icon: Activity },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'help', label: 'Help', icon: HelpCircle }

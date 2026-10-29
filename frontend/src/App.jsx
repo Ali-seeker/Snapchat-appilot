@@ -7,6 +7,7 @@ import FriendsView from './components/FriendsView';
 import StreakRemindersView from './components/StreakRemindersView';
 import SnapRemindersView from './components/SnapRemindersView';
 import ShortcutsManagerView from './components/ShortcutsManagerView';
+import ScheduleView from './components/ScheduleView';
 import ActivityView from './components/ActivityView';
 import SettingsView from './components/SettingsView';
 import LiveExecutionModal from './components/LiveExecutionModal';
@@ -244,6 +245,12 @@ export default function App() {
 
         {activeTab === 'shortcuts' && (
           <ShortcutsManagerView
+            onTriggerWorkflow={handleTriggerWorkflow}
+          />
+        )}
+
+        {activeTab === 'schedule' && (
+          <ScheduleView
             onTriggerWorkflow={handleTriggerWorkflow}
           />
         )}

@@ -19,6 +19,7 @@ from .services.demo_engine import demo_engine
 from .services.live_automation_engine import live_engine
 from .services.reminder_service import reminder_service, ReminderItem, ReminderCreate
 from .services.shortcut_service import shortcut_service, ShortcutItem, ShortcutCreate
+from .services.scheduler_service import scheduler_service, ScheduleItem, ScheduleCreate
 from .services.bulk_follow_engine import bulk_follow_engine
 from .services.bulk_unfollow_engine import bulk_unfollow_engine
 from .services.auto_snap_engine import auto_snap_engine
@@ -53,10 +54,12 @@ async def lifespan(app: FastAPI):
             await asyncio.sleep(8)
 
     heartbeat_task = asyncio.create_task(reverse_port_heartbeat())
+    scheduler_task = asyncio.create_task(scheduler_service.start_daemon(interval_seconds=15))
     try:
         yield
     finally:
         heartbeat_task.cancel()
+        scheduler_task.cancel()
 
 app = FastAPI(title="Appilot Snapchat Companion API", version="1.0.0", lifespan=lifespan)
 
@@ -195,6 +198,60 @@ async def delete_shortcut(shortcut_id: str):
     if not success:
         raise HTTPException(status_code=404, detail="Shortcut not found")
     return {"status": "ok"}
+
+
+# ----------------- Automated Schedules Endpoints ----------------- #
+
+@app.get("/api/schedules", response_model=List[ScheduleItem])
+async def list_schedules():
+    return scheduler_service.get_all()
+
+@app.post("/api/schedules", response_model=ScheduleItem)
+async def create_schedule(item_in: ScheduleCreate):
+    created = scheduler_service.create(item_in)
+    audit_logger.log(
+        workflow="Schedule Orchestrator",
+        result=ResultStatus.COMPLETED,
+        reason_code="SCHEDULE_CREATED",
+        message=f"Created schedule '{item_in.title}' for {item_in.date} at {item_in.start_time}",
+        details={"schedule_id": created.id, "automation": item_in.automation_type}
+    )
+    return created
+
+@app.put("/api/schedules/{schedule_id}", response_model=ScheduleItem)
+async def update_schedule(schedule_id: str, updates: Dict[str, Any]):
+    updated = scheduler_service.update(schedule_id, updates)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    return updated
+
+@app.delete("/api/schedules/{schedule_id}")
+async def delete_schedule(schedule_id: str):
+    success = scheduler_service.delete(schedule_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    audit_logger.log(
+        workflow="Schedule Orchestrator",
+        result=ResultStatus.COMPLETED,
+        reason_code="SCHEDULE_DELETED",
+        message=f"Deleted schedule {schedule_id}"
+    )
+    return {"status": "ok"}
+
+@app.post("/api/schedules/{schedule_id}/toggle", response_model=ScheduleItem)
+async def toggle_schedule(schedule_id: str):
+    updated = scheduler_service.toggle(schedule_id)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    return updated
+
+@app.post("/api/schedules/{schedule_id}/run_now")
+async def run_schedule_now(schedule_id: str):
+    schedule = scheduler_service.get_by_id(schedule_id)
+    if not schedule:
+        raise HTTPException(status_code=404, detail="Schedule not found")
+    asyncio.create_task(scheduler_service.execute_schedule(schedule, is_manual_trigger=True))
+    return {"status": "started", "schedule_id": schedule.id, "title": schedule.title}
 
 @app.post("/api/control/transition")
 async def transition_state(state: AppState, workflow: str = "Manual"):

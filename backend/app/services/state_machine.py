@@ -30,6 +30,10 @@ class WorkflowStateMachine:
     def is_paused(self) -> bool:
         return self._pause_requested
 
+    @property
+    def is_running(self) -> bool:
+        return self._current_state == AppState.RUNNING
+
     def register_listener(self, callback: Callable[[AppState, Optional[str]], None]):
         self._listeners.append(callback)
 
