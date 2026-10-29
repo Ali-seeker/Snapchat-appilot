@@ -16,10 +16,10 @@ import {
   Smartphone,
   SmartphoneCharging,
   Sliders,
-  ChevronRight,
   ShieldCheck,
   Zap,
-  X
+  X,
+  RotateCw
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:8000/api';
@@ -30,6 +30,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
   const [showModal, setShowModal] = useState(false);
   const [deviceConnected, setDeviceConnected] = useState(true);
   const [shortcuts, setShortcuts] = useState([]);
+  const [filterTab, setFilterTab] = useState('all'); // all | active | paused
 
   // Form State
   const [title, setTitle] = useState('');
@@ -89,7 +90,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
           setShortcutEmoji(scData[0].emoji);
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   };
 
   useEffect(() => {
@@ -138,7 +139,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
     }
 
     const payload = {
-      title: title.trim() || `Scheduled ${automationType.toUpperCase()}`,
+      title: title.trim() || `Scheduled ${automationType === 'snapscore' ? 'Snapscore Booster' : automationType === 'snap' ? 'Snap Send' : automationType === 'follow' ? 'Add Friends' : 'Remove Friends'}`,
       automation_type: automationType,
       params,
       date: selectedDate,
@@ -157,25 +158,36 @@ export default function ScheduleView({ onTriggerWorkflow }) {
         setShowModal(false);
         setTitle('');
         fetchSchedules();
+      } else {
+        alert('Failed to save schedule');
       }
     } catch (e) {
-      alert('Failed to save schedule.');
+      alert('Network error saving schedule');
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!confirm('Are you sure you want to remove this scheduled automation?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/schedules/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setSchedules((prev) => prev.filter((s) => s.id !== id));
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
   const handleToggle = async (id) => {
     try {
-      await fetch(`${API_BASE}/schedules/${id}/toggle`, { method: 'POST' });
-      fetchSchedules();
-    } catch (e) {}
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this schedule?')) return;
-    try {
-      await fetch(`${API_BASE}/schedules/${id}`, { method: 'DELETE' });
-      fetchSchedules();
-    } catch (e) {}
+      const res = await fetch(`${API_BASE}/schedules/${id}/toggle`, { method: 'POST' });
+      if (res.ok) {
+        const updated = await res.json();
+        setSchedules((prev) => prev.map((s) => (s.id === id ? updated : s)));
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const handleRunNow = async (id) => {
@@ -183,7 +195,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
       const res = await fetch(`${API_BASE}/schedules/${id}/run_now`, { method: 'POST' });
       const data = await res.json();
       if (res.ok) {
-        alert(`Schedule '${data.title}' launched immediately on connected phone!`);
+        alert(`Schedule '${data.title}' triggered immediately on your connected device!`);
         fetchSchedules();
       }
     } catch (e) {
@@ -192,48 +204,70 @@ export default function ScheduleView({ onTriggerWorkflow }) {
   };
 
   const activeCount = schedules.filter(s => s.is_active).length;
+  const pausedCount = schedules.filter(s => !s.is_active).length;
   const offlineWarnings = schedules.filter(s => s.last_status === 'DEVICE_OFFLINE').length;
+
+  const displayedSchedules = schedules.filter((item) => {
+    if (filterTab === 'active') return item.is_active;
+    if (filterTab === 'paused') return !item.is_active;
+    return true;
+  });
 
   return (
     <div className="page-container">
-      {/* Top Banner Stats */}
-      <div className="grid-3" style={{ marginBottom: '16px' }}>
-        <div className="stats-card">
-          <div className="stats-content">
-            <span className="stats-label">Active Schedules</span>
-            <div className="stats-value" style={{ color: '#0284c7' }}>{activeCount}</div>
-            <span className="stats-sub">Monitored in background</span>
+      {/* 4 KPI Metric Cards */}
+      <div className="kpi-grid" style={{ marginBottom: '20px' }}>
+        {/* 1. Active Schedules */}
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap purple">
+            <Calendar size={22} />
           </div>
-          <div className="stats-icon-wrap" style={{ background: '#e0f2fe', color: '#0284c7' }}>
-            <Clock size={24} />
+          <div className="kpi-info">
+            <span className="kpi-label">Active Schedules</span>
+            <span className="kpi-value">{activeCount} Configured</span>
+            <span className="kpi-sub">Monitored in background</span>
           </div>
         </div>
 
-        <div className="stats-card">
-          <div className="stats-content">
-            <span className="stats-label">Phone Connectivity</span>
-            <div className="stats-value" style={{ color: deviceConnected ? '#16a34a' : '#ea580c' }}>
+        {/* 2. Connected Device */}
+        <div className="kpi-card">
+          <div className={`kpi-icon-wrap ${deviceConnected ? 'green' : 'pink'}`}>
+            {deviceConnected ? <SmartphoneCharging size={22} /> : <Smartphone size={22} />}
+          </div>
+          <div className="kpi-info">
+            <span className="kpi-label">Phone Connectivity</span>
+            <span className="kpi-value" style={{ color: deviceConnected ? '#16a34a' : '#ea580c' }}>
               {deviceConnected ? 'Connected' : 'Offline'}
-            </div>
-            <span className="stats-sub">
-              {deviceConnected ? 'Ready for automated dispatch' : 'Re-connect phone via USB'}
+            </span>
+            <span className="kpi-sub">
+              {deviceConnected ? 'Ready for auto dispatch' : 'Reconnect via USB debugging'}
             </span>
           </div>
-          <div className="stats-icon-wrap" style={{ background: deviceConnected ? '#dcfce7' : '#ffedd5', color: deviceConnected ? '#16a34a' : '#ea580c' }}>
-            {deviceConnected ? <SmartphoneCharging size={24} /> : <Smartphone size={24} />}
+        </div>
+
+        {/* 3. Offline Safeguard */}
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap blue">
+            <ShieldCheck size={22} />
+          </div>
+          <div className="kpi-info">
+            <span className="kpi-label">Offline Safeguard</span>
+            <span className="kpi-value" style={{ color: offlineWarnings > 0 ? '#dc2626' : '#0284c7' }}>
+              {offlineWarnings > 0 ? `${offlineWarnings} Handled` : '100% Protected'}
+            </span>
+            <span className="kpi-sub">No crash if phone offline</span>
           </div>
         </div>
 
-        <div className="stats-card">
-          <div className="stats-content">
-            <span className="stats-label">Offline Safeguard</span>
-            <div className="stats-value" style={{ color: offlineWarnings > 0 ? '#dc2626' : '#16a34a' }}>
-              {offlineWarnings > 0 ? `${offlineWarnings} Missed` : '100% Protected'}
-            </div>
-            <span className="stats-sub">No crashes if phone disconnected</span>
+        {/* 4. Scheduler Engine */}
+        <div className="kpi-card">
+          <div className="kpi-icon-wrap green">
+            <Zap size={22} />
           </div>
-          <div className="stats-icon-wrap" style={{ background: '#f3e8ff', color: '#9333ea' }}>
-            <ShieldCheck size={24} />
+          <div className="kpi-info">
+            <span className="kpi-label">Scheduler Daemon</span>
+            <span className="kpi-value">Active</span>
+            <span className="kpi-sub">Checks schedule every 15s</span>
           </div>
         </div>
       </div>
@@ -269,177 +303,191 @@ export default function ScheduleView({ onTriggerWorkflow }) {
 
         {/* Safety Edge Case Disclosure */}
         <div style={{
-          background: '#f8fafc',
-          border: '1px solid #e2e8f0',
+          background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.04) 0%, rgba(124, 58, 237, 0.04) 100%)',
+          border: '1px solid #bae6fd',
           borderRadius: '12px',
           padding: '12px 16px',
-          marginBottom: '16px',
+          marginBottom: '18px',
           display: 'flex',
           alignItems: 'center',
           gap: '12px'
         }}>
-          <Info size={18} color="#0284c7" style={{ flexShrink: 0 }} />
-          <div style={{ fontSize: '0.84rem', color: '#475569', lineHeight: '1.4' }}>
+          <ShieldCheck size={20} color="#0284c7" style={{ flexShrink: 0 }} />
+          <div style={{ fontSize: '0.84rem', color: '#334155', lineHeight: '1.45' }}>
             <strong>Device Offline Protection:</strong> If your mobile phone is disconnected when a schedule is due, Appilot safely halts execution, marks the event as <code>DEVICE_OFFLINE</code>, and alerts you without misclicking or throwing errors.
           </div>
         </div>
 
-        {/* Schedules List */}
-        {schedules.length === 0 ? (
+        {/* Filter Pills */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+          {[
+            { id: 'all', label: `All Schedules (${schedules.length})` },
+            { id: 'active', label: `Active (${activeCount})` },
+            { id: 'paused', label: `Paused (${pausedCount})` }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setFilterTab(tab.id)}
+              style={{
+                border: 'none',
+                background: filterTab === tab.id ? '#7c3aed' : '#f1f5f9',
+                color: filterTab === tab.id ? '#ffffff' : '#475569',
+                padding: '6px 14px',
+                borderRadius: '999px',
+                fontSize: '0.8rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Schedules Cards Grid */}
+        {displayedSchedules.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '48px 24px', color: '#64748b' }}>
             <Calendar size={48} style={{ opacity: 0.3, margin: '0 auto 12px' }} />
-            <h4 style={{ fontSize: '1.05rem', fontWeight: 600, color: '#0f172a', marginBottom: '4px' }}>No Schedules Configured</h4>
-            <p style={{ fontSize: '0.86rem' }}>Click the <strong>'Create New Schedule'</strong> button above to automate tasks on your calendar.</p>
+            <h4 style={{ fontSize: '1.05rem', fontWeight: 600, color: '#0f172a', marginBottom: '4px' }}>
+              {filterTab === 'all' ? 'No Schedules Configured' : `No ${filterTab} schedules found`}
+            </h4>
+            <p style={{ fontSize: '0.86rem', marginBottom: '16px' }}>
+              Click the <strong>'Create New Schedule'</strong> button above to automate tasks on your calendar.
+            </p>
+            <button className="btn-primary" onClick={() => setShowModal(true)}>
+              <Plus size={16} />
+              <span>Create Schedule</span>
+            </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {schedules.map((item) => {
+          <div className="schedule-cards-grid">
+            {displayedSchedules.map((item) => {
               const isBooster = item.automation_type === 'snapscore';
               const isSnap = item.automation_type === 'snap';
               const isFollow = item.automation_type === 'follow';
               const isUnfollow = item.automation_type === 'unfollow';
 
+              const typeKey = isBooster ? 'booster' : isSnap ? 'snap' : isFollow ? 'follow' : 'unfollow';
+              const typeLabel = isBooster ? 'Snapscore Booster' : isSnap ? 'Snap Send' : isFollow ? 'Add Friends' : 'Remove Friends';
+
               return (
                 <div
                   key={item.id}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    borderRadius: '14px',
-                    border: '1px solid #e2e8f0',
-                    background: item.is_active ? '#ffffff' : '#f8fafc',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.03)',
-                    flexWrap: 'wrap',
-                    gap: '12px',
-                    opacity: item.is_active ? 1 : 0.75
-                  }}
+                  className={`schedule-card ${!item.is_active ? 'paused' : ''}`}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', minWidth: '280px' }}>
-                    <div
-                      style={{
-                        width: '42px',
-                        height: '42px',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: isBooster ? '#dcfce7' : isSnap ? '#e0f2fe' : isFollow ? '#fef3c7' : '#fce7f3',
-                        color: isBooster ? '#16a34a' : isSnap ? '#0284c7' : isFollow ? '#d97706' : '#e11d48'
-                      }}
-                    >
-                      {isBooster && <Flame size={20} />}
-                      {isSnap && <Send size={20} />}
-                      {isFollow && <UserPlus size={20} />}
-                      {isUnfollow && <UserMinus size={20} />}
+                  <div>
+                    {/* Top Header */}
+                    <div className="schedule-card-top">
+                      <div className="schedule-card-identity">
+                        <div className={`schedule-icon-avatar ${typeKey}`}>
+                          {isBooster && <Flame size={22} />}
+                          {isSnap && <Send size={22} />}
+                          {isFollow && <UserPlus size={22} />}
+                          {isUnfollow && <UserMinus size={22} />}
+                        </div>
+                        <div>
+                          <h4 className="schedule-card-title">{item.title}</h4>
+                          <span className={`schedule-type-chip ${typeKey}`}>
+                            {typeLabel}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Active/Pause Switch */}
+                      <label className="switch" title={item.is_active ? 'Active' : 'Paused'}>
+                        <input
+                          type="checkbox"
+                          checked={item.is_active}
+                          onChange={() => handleToggle(item.id)}
+                        />
+                        <span className="slider"></span>
+                      </label>
                     </div>
 
-                    <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontWeight: 700, fontSize: '0.96rem', color: '#0f172a' }}>{item.title}</span>
-                        <span
-                          style={{
-                            fontSize: '0.72rem',
-                            padding: '2px 8px',
-                            borderRadius: '999px',
-                            fontWeight: 600,
-                            background: isBooster ? '#dcfce7' : isSnap ? '#e0f2fe' : isFollow ? '#fef3c7' : '#fce7f3',
-                            color: isBooster ? '#166534' : isSnap ? '#0369a1' : isFollow ? '#92400e' : '#9d174d'
-                          }}
-                        >
-                          {isBooster && 'Snapscore Booster'}
-                          {isSnap && 'Snap Send'}
-                          {isFollow && 'Add Friends'}
-                          {isUnfollow && 'Remove Friends'}
+                    {/* Time & Date Box */}
+                    <div className="schedule-timing-box">
+                      <div className="schedule-timing-item">
+                        <Calendar size={14} color="#64748b" />
+                        <span>Date: <strong>{item.date}</strong></span>
+                      </div>
+                      <div className="schedule-timing-item">
+                        <Clock size={14} color="#64748b" />
+                        <span>Time: <strong>{item.start_time}</strong> {item.end_time ? `➔ ${item.end_time}` : ''}</span>
+                        <span style={{
+                          marginLeft: 'auto',
+                          fontSize: '0.72rem',
+                          padding: '2px 8px',
+                          background: item.frequency === 'daily' ? '#f3e8ff' : '#f1f5f9',
+                          color: item.frequency === 'daily' ? '#7c3aed' : '#475569',
+                          borderRadius: '6px',
+                          fontWeight: 600
+                        }}>
+                          {item.frequency === 'daily' ? '🔁 Daily Repeat' : '⚡ Run Once'}
                         </span>
                       </div>
+                    </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.8rem', color: '#64748b', marginTop: '4px' }}>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                          <Calendar size={13} /> {item.date}
-                        </span>
-                        <span>•</span>
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                          <Clock size={13} /> {item.start_time} {item.end_time ? `➔ ${item.end_time}` : ''}
-                        </span>
-                        <span>•</span>
-                        <span style={{ textTransform: 'capitalize', fontWeight: 600, color: '#334155' }}>
-                          {item.frequency === 'daily' ? 'Repeats Daily' : 'Runs Once'}
-                        </span>
-                      </div>
-
-                      {/* Params summary tag */}
-                      <div style={{ marginTop: '6px', fontSize: '0.76rem', color: '#475569' }}>
-                        {isBooster && (
-                          <span>⚡ {item.params?.cycles || 3} Cycles • Target: {item.params?.recipient_mode?.toUpperCase()} {item.params?.shortcut_emoji || ''}</span>
-                        )}
-                        {isSnap && (
-                          <span>📸 Filter: {item.params?.random_filter ? 'Aesthetic Lens' : 'None'} • Mode: {item.params?.recipient_mode?.toUpperCase()}</span>
-                        )}
-                        {isFollow && (
-                          <span>👥 {item.params?.mode === 'search' ? `Target @${item.params?.target_ids?.[0]}` : `Quick Add up to ${item.params?.max_count || 5}`}</span>
-                        )}
-                        {isUnfollow && (
-                          <span>🗑️ Filter: {item.params?.filter_type} • Limit: {item.params?.select_all ? 'ALL' : item.params?.max_unfollow}</span>
-                        )}
-                      </div>
+                    {/* Configured Routine Parameters */}
+                    <div className="schedule-params-pillbox">
+                      {isBooster && (
+                        <span>⚡ <strong>{item.params?.cycles || 3} Cycles</strong> • Target: {item.params?.recipient_mode === 'shortcut' ? `Shortcut (${item.params?.shortcut_emoji || '🤙'})` : item.params?.recipient_mode === 'select_all' ? 'Select All' : 'Streak Friends'}</span>
+                      )}
+                      {isSnap && (
+                        <span>📸 <strong>Filter:</strong> {item.params?.random_filter ? 'Aesthetic Lens' : 'None'} • Mode: {item.params?.recipient_mode?.toUpperCase()}</span>
+                      )}
+                      {isFollow && (
+                        <span>👥 <strong>{item.params?.mode === 'search' ? `Target @${item.params?.target_ids?.[0]}` : `Quick Add (${item.params?.max_count || 5})`}</strong></span>
+                      )}
+                      {isUnfollow && (
+                        <span>🗑️ <strong>Filter:</strong> {item.params?.filter_type} • Limit: {item.params?.select_all ? 'ALL' : item.params?.max_unfollow}</span>
+                      )}
                     </div>
                   </div>
 
-                  {/* Status & Actions */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                    {/* Status Badge */}
-                    {item.last_status === 'DEVICE_OFFLINE' && (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#fee2e2', color: '#b91c1c', padding: '4px 10px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600 }} title={item.last_error || 'Device was offline'}>
-                        <AlertTriangle size={13} /> Phone Disconnected
-                      </span>
-                    )}
-                    {item.last_status === 'COMPLETED' && (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#dcfce7', color: '#16a34a', padding: '4px 10px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600 }}>
-                        <CheckCircle2 size={13} /> Success
-                      </span>
-                    )}
-                    {item.last_status === 'RUNNING' && (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#f3e8ff', color: '#9333ea', padding: '4px 10px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600 }}>
-                        <RefreshCw size={13} className="spin" /> Executing...
-                      </span>
-                    )}
-                    {(!item.last_status || item.last_status === 'PENDING') && (
-                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', background: '#f1f5f9', color: '#475569', padding: '4px 10px', borderRadius: '8px', fontSize: '0.78rem', fontWeight: 600 }}>
-                        <Clock size={13} /> Pending
-                      </span>
-                    )}
+                  {/* Card Footer: Status & Actions */}
+                  <div className="schedule-card-footer">
+                    <div>
+                      {item.last_status === 'DEVICE_OFFLINE' && (
+                        <span className="schedule-status-badge offline" title={item.last_error || 'Mobile phone was disconnected'}>
+                          <AlertTriangle size={12} /> Phone Offline
+                        </span>
+                      )}
+                      {item.last_status === 'COMPLETED' && (
+                        <span className="schedule-status-badge completed">
+                          <CheckCircle2 size={12} /> Success
+                        </span>
+                      )}
+                      {item.last_status === 'RUNNING' && (
+                        <span className="schedule-status-badge running">
+                          <RefreshCw size={12} className="spin" /> Running
+                        </span>
+                      )}
+                      {(!item.last_status || item.last_status === 'PENDING') && (
+                        <span className="schedule-status-badge pending">
+                          <Clock size={12} /> Pending
+                        </span>
+                      )}
+                    </div>
 
-                    {/* Toggle Active */}
-                    <label className="switch" title={item.is_active ? 'Active' : 'Paused'}>
-                      <input
-                        type="checkbox"
-                        checked={item.is_active}
-                        onChange={() => handleToggle(item.id)}
-                      />
-                      <span className="slider"></span>
-                    </label>
+                    <div className="schedule-action-group">
+                      <button
+                        className="btn-schedule-run"
+                        onClick={() => handleRunNow(item.id)}
+                        title="Trigger this schedule immediately on connected phone"
+                      >
+                        <Play size={13} fill="#16a34a" />
+                        <span>Run Now</span>
+                      </button>
 
-                    {/* Manual Immediate Run Button */}
-                    <button
-                      className="icon-btn"
-                      onClick={() => handleRunNow(item.id)}
-                      title="Run Schedule Now (Test dispatch)"
-                      style={{ color: '#0284c7' }}
-                    >
-                      <Play size={16} fill="#0284c7" />
-                    </button>
-
-                    {/* Delete button */}
-                    <button
-                      className="icon-btn"
-                      onClick={() => handleDelete(item.id)}
-                      title="Delete Schedule"
-                      style={{ color: '#ef4444' }}
-                    >
-                      <Trash2 size={16} />
-                    </button>
+                      <button
+                        className="btn-schedule-delete"
+                        onClick={() => handleDelete(item.id)}
+                        title="Delete Schedule"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
@@ -455,7 +503,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <div>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0f172a' }}>Schedule Automation</h3>
-                <p style={{ fontSize: '0.82rem', color: '#64748b' }}>Configure task parameters, date, and execution timing.</p>
+                <p style={{ fontSize: '0.82rem', color: '#64748b' }}>Configure routine parameters, date, and execution timing.</p>
               </div>
               <button onClick={() => setShowModal(false)} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#94a3b8' }}>
                 <X size={20} />
@@ -513,7 +561,7 @@ export default function ScheduleView({ onTriggerWorkflow }) {
                 {automationType === 'snapscore' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <span style={{ fontSize: '0.82rem', color: '#475569' }}>Cycles Count:</span>
+                      <span style={{ fontSize: '0.82rem', color: '#475569' }}>Booster Cycles:</span>
                       <input
                         type="number"
                         min="1"
@@ -538,6 +586,33 @@ export default function ScheduleView({ onTriggerWorkflow }) {
                         ))}
                       </div>
                     </div>
+                    {boosterMode === 'shortcut' && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
+                        <span style={{ fontSize: '0.82rem', color: '#475569' }}>Shortcut Emoji:</span>
+                        {shortcuts.length > 0 ? (
+                          <div style={{ display: 'flex', gap: '6px' }}>
+                            {shortcuts.map((sc) => (
+                              <button
+                                key={sc.id}
+                                type="button"
+                                onClick={() => setShortcutEmoji(sc.emoji)}
+                                className={`preset-chip ${shortcutEmoji === sc.emoji ? 'active' : ''}`}
+                                style={{ padding: '4px 10px' }}
+                              >
+                                {sc.emoji} {sc.name}
+                              </button>
+                            ))}
+                          </div>
+                        ) : (
+                          <input
+                            type="text"
+                            value={shortcutEmoji}
+                            onChange={(e) => setShortcutEmoji(e.target.value)}
+                            style={{ width: '60px', padding: '4px 8px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
+                          />
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -627,6 +702,19 @@ export default function ScheduleView({ onTriggerWorkflow }) {
                         Inactive Friends
                       </button>
                     </div>
+                    {unfollowFilter === 'inactive' && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.82rem', color: '#475569' }}>Inactive Days Threshold:</span>
+                        <input
+                          type="number"
+                          min="1"
+                          max="365"
+                          value={unfollowDays}
+                          onChange={(e) => setUnfollowDays(e.target.value)}
+                          style={{ width: '80px', padding: '6px 10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}
+                        />
+                      </div>
+                    )}
                     <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: '#334155', cursor: 'pointer' }}>
                       <input
                         type="checkbox"
@@ -717,4 +805,3 @@ export default function ScheduleView({ onTriggerWorkflow }) {
     </div>
   );
 }
-

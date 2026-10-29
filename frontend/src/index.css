@@ -1328,3 +1328,248 @@ input:checked+.slider:before {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ==========================================================================
+   SCHEDULE VIEW & SCHEDULE CARDS
+   ========================================================================== */
+
+.schedule-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.schedule-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.schedule-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+.schedule-card.paused {
+  background: #f8fafc;
+  opacity: 0.85;
+  border-style: dashed;
+}
+
+.schedule-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.schedule-card-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.schedule-icon-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.schedule-icon-avatar.booster {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.schedule-icon-avatar.snap {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.schedule-icon-avatar.follow {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.schedule-icon-avatar.unfollow {
+  background: #fce7f3;
+  color: #e11d48;
+}
+
+.schedule-card-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.schedule-type-chip {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+.schedule-type-chip.booster {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.schedule-type-chip.snap {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.schedule-type-chip.follow {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.schedule-type-chip.unfollow {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+.schedule-timing-box {
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.schedule-timing-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #334155;
+  font-weight: 500;
+}
+
+.schedule-timing-item strong {
+  color: #0f172a;
+}
+
+.schedule-params-pillbox {
+  background: #f1f5f9;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  color: #475569;
+  line-height: 1.4;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.schedule-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: auto;
+}
+
+.schedule-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.schedule-status-badge.completed {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.schedule-status-badge.running {
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.schedule-status-badge.offline {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.schedule-status-badge.pending {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.schedule-action-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-schedule-run {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #16a34a;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-schedule-run:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+  transform: translateY(-1px);
+}
+
+.btn-schedule-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #fee2e2;
+  background: #fff5f5;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-schedule-delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+  transform: translateY(-1px);
+}
