@@ -1,42 +1,24 @@
 [
   {
-    "id": "5def0a57",
-    "title": "Daily Evening Snapscore Multiplier",
-    "automation_type": "snapscore",
-    "params": {
-      "cycles": 3,
-      "recipient_mode": "count",
-      "max_recipients": 5
-    },
-    "date": "2026-10-29",
-    "start_time": "20:00",
-    "end_time": "21:30",
-    "repeat_interval_minutes": null,
-    "frequency": "daily",
-    "is_active": true,
-    "last_run_at": null,
-    "last_status": "PENDING",
-    "last_error": null,
-    "created_at": "2026-10-29T18:05:39.919125"
-  },
-  {
-    "id": "2d61fb3c",
-    "title": "Morning Streak Filter Snap Send",
+    "id": "b0f58a7a",
+    "title": "Scheduled Snap Send",
     "automation_type": "snap",
     "params": {
       "random_filter": true,
-      "recipient_mode": "count",
-      "max_recipients": 5
+      "recipient_mode": "shortcut",
+      "select_all": false,
+      "max_recipients": 5,
+      "shortcut_emoji": "\ud83e\udd19"
     },
     "date": "2026-10-29",
-    "start_time": "09:00",
-    "end_time": null,
+    "start_time": "18:46",
+    "end_time": "18:50",
     "repeat_interval_minutes": null,
-    "frequency": "daily",
-    "is_active": true,
-    "last_run_at": null,
-    "last_status": "PENDING",
+    "frequency": "once",
+    "is_active": false,
+    "last_run_at": "2026-10-29T18:46:07.837213",
+    "last_status": "COMPLETED",
     "last_error": null,
-    "created_at": "2026-10-29T18:05:39.919260"
+    "created_at": "2026-10-29T18:44:58.427905"
   }
 ]
